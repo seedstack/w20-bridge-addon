@@ -1,0 +1,30 @@
+{
+    "id": "seed-w20-function-doc",
+    "name": "SEED W20 function documentation",
+
+    "routes": {
+        "/overview": {
+            "label": "Overview",
+            "category": "seed-w20-function",
+            "sortKey": 1,
+            "url": "{seed-w20-function-doc}/views/overview.md",
+            "type": "markdown"
+        },
+
+        "/quickstart": {
+            "label": "Quickstart",
+            "category": "seed-w20-function",
+            "sortKey": 2,
+            "url": "{seed-w20-function-doc}/views/quickstart.md",
+            "type": "markdown"
+        },
+
+        "/configuration": {
+            "label": "Configuration",
+            "category": "seed-w20-function",
+            "sortKey": 3,
+            "url": "{seed-w20-function-doc}/views/configuration.md",
+            "type": "markdown"
+        }
+    }
+}

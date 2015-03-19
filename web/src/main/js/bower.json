@@ -1,0 +1,10 @@
+{
+  "name": "w20-function-deps",
+  "version": "2.0.0",
+  "devDependencies": {
+    "w20": "seedstack/w20"
+  },
+  "resolutions": {
+    "angular": "1.3.6"
+  }
+}

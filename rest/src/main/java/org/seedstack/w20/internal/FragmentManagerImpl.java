@@ -1,0 +1,194 @@
+/**
+ * Copyright (c) 2013-2015 by The SeedStack authors. All rights reserved.
+ *
+ * This file is part of SeedStack, An enterprise-oriented full development stack.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+package org.seedstack.w20.internal;
+
+
+import org.seedstack.w20.api.ConfiguredFragment;
+import org.seedstack.w20.api.ConfiguredModule;
+import org.seedstack.w20.api.FragmentManager;
+import org.seedstack.w20.spi.FragmentConfigurationHandler;
+import org.seedstack.seed.core.api.SeedException;
+
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+import java.util.*;
+
+class FragmentManagerImpl implements FragmentManager {
+    private final Map<String, AvailableFragment> availableFragments;
+    private final Set<FragmentConfigurationHandler> fragmentConfigurationHandlers;
+    private final ConfiguredApplication configuredApplication;
+
+    @Inject
+    FragmentManagerImpl(Map<String, AvailableFragment> availableFragments, Set<FragmentConfigurationHandler> fragmentConfigurationHandlers, @Nullable ConfiguredApplication configuredApplication) {
+        this.availableFragments = availableFragments;
+        this.fragmentConfigurationHandlers = fragmentConfigurationHandlers;
+        this.configuredApplication = configuredApplication;
+    }
+
+    @Override
+    public Set<String> getFragmentList() {
+        return availableFragments.keySet();
+    }
+
+    @Override
+    public Collection<ConfiguredFragment> getConfiguredFragments() {
+        Collection<ConfiguredFragment> activeFragments = new ArrayList<ConfiguredFragment>();
+
+        // Check for fragments available in this application
+        for (Map.Entry<String, AvailableFragment> availableFragmentEntry : availableFragments.entrySet()) {
+            ConfiguredFragment configuredFragment = getFragment(availableFragmentEntry.getKey());
+
+            // Allow FragmentConfigurationHandlers to override module configuration
+            if (availableFragmentEntry.getValue().getFragmentDefinition().getModules() != null) {
+                for (Map.Entry<String, Module> availableModule : availableFragmentEntry.getValue().getFragmentDefinition().getModules().entrySet()) {
+                    ConfiguredModule configuredModule = getFragmentModule(configuredFragment, availableModule.getKey());
+
+                    for (FragmentConfigurationHandler fragmentConfigurationHandler : fragmentConfigurationHandlers) {
+                        Boolean fragmentStatus = fragmentConfigurationHandler.overrideFragmentStatus(availableFragmentEntry.getKey());
+                        if (fragmentStatus != null) {
+                            configuredFragment.setEnabled(fragmentStatus);
+                        }
+
+                        Boolean moduleStatus = fragmentConfigurationHandler.overrideModuleStatus(availableFragmentEntry.getKey(), configuredModule.getName());
+                        if (moduleStatus != null) {
+                            configuredModule.setEnabled(moduleStatus);
+                        }
+
+                        if (configuredModule.isEnabled()) {
+                            fragmentConfigurationHandler.overrideConfiguration(availableFragmentEntry.getKey(), configuredModule.getName(), configuredModule.getConfiguration());
+                        }
+                    }
+
+                    if (configuredModule.isEnabled()) {
+                        configuredFragment.getModules().put(configuredModule.getName(), configuredModule);
+                    }
+                }
+            }
+
+            if (!configuredFragment.isEnabled()) {
+                continue;
+            }
+
+            // Allow FragmentConfigurationHandlers to override variables
+            for (FragmentConfigurationHandler fragmentConfigurationHandler : fragmentConfigurationHandlers) {
+                fragmentConfigurationHandler.overrideVariables(availableFragmentEntry.getKey(), configuredFragment.getVars());
+            }
+
+            activeFragments.add(configuredFragment);
+        }
+
+        // Add fragments explicitly configured and not available locally
+        if (configuredApplication != null) {
+            for (Map.Entry<String, ConfiguredFragment> fragmentEntry : configuredApplication.getConfiguredFragments().entrySet()) {
+                if (!availableFragments.containsKey(fragmentEntry.getKey())) {
+                    ConfiguredFragment configuredFragment = fragmentEntry.getValue();
+                    configuredFragment.setName(fragmentEntry.getKey());
+                    configuredFragment.setEnabled(true);
+
+                    if (configuredFragment.getModules() != null) {
+                        for (Map.Entry<String, ConfiguredModule> moduleEntry : configuredFragment.getModules().entrySet()) {
+                            ConfiguredModule configuredModule = moduleEntry.getValue();
+                            configuredModule.setName(moduleEntry.getKey());
+                            configuredModule.setEnabled(true);
+                        }
+                    } else {
+                        configuredFragment.setModules(new HashMap<String, ConfiguredModule>());
+                    }
+
+                    if (configuredFragment.getVars() == null) {
+                        configuredFragment.setVars(new HashMap<String, String>());
+                    }
+
+                    // Allow FragmentConfigurationHandlers to override variables
+                    for (FragmentConfigurationHandler fragmentConfigurationHandler : fragmentConfigurationHandlers) {
+                        fragmentConfigurationHandler.overrideVariables(fragmentEntry.getKey(), configuredFragment.getVars());
+                    }
+
+                    activeFragments.add(configuredFragment);
+                }
+            }
+        }
+
+        return activeFragments;
+    }
+
+    private ConfiguredModule getFragmentModule(ConfiguredFragment configuredFragment, String moduleName) {
+        ConfiguredModule configuredModule = configuredFragment.getModules().get(moduleName);
+
+        if (configuredModule == null) {
+            AvailableFragment availableFragment = availableFragments.get(configuredFragment.getName());
+            if (availableFragment != null) {
+                Map<String, Module> availableModules = availableFragment.getFragmentDefinition().getModules();
+                Module availableModule;
+                if (availableModules != null && (availableModule = availableModules.get(moduleName)) != null) {
+                    configuredModule = new ConfiguredModule();
+                    configuredModule.setName(moduleName);
+                    configuredModule.setEnabled(availableModule.isAutoload());
+
+                    if (configuredApplication != null &&
+                            configuredApplication.getConfiguredFragments() != null &&
+                            configuredApplication.getConfiguredFragments().containsKey(configuredFragment.getName()) &&
+                            configuredApplication.getConfiguredFragments().get(configuredFragment.getName()).getModules() != null &&
+                            configuredApplication.getConfiguredFragments().get(configuredFragment.getName()).getModules().containsKey(moduleName)) {
+
+                        ConfiguredModule explicitConfiguredModule = configuredApplication.getConfiguredFragments().get(configuredFragment.getName()).getModules().get(moduleName);
+
+                        if (explicitConfiguredModule.getConfiguration() != null) {
+                            configuredModule.setConfiguration(explicitConfiguredModule.getConfiguration());
+                        }
+
+                        configuredModule.setEnabled(true);
+                    }
+                } else {
+                    throw SeedException.createNew(W20ErrorCode.MODULE_DOES_NOT_EXIST_IN_FRAGMENT);
+                }
+            } else {
+                throw SeedException.createNew(W20ErrorCode.FRAGMENT_NOT_AVAILABLE_IN_APPLICATION);
+            }
+        }
+
+        return configuredModule;
+    }
+
+    private ConfiguredFragment getFragment(String fragmentName) {
+        AvailableFragment availableFragment = availableFragments.get(fragmentName);
+        if (availableFragment == null) {
+            throw SeedException.createNew(W20ErrorCode.FRAGMENT_NOT_AVAILABLE_IN_APPLICATION);
+        }
+
+        ConfiguredFragment configuredFragment = new ConfiguredFragment();
+        configuredFragment.setName(fragmentName);
+        configuredFragment.setEnabled(true);
+        configuredFragment.setManifestLocation(availableFragment.getManifestLocation());
+        configuredFragment.setModules(new HashMap<String, ConfiguredModule>());
+        configuredFragment.setVars(new HashMap<String, String>());
+
+        if (configuredApplication != null && configuredApplication.getConfiguredFragments() != null && configuredApplication.getConfiguredFragments().containsKey(fragmentName)) {
+            ConfiguredFragment explicitConfiguredFragment = configuredApplication.getConfiguredFragments().get(fragmentName);
+
+            configuredFragment.setPreload(explicitConfiguredFragment.isPreload());
+
+            if (explicitConfiguredFragment.getModules() != null) {
+                for (Map.Entry<String, ConfiguredModule> explicitConfiguredModuleEntry : explicitConfiguredFragment.getModules().entrySet()) {
+                    ConfiguredModule explicitConfiguredModule = explicitConfiguredModuleEntry.getValue();
+                    explicitConfiguredModule.setEnabled(true);
+                    explicitConfiguredModule.setName(explicitConfiguredModuleEntry.getKey());
+                    configuredFragment.getModules().put(explicitConfiguredModule.getName(), explicitConfiguredModule);
+                }
+            }
+
+            if (explicitConfiguredFragment.getVars() != null) {
+                configuredFragment.setVars(explicitConfiguredFragment.getVars());
+            }
+        }
+
+        return configuredFragment;
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "id": "seed-w20",
+    "name": "SEED W20 integration",
+    "author": "adrien.lauer@mpsa.com",
+
+    "security": {
+        "provider": "BasicAuthentication",
+        "config": {
+            "authentication": "${seed-rest-path}/seed-w20/security/basic-authentication",
+            "authorizations": "${seed-rest-path}/seed-w20/security/authorizations"
+        }
+    }
+}
