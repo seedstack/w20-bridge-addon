@@ -66,8 +66,8 @@
                         </goals>
                         <configuration>
                             <target>
-                                <copy todir="${project.build.directory}/classes/META-INF/resources/resources/w20">
-                                    <fileset dir="${project.build.directory}/grunt/bower_components/w20"/>
+                                <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components">
+                                    <fileset dir="${project.build.directory}/grunt/bower_components"/>
                                 </copy>
                             </target>
                         </configuration>
