@@ -92,7 +92,7 @@ class MasterpageServlet extends HttpServlet {
             variables.put("restPath", PathUtils.buildPath(contextPath, restPath));
             variables.put("webResourcesPath", PathUtils.buildPath(contextPath, webResourcesPath));
             if (componentsPath == null) {
-                variables.put("componentsPath", PathUtils.buildPath(contextPath, webResourcesPath));
+                variables.put("componentsPath", PathUtils.buildPath(contextPath, webResourcesPath, "bower_components"));
             } else {
                 variables.put("componentsPath", PathUtils.removeTrailingSlash(componentsPath));
             }

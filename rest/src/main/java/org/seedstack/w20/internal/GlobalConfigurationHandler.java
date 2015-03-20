@@ -57,7 +57,7 @@ class GlobalConfigurationHandler implements FragmentConfigurationHandler {
         variables.put("seed-rest-path", PathUtils.buildPath(contextPath, restPath));
         variables.put("seed-webresources-path", PathUtils.buildPath(contextPath, webResourcesPath));
         if (componentsPath == null) {
-            variables.put("components-path", PathUtils.buildPath(contextPath, webResourcesPath));
+            variables.put("components-path", PathUtils.buildPath(contextPath, webResourcesPath, "bower_components"));
         } else {
             variables.put("components-path", PathUtils.removeTrailingSlash(componentsPath));
         }
