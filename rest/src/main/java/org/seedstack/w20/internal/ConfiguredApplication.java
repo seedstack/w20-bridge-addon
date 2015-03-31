@@ -11,26 +11,33 @@ package org.seedstack.w20.internal;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import org.seedstack.w20.api.ConfiguredFragment;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.seedstack.w20.api.AnonymousFragmentDeclaration;
+import org.seedstack.w20.api.ConfiguredFragmentDeclaration;
 
 import java.util.HashMap;
 import java.util.Map;
 
 class ConfiguredApplication {
-    private Map<String, ConfiguredFragment> configuredFragments = new HashMap<String, ConfiguredFragment>();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final Map<String, ConfiguredFragmentDeclaration> configuredFragments = new HashMap<String, ConfiguredFragmentDeclaration>();
+    private AnonymousFragmentDeclaration anonymousFragment;
 
     @JsonAnyGetter
-    Map<String, ConfiguredFragment> getConfiguredFragments() {
+    Map<String, ConfiguredFragmentDeclaration> getConfiguredFragments() {
         return configuredFragments;
     }
 
     @JsonAnySetter
-    void putConfiguredFragment(String url, ConfiguredFragment configuredFragment) {
-        configuredFragments.put(url, configuredFragment);
+    void putConfiguredFragment(String url, Map<String, Object> value) {
+        if (url.isEmpty()) {
+            anonymousFragment = new AnonymousFragmentDeclaration(value);
+        } else {
+            configuredFragments.put(url, objectMapper.convertValue(value, ConfiguredFragmentDeclaration.class));
+        }
     }
 
-    @JsonAnySetter
-    void setConfiguredFragments(Map<String, ConfiguredFragment> configuredFragments) {
-        this.configuredFragments = configuredFragments;
+    AnonymousFragmentDeclaration getAnonymousFragment() {
+        return anonymousFragment;
     }
 }

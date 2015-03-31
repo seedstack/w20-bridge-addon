@@ -21,6 +21,7 @@ import org.seedstack.seed.it.AbstractSeedWebIT;
 import java.net.URL;
 
 import static com.jayway.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ApplicationIT extends AbstractSeedWebIT {
     @Deployment
@@ -40,5 +41,12 @@ public class ApplicationIT extends AbstractSeedWebIT {
     @RunAsClient
     public void masterpage_is_served_with_trailing_slash(@ArquillianResource URL baseUrl) {
         given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString());
+    }
+
+    @Test
+    @RunAsClient
+    public void anonymous_fragment_is_preserved(@ArquillianResource URL baseUrl) {
+        String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "rest/seed-w20/application/configuration").getBody().asString();
+        assertThat(response).contains("\"\":{\"routes\":{\"/\":{\"templateUrl\":\"non-existent-template.html\"}}}");
     }
 }

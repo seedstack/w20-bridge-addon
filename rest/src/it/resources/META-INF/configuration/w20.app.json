@@ -1,0 +1,9 @@
+{
+  "": {
+    "routes": {
+      "/": {
+        "templateUrl": "non-existent-template.html"
+      }
+    }
+  }
+}
