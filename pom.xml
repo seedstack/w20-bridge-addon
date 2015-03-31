@@ -75,6 +75,13 @@
         </dependencies>
     </dependencyManagement>
 
+    <scm>
+        <url>https://github.com/seedstack/w20-function</url>
+        <connection>scm:git:git://github.com/seedstack/w20-function.git</connection>
+        <developerConnection>scm:git:git@github.com:seedstack/w20-function.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <repositories>
         <repository>
             <id>sonatype-nexus-staging</id>
