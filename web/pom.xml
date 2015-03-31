@@ -10,14 +10,13 @@
     file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.seedstack.functions.w20</groupId>
         <artifactId>w20-function</artifactId>
-        <version>2.0.0-M1-SNAPSHOT</version>
+        <version>2.0.0-M1</version>
     </parent>
 
     <artifactId>w20-function-web</artifactId>
@@ -67,7 +66,7 @@
                         <configuration>
                             <target>
                                 <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components">
-                                    <fileset dir="${project.build.directory}/grunt/bower_components"/>
+                                    <fileset dir="${project.build.directory}/grunt/bower_components" />
                                 </copy>
                             </target>
                         </configuration>
