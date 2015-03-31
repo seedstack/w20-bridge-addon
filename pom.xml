@@ -24,8 +24,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <w20.version>2.0.0-M1-SNAPSHOT</w20.version>
-        <seed.version>2.0.0-M1-SNAPSHOT</seed.version>
+        <seed.version>2.0.0-M1</seed.version>
     </properties>
 
     <modules>
