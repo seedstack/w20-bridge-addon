@@ -9,15 +9,14 @@
  */
 package org.seedstack.w20.api;
 
-import java.io.Serializable;
 import java.util.Map;
 
 /**
- * This class represents a fully configured W20 fragment.
+ * This class represents a W20 fragment configuration declaration.
  *
  * @author adrien.lauer@mpsa.com
  */
-public class ConfiguredFragment implements Serializable {
+public class ConfiguredFragmentDeclaration implements FragmentDeclaration {
     private Boolean preload;
     private String name;
     private Map<String, ConfiguredModule> modules;
@@ -25,11 +24,7 @@ public class ConfiguredFragment implements Serializable {
     private boolean enabled;
     private String manifestLocation;
 
-    /**
-     * Gets the configured fragment name.
-     *
-     * @return the name of the fragment.
-     */
+    @Override
     public String getName() {
         return name;
     }

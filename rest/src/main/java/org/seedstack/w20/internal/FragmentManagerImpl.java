@@ -10,15 +10,20 @@
 package org.seedstack.w20.internal;
 
 
-import org.seedstack.w20.api.ConfiguredFragment;
+import org.seedstack.seed.core.api.SeedException;
+import org.seedstack.w20.api.ConfiguredFragmentDeclaration;
 import org.seedstack.w20.api.ConfiguredModule;
+import org.seedstack.w20.api.FragmentDeclaration;
 import org.seedstack.w20.api.FragmentManager;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
-import org.seedstack.seed.core.api.SeedException;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 class FragmentManagerImpl implements FragmentManager {
     private final Map<String, AvailableFragment> availableFragments;
@@ -38,12 +43,12 @@ class FragmentManagerImpl implements FragmentManager {
     }
 
     @Override
-    public Collection<ConfiguredFragment> getConfiguredFragments() {
-        Collection<ConfiguredFragment> activeFragments = new ArrayList<ConfiguredFragment>();
+    public Collection<FragmentDeclaration> getDeclaredFragments() {
+        Collection<FragmentDeclaration> activeFragments = new ArrayList<FragmentDeclaration>();
 
         // Check for fragments available in this application
         for (Map.Entry<String, AvailableFragment> availableFragmentEntry : availableFragments.entrySet()) {
-            ConfiguredFragment configuredFragment = getFragment(availableFragmentEntry.getKey());
+            ConfiguredFragmentDeclaration configuredFragment = getFragment(availableFragmentEntry.getKey());
 
             // Allow FragmentConfigurationHandlers to override module configuration
             if (availableFragmentEntry.getValue().getFragmentDefinition().getModules() != null) {
@@ -86,9 +91,9 @@ class FragmentManagerImpl implements FragmentManager {
 
         // Add fragments explicitly configured and not available locally
         if (configuredApplication != null) {
-            for (Map.Entry<String, ConfiguredFragment> fragmentEntry : configuredApplication.getConfiguredFragments().entrySet()) {
+            for (Map.Entry<String, ConfiguredFragmentDeclaration> fragmentEntry : configuredApplication.getConfiguredFragments().entrySet()) {
                 if (!availableFragments.containsKey(fragmentEntry.getKey())) {
-                    ConfiguredFragment configuredFragment = fragmentEntry.getValue();
+                    ConfiguredFragmentDeclaration configuredFragment = fragmentEntry.getValue();
                     configuredFragment.setName(fragmentEntry.getKey());
                     configuredFragment.setEnabled(true);
 
@@ -116,10 +121,15 @@ class FragmentManagerImpl implements FragmentManager {
             }
         }
 
+        // Add the anonymous fragment
+        if (configuredApplication != null && configuredApplication.getAnonymousFragment() != null) {
+            activeFragments.add(configuredApplication.getAnonymousFragment());
+        }
+
         return activeFragments;
     }
 
-    private ConfiguredModule getFragmentModule(ConfiguredFragment configuredFragment, String moduleName) {
+    private ConfiguredModule getFragmentModule(ConfiguredFragmentDeclaration configuredFragment, String moduleName) {
         ConfiguredModule configuredModule = configuredFragment.getModules().get(moduleName);
 
         if (configuredModule == null) {
@@ -157,13 +167,13 @@ class FragmentManagerImpl implements FragmentManager {
         return configuredModule;
     }
 
-    private ConfiguredFragment getFragment(String fragmentName) {
+    private ConfiguredFragmentDeclaration getFragment(String fragmentName) {
         AvailableFragment availableFragment = availableFragments.get(fragmentName);
         if (availableFragment == null) {
             throw SeedException.createNew(W20ErrorCode.FRAGMENT_NOT_AVAILABLE_IN_APPLICATION);
         }
 
-        ConfiguredFragment configuredFragment = new ConfiguredFragment();
+        ConfiguredFragmentDeclaration configuredFragment = new ConfiguredFragmentDeclaration();
         configuredFragment.setName(fragmentName);
         configuredFragment.setEnabled(true);
         configuredFragment.setManifestLocation(availableFragment.getManifestLocation());
@@ -171,7 +181,7 @@ class FragmentManagerImpl implements FragmentManager {
         configuredFragment.setVars(new HashMap<String, String>());
 
         if (configuredApplication != null && configuredApplication.getConfiguredFragments() != null && configuredApplication.getConfiguredFragments().containsKey(fragmentName)) {
-            ConfiguredFragment explicitConfiguredFragment = configuredApplication.getConfiguredFragments().get(fragmentName);
+            ConfiguredFragmentDeclaration explicitConfiguredFragment = configuredApplication.getConfiguredFragments().get(fragmentName);
 
             configuredFragment.setPreload(explicitConfiguredFragment.isPreload());
 

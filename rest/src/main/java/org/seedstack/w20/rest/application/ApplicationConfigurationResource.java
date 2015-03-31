@@ -11,8 +11,10 @@ package org.seedstack.w20.rest.application;
 
 
 import org.seedstack.seed.web.api.WebResourceResolver;
-import org.seedstack.w20.api.ConfiguredFragment;
+import org.seedstack.w20.api.AnonymousFragmentDeclaration;
+import org.seedstack.w20.api.ConfiguredFragmentDeclaration;
 import org.seedstack.w20.api.ConfiguredModule;
+import org.seedstack.w20.api.FragmentDeclaration;
 import org.seedstack.w20.api.FragmentManager;
 import org.seedstack.w20.rest.EmptyObjectRepresentation;
 
@@ -40,33 +42,38 @@ public class ApplicationConfigurationResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, ConfiguredFragmentRepresentation> getConfiguration() {
-        Map<String, ConfiguredFragmentRepresentation> configuredFragmentRepresentations = new HashMap<String, ConfiguredFragmentRepresentation>();
+    public Map<String, Object> getConfiguration() {
+        Map<String, Object> configuredFragmentRepresentations = new HashMap<String, Object>();
 
-        for (ConfiguredFragment configuredFragment : fragmentManager.getConfiguredFragments()) {
-            ConfiguredFragmentRepresentation value = new ConfiguredFragmentRepresentation();
+        for (FragmentDeclaration declaredFragment : fragmentManager.getDeclaredFragments()) {
+            if (declaredFragment instanceof AnonymousFragmentDeclaration) {
+                configuredFragmentRepresentations.put("", ((AnonymousFragmentDeclaration)declaredFragment).getContents());
+            } else if (declaredFragment instanceof ConfiguredFragmentDeclaration){
+                ConfiguredFragmentDeclaration configuredFragment = (ConfiguredFragmentDeclaration)declaredFragment;
+                ConfiguredFragmentRepresentation value = new ConfiguredFragmentRepresentation();
 
-            value.setPreload(configuredFragment.isPreload() == null ? true : configuredFragment.isPreload());
+                value.setPreload(configuredFragment.isPreload() == null ? true : configuredFragment.isPreload());
 
-            Map<String, Object> modules = new HashMap<String, Object>();
-            for (ConfiguredModule configuredModule : configuredFragment.getModules().values()) {
-                Object configuration = configuredModule.getConfiguration();
-                modules.put(configuredModule.getName(), configuration != null ? configuration : new EmptyObjectRepresentation());
-            }
-
-            value.setModules(modules);
-            value.setVars(configuredFragment.getVars() != null ? configuredFragment.getVars() : new HashMap<String, String>());
-
-            if (configuredFragment.getManifestLocation() != null) {
-                URI resolvedUri = webResourceResolver.resolveURI(configuredFragment.getManifestLocation());
-
-                if (resolvedUri == null) {
-                    throw new IllegalArgumentException("Unable to resolve a web serving path for fragment " + configuredFragment.getName());
+                Map<String, Object> modules = new HashMap<String, Object>();
+                for (ConfiguredModule configuredModule : configuredFragment.getModules().values()) {
+                    Object configuration = configuredModule.getConfiguration();
+                    modules.put(configuredModule.getName(), configuration != null ? configuration : new EmptyObjectRepresentation());
                 }
 
-                configuredFragmentRepresentations.put(resolvedUri.toString(), value);
-            } else {
-                configuredFragmentRepresentations.put(configuredFragment.getName(), value);
+                value.setModules(modules);
+                value.setVars(configuredFragment.getVars() != null ? configuredFragment.getVars() : new HashMap<String, String>());
+
+                if (configuredFragment.getManifestLocation() != null) {
+                    URI resolvedUri = webResourceResolver.resolveURI(configuredFragment.getManifestLocation());
+
+                    if (resolvedUri == null) {
+                        throw new IllegalArgumentException("Unable to resolve a web serving path for fragment " + configuredFragment.getName());
+                    }
+
+                    configuredFragmentRepresentations.put(resolvedUri.toString(), value);
+                } else {
+                    configuredFragmentRepresentations.put(configuredFragment.getName(), value);
+                }
             }
         }
 

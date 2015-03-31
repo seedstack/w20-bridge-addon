@@ -9,22 +9,18 @@
  */
 package org.seedstack.w20.api;
 
-import java.util.Collection;
-import java.util.Set;
+import java.io.Serializable;
 
 /**
- * The fragment manager allows to programatically alter the managed W20 configuration.
+ * Common interface to anonymous and configured fragments declarations.
  *
  * @author adrien.lauer@mpsa.com
  */
-public interface FragmentManager {
+public interface FragmentDeclaration extends Serializable {
     /**
-     * @return the fragment identifiers list.
+     * Gets the fragment name.
+     *
+     * @return the name of the fragment.
      */
-    Set<String> getFragmentList();
-
-    /**
-     * @return the collection of declared fragments in the managed W20 configuration.
-     */
-    Collection<FragmentDeclaration> getDeclaredFragments();
+    String getName();
 }
