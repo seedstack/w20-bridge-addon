@@ -1,4 +1,6 @@
-# SeedStack W20 function [![Build status](https://travis-ci.org/seedstack/w20-function.svg?branch=master)](https://travis-ci.org/seedstack/w20-function) [![Stories in Ready](https://badge.waffle.io/seedstack/w20-function.png?label=ready&title=Ready)](https://waffle.io/seedstack/w20-function)
+# SeedStack W20 function 
+
+[![Build status](https://travis-ci.org/seedstack/w20-function.svg?branch=master)](https://travis-ci.org/seedstack/w20-function) [![Coverage Status](https://coveralls.io/repos/seedstack/w20-function/badge.svg?branch=master)](https://coveralls.io/r/seedstack/w20-function?branch=master)
 
 Integration bridge between the Java framework and the Web framework.
 
