@@ -44,6 +44,16 @@
             </dependency>
             <dependency>
                 <groupId>org.seedstack.functions.w20</groupId>
+                <artifactId>w20-function-web-business-theme</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seedstack.functions.w20</groupId>
+                <artifactId>w20-function-web-simple-theme</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seedstack.functions.w20</groupId>
                 <artifactId>w20-function-doc</artifactId>
                 <version>${project.version}</version>
             </dependency>
