@@ -31,6 +31,8 @@
         <module>specs</module>
         <module>rest</module>
         <module>web</module>
+        <module>web-simple-theme</module>
+        <module>web-business-theme</module>
         <module>bom</module>
         <module>doc</module>
     </modules>

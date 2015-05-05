@@ -1,0 +1,9 @@
+{
+  "name": "w20-function-web-business-theme",
+  "devDependencies": {
+    "w20-business-theme": "1.0.0-M1"
+  },
+  "resolutions": {
+    "angular": "1.3.6"
+  }
+}
