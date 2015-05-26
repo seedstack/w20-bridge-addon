@@ -20,7 +20,7 @@
 
     <groupId>org.seedstack.functions.w20</groupId>
     <artifactId>w20-function</artifactId>
-    <version>2.0.0-M3</version>
+    <version>2.0.0-M4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -118,7 +118,7 @@
         <url>https://github.com/seedstack/w20-function</url>
         <connection>scm:git:git://github.com/seedstack/w20-function.git</connection>
         <developerConnection>scm:git:git@github.com:seedstack/w20-function.git</developerConnection>
-        <tag>v2.0.0-M3</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <repositories>
