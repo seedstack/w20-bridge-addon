@@ -1,7 +1,7 @@
 {
   "name": "w20-function-web",
   "devDependencies": {
-    "w20": "2.0.0-M2"
+    "w20": "2.0.0-M3"
   },
   "resolutions": {
     "angular": "1.3.6"
