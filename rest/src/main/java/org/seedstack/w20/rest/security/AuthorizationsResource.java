@@ -52,9 +52,16 @@ public class AuthorizationsResource {
 
         for (Role role : securitySupport.getRoles()) {
             List<String[]> rolePermissions = new ArrayList<String[]>();
-            Map<String, String> roleAttributes = new HashMap<String, String>();
+            Map<String, List<String>> roleAttributes = new HashMap<String, List<String>>();
             for (Scope scope : role.getScopes()) {
-                roleAttributes.put(scope.getDescription(), "");
+                String attributeName = scope.getClass().getSimpleName().toLowerCase();
+                List<String> scopeValues = roleAttributes.get(attributeName);
+                if (scopeValues == null) {
+                    scopeValues = new ArrayList<String>();
+                    roleAttributes.put(attributeName, scopeValues);
+                }
+
+                scopeValues.add(scope.getDescription());
             }
             for (Permission corePermission : role.getPermissions()) {
                 rolePermissions.add(corePermission.getPermission().split(":"));

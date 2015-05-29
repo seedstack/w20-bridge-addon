@@ -10,6 +10,7 @@
 package org.seedstack.w20.rest.security;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class RoleRepresentation {
@@ -21,7 +22,7 @@ public class RoleRepresentation {
     /**
      * attributes
      */
-    private Map<String, String> attributes;
+    private Map<String, List<String>> attributes;
 
     /**
      * permissions
@@ -51,7 +52,7 @@ public class RoleRepresentation {
      *
      * @return the attributes
      */
-    public Map<String, String> getAttributes() {
+    public Map<String, List<String>> getAttributes() {
         return attributes;
     }
 
@@ -60,7 +61,7 @@ public class RoleRepresentation {
      *
      * @param attributes the attributes to set
      */
-    public void setAttributes(Map<String, String> attributes) {
+    public void setAttributes(Map<String, List<String>> attributes) {
         this.attributes = attributes;
     }
 

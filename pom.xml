@@ -35,6 +35,7 @@
         <module>web-business-theme</module>
         <module>bom</module>
         <module>doc</module>
+        <module>demo</module>
     </modules>
 
     <dependencyManagement>
