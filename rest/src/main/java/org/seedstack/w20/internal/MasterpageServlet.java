@@ -39,6 +39,9 @@ class MasterpageServlet extends HttpServlet {
     @Named("SeedWebResourcesPath")
     private String webResourcesPath;
 
+    @Configuration(value = "org.seedstack.w20.masterpage-template", defaultValue = "org/seedstack/w20/masterpage.html", mandatory = false)
+    private String masterpagePath;
+
     @Configuration(value = "org.seedstack.w20.application.title", mandatory = false)
     private String applicationTitle;
 
@@ -71,7 +74,7 @@ class MasterpageServlet extends HttpServlet {
                 resp.sendRedirect(req.getRequestURI() + "/");
             }
         } else {
-            URL masterpageURL = classLoader.getResource("org/seedstack/w20/masterpage.html");
+            URL masterpageURL = classLoader.getResource(masterpagePath);
             if (masterpageURL == null) {
                 throw new RuntimeException("Unable to generate W20 masterpage, template not found");
             }
