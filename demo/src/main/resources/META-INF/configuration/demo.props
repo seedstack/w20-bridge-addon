@@ -8,16 +8,18 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
+[org.seedstack.seed.core]
+application-id = w20-demo
+
+[org.seedstack.seed.web]
+resources.minification-support = false
+
 [org.seedstack.seed.security.users]
-ThePoltergeist = bouh, SEED.MU.GHOST, SEED.PY.GHOST, SEED.JEDI
+demo = demo, ADMIN.FR, ADMIN.UK, ADMIN.IT
 
 [org.seedstack.seed.security.roles]
-jedi = SEED.JEDI
-ghost = SEED.$DOMAIN$.GHOST
-
-[org.seedstack.seed.security.permissions]
-jedi = lightSaber:*, academy:*
-ghost = site:haunt
+demo = ADMIN.$DOMAIN$
 
 [org.seedstack.seed.security.urls]
 /** = authcBasic
+

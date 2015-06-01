@@ -7,7 +7,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.w20.rest.security;
+package org.seedstack.w20;
 
 
 import com.jayway.restassured.response.ResponseBody;
@@ -37,7 +37,7 @@ public class SecurityAuthorizationsResourceIT extends AbstractSeedWebIT {
     @RunAsClient
     public void connectThePoltergeist(@ArquillianResource URL baseURL) throws Exception {
         ResponseBody r = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseURL.toString() + "rest/seed-w20/security/authorizations").body();
-        String expected = "{\"id\":\"ThePoltergeist\",\"type\":\"user\",\"principals\":{\"userId\":\"ThePoltergeist\"},\"roles\":[{\"name\":\"jedi\",\"attributes\":{},\"permissions\":[[\"academy\",\"*\"],[\"lightSaber\",\"*\"]]},{\"name\":\"ghost\",\"attributes\":{\"MU\":\"\"},\"permissions\":[[\"site\",\"haunt\"]]}],\"permissions\":[]}";
+        String expected = "{\"id\":\"ThePoltergeist\",\"type\":\"user\",\"principals\":{\"userId\":\"ThePoltergeist\"},\"roles\":[{\"name\":\"jedi\",\"attributes\":{},\"permissions\":[[\"academy\",\"*\"],[\"lightSaber\",\"*\"]]},{\"name\":\"ghost\",\"attributes\":{\"domain\":[\"MU\",\"PY\"]},\"permissions\":[[\"site\",\"haunt\"]]}],\"permissions\":[]}";
         assertEquals(expected, r.asString(), false);
     }
 }
