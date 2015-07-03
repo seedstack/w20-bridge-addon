@@ -13,7 +13,7 @@ ThePoltergeist = bouh, SEED.MU.GHOST, SEED.PY.GHOST, SEED.JEDI
 
 [org.seedstack.seed.security.roles]
 jedi = SEED.JEDI
-ghost = SEED.$DOMAIN$.GHOST
+ghost = SEED.{scope}.GHOST
 
 [org.seedstack.seed.security.permissions]
 jedi = lightSaber:*, academy:*

@@ -54,14 +54,14 @@ public class AuthorizationsResource {
             List<String[]> rolePermissions = new ArrayList<String[]>();
             Map<String, List<String>> roleAttributes = new HashMap<String, List<String>>();
             for (Scope scope : role.getScopes()) {
-                String attributeName = scope.getClass().getSimpleName().toLowerCase();
+                String attributeName = scope.getName();
                 List<String> scopeValues = roleAttributes.get(attributeName);
                 if (scopeValues == null) {
                     scopeValues = new ArrayList<String>();
                     roleAttributes.put(attributeName, scopeValues);
                 }
 
-                scopeValues.add(scope.getDescription());
+                scopeValues.add(scope.getValue());
             }
             for (Permission corePermission : role.getPermissions()) {
                 rolePermissions.add(corePermission.getPermission().split(":"));
