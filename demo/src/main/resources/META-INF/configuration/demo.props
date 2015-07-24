@@ -18,7 +18,7 @@ resources.minification-support = false
 demo = demo, ADMIN.FR, ADMIN.UK, ADMIN.IT
 
 [org.seedstack.seed.security.roles]
-demo = ADMIN.$DOMAIN$
+demo = ADMIN.{scope}
 
 [org.seedstack.seed.security.urls]
 /** = authcBasic
