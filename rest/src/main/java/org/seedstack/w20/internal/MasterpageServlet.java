@@ -10,13 +10,12 @@
 package org.seedstack.w20.internal;
 
 
+import com.google.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.seedstack.seed.core.api.Application;
 import org.seedstack.seed.core.api.Configuration;
 import org.seedstack.seed.core.utils.SeedStringUtils;
 
-import javax.activation.MimeType;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +34,7 @@ class MasterpageServlet extends HttpServlet {
     @Named("SeedRestPath")
     private String restPath;
 
-    @Inject
+    @Inject(optional = true)
     @Named("SeedWebResourcesPath")
     private String webResourcesPath;
 
@@ -93,9 +92,13 @@ class MasterpageServlet extends HttpServlet {
             variables.put("corsWithCredentials", corsWithCredentials);
             variables.put("basePath", PathUtils.removeTrailingSlash(contextPath));
             variables.put("restPath", PathUtils.buildPath(contextPath, restPath));
-            variables.put("webResourcesPath", PathUtils.buildPath(contextPath, webResourcesPath));
+            if (webResourcesPath != null) {
+                variables.put("webResourcesPath", PathUtils.buildPath(contextPath, webResourcesPath));
+            }
             if (componentsPath == null) {
-                variables.put("componentsPath", PathUtils.buildPath(contextPath, webResourcesPath, "bower_components"));
+                if (webResourcesPath != null) {
+                    variables.put("componentsPath", PathUtils.buildPath(contextPath, webResourcesPath, "bower_components"));
+                }
             } else {
                 variables.put("componentsPath", PathUtils.removeTrailingSlash(componentsPath));
             }

@@ -45,6 +45,13 @@ public class ApplicationIT extends AbstractSeedWebIT {
 
     @Test
     @RunAsClient
+    public void detected_fragments_are_resolved(@ArquillianResource URL baseUrl) {
+        String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "rest/seed-w20/application/configuration").getBody().asString();
+        assertThat(response).contains("\"" + baseUrl.getPath() + "resources/seed-w20/seed-w20.w20.json\"");
+    }
+
+    @Test
+    @RunAsClient
     public void anonymous_fragment_is_preserved(@ArquillianResource URL baseUrl) {
         String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "rest/seed-w20/application/configuration").getBody().asString();
         assertThat(response).contains("\"\":{\"routes\":{\"/\":{\"templateUrl\":\"non-existent-template.html\"}}}");
