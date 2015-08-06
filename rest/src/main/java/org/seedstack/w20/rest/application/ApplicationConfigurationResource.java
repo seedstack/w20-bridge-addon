@@ -10,6 +10,7 @@
 package org.seedstack.w20.rest.application;
 
 
+import com.google.inject.Inject;
 import org.seedstack.seed.web.api.WebResourceResolver;
 import org.seedstack.w20.api.AnonymousFragmentDeclaration;
 import org.seedstack.w20.api.ConfiguredFragmentDeclaration;
@@ -18,7 +19,6 @@ import org.seedstack.w20.api.FragmentDeclaration;
 import org.seedstack.w20.api.FragmentManager;
 import org.seedstack.w20.rest.EmptyObjectRepresentation;
 
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -37,7 +37,7 @@ public class ApplicationConfigurationResource {
     @Inject
     FragmentManager fragmentManager;
 
-    @Inject
+    @Inject(optional = true)
     private WebResourceResolver webResourceResolver;
 
     @GET
@@ -47,9 +47,9 @@ public class ApplicationConfigurationResource {
 
         for (FragmentDeclaration declaredFragment : fragmentManager.getDeclaredFragments()) {
             if (declaredFragment instanceof AnonymousFragmentDeclaration) {
-                configuredFragmentRepresentations.put("", ((AnonymousFragmentDeclaration)declaredFragment).getContents());
-            } else if (declaredFragment instanceof ConfiguredFragmentDeclaration){
-                ConfiguredFragmentDeclaration configuredFragment = (ConfiguredFragmentDeclaration)declaredFragment;
+                configuredFragmentRepresentations.put("", ((AnonymousFragmentDeclaration) declaredFragment).getContents());
+            } else if (declaredFragment instanceof ConfiguredFragmentDeclaration) {
+                ConfiguredFragmentDeclaration configuredFragment = (ConfiguredFragmentDeclaration) declaredFragment;
                 ConfiguredFragmentRepresentation value = new ConfiguredFragmentRepresentation();
 
                 value.setPreload(configuredFragment.isPreload() == null ? true : configuredFragment.isPreload());
@@ -64,13 +64,16 @@ public class ApplicationConfigurationResource {
                 value.setVars(configuredFragment.getVars() != null ? configuredFragment.getVars() : new HashMap<String, String>());
 
                 if (configuredFragment.getManifestLocation() != null) {
-                    URI resolvedUri = webResourceResolver.resolveURI(configuredFragment.getManifestLocation());
+                    // Only includes scanned fragments if a resource resolver is available, otherwise they must be configured manually
+                    if (webResourceResolver != null) {
+                        URI resolvedUri = webResourceResolver.resolveURI(configuredFragment.getManifestLocation());
 
-                    if (resolvedUri == null) {
-                        throw new IllegalArgumentException("Unable to resolve a web serving path for fragment " + configuredFragment.getName());
+                        if (resolvedUri == null) {
+                            throw new IllegalArgumentException("Unable to resolve a web serving path for fragment " + configuredFragment.getName());
+                        }
+
+                        configuredFragmentRepresentations.put(resolvedUri.toString(), value);
                     }
-
-                    configuredFragmentRepresentations.put(resolvedUri.toString(), value);
                 } else {
                     configuredFragmentRepresentations.put(configuredFragment.getName(), value);
                 }
