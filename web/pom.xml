@@ -14,18 +14,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.seedstack.functions.w20</groupId>
-        <artifactId>w20-function</artifactId>
+        <groupId>org.seedstack</groupId>
+        <artifactId>seed-w20-bridge</artifactId>
         <version>2.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>w20-function-web</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>seed-w20-bridge-web</artifactId>
+
+    <properties>
+        <compatibility.skip>true</compatibility.skip>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.seedstack.functions.w20</groupId>
-            <artifactId>w20-function-rest</artifactId>
+            <groupId>org.seedstack</groupId>
+            <artifactId>seed-w20-bridge-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

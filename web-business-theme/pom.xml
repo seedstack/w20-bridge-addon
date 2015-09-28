@@ -14,18 +14,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.seedstack.functions.w20</groupId>
-        <artifactId>w20-function</artifactId>
+        <groupId>org.seedstack</groupId>
+        <artifactId>seed-w20-bridge</artifactId>
         <version>2.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>w20-function-web-business-theme</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>seed-w20-bridge-web-business-theme</artifactId>
+
+    <properties>
+        <compatibility.skip>true</compatibility.skip>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.seedstack.functions.w20</groupId>
-            <artifactId>w20-function-web</artifactId>
+            <groupId>org.seedstack</groupId>
+            <artifactId>seed-w20-bridge-web</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

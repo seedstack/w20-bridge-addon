@@ -12,14 +12,19 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>org.seedstack.functions.w20</groupId>
-        <artifactId>w20-function</artifactId>
+        <groupId>org.seedstack</groupId>
+        <artifactId>seed-w20-bridge</artifactId>
         <version>2.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>w20-function-demo</artifactId>
+    <artifactId>seed-w20-bridge-demo</artifactId>
     <packaging>war</packaging>
+
+    <properties>
+        <compatibility.skip>true</compatibility.skip>
+    </properties>
 
     <build>
         <pluginManagement>
@@ -53,20 +58,22 @@
         <dependency>
             <groupId>org.seedstack.seed</groupId>
             <artifactId>seed-web-support-security</artifactId>
+            <version>${seed.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.seedstack.functions.w20</groupId>
-            <artifactId>w20-function-web</artifactId>
+            <groupId>org.seedstack</groupId>
+            <artifactId>seed-w20-bridge-web</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.seedstack.functions.w20</groupId>
-            <artifactId>w20-function-web-business-theme</artifactId>
+            <groupId>org.seedstack</groupId>
+            <artifactId>seed-w20-bridge-web-business-theme</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <version>1.1.3</version>
         </dependency>
     </dependencies>
 </project>

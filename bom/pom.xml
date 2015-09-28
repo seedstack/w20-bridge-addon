@@ -11,50 +11,46 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>org.seedstack.functions.w20</groupId>
-        <artifactId>w20-function</artifactId>
+        <groupId>org.seedstack</groupId>
+        <artifactId>seed-w20-bridge</artifactId>
         <version>2.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>w20-function-bom</artifactId>
+    <artifactId>seed-w20-bridge-bom</artifactId>
     <packaging>pom</packaging>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.seedstack.functions.w20</groupId>
-                <artifactId>w20-function-specs</artifactId>
+                <groupId>org.seedstack</groupId>
+                <artifactId>seed-w20-bridge-specs</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.seedstack.functions.w20</groupId>
-                <artifactId>w20-function-core</artifactId>
+                <groupId>org.seedstack</groupId>
+                <artifactId>seed-w20-bridge-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.seedstack.functions.w20</groupId>
-                <artifactId>w20-function-rest</artifactId>
+                <groupId>org.seedstack</groupId>
+                <artifactId>seed-w20-bridge-rest</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.seedstack.functions.w20</groupId>
-                <artifactId>w20-function-web</artifactId>
+                <groupId>org.seedstack</groupId>
+                <artifactId>seed-w20-bridge-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.seedstack.functions.w20</groupId>
-                <artifactId>w20-function-web-business-theme</artifactId>
+                <groupId>org.seedstack</groupId>
+                <artifactId>seed-w20-bridge-web-business-theme</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.seedstack.functions.w20</groupId>
-                <artifactId>w20-function-web-simple-theme</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack.functions.w20</groupId>
-                <artifactId>w20-function-doc</artifactId>
+                <groupId>org.seedstack</groupId>
+                <artifactId>seed-w20-bridge-web-simple-theme</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

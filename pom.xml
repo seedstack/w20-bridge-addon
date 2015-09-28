@@ -15,16 +15,19 @@
     <parent>
         <groupId>org.seedstack</groupId>
         <artifactId>parent</artifactId>
-        <version>2.0.0</version>
+        <version>2.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.seedstack.functions.w20</groupId>
-    <artifactId>w20-function</artifactId>
+    <artifactId>seed-w20-bridge</artifactId>
     <version>2.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <seed.version>2.0.1-SNAPSHOT</seed.version>
+        <seed.version>2.1.0-M1-SNAPSHOT</seed.version>
+        <jackson.version>2.4.4</jackson.version>
+
+        <compatibility.groupId>org.seedstack.functions.w20</compatibility.groupId>
+        <compatibility.version>2.0.0</compatibility.version>
     </properties>
 
     <modules>
@@ -34,49 +37,8 @@
         <module>web-simple-theme</module>
         <module>web-business-theme</module>
         <module>bom</module>
-        <module>doc</module>
         <module>demo</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.seedstack.seed</groupId>
-                <artifactId>seed-bom</artifactId>
-                <version>${seed.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>java-bom</artifactId>
-                <version>${seedstack.poms.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>logging-bom</artifactId>
-                <version>${seedstack.poms.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>jackson-bom</artifactId>
-                <version>${seedstack.poms.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>unittest-bom</artifactId>
-                <version>${seedstack.poms.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <pluginManagement>
@@ -118,24 +80,29 @@
     </build>
 
     <scm>
-        <url>https://github.com/seedstack/w20-function</url>
-        <connection>scm:git:git://github.com/seedstack/w20-function.git</connection>
-        <developerConnection>scm:git:git@github.com:seedstack/w20-function.git</developerConnection>
+        <url>https://github.com/seedstack/w20-bridge-addon</url>
+        <connection>scm:git:git://github.com/seedstack/w20-bridge-addon.git</connection>
+        <developerConnection>scm:git:git@github.com:seedstack/w20-bridge-addon.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
-    <repositories>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Sonatype Nexus Staging</name>
-            <url>https://oss.sonatype.org/content/groups/staging</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>sonatype-nexus-staging</id>
-            <name>Sonatype Nexus Staging</name>
-            <url>https://oss.sonatype.org/content/groups/staging</url>
-        </pluginRepository>
-    </pluginRepositories>
+    <profiles>
+        <profile>
+            <id>staging</id>
+            <repositories>
+                <repository>
+                    <id>sonatype-nexus-staging</id>
+                    <name>Sonatype Nexus Staging</name>
+                    <url>https://oss.sonatype.org/content/groups/staging</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>sonatype-nexus-staging</id>
+                    <name>Sonatype Nexus Staging</name>
+                    <url>https://oss.sonatype.org/content/groups/staging</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
 </project>

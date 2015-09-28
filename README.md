@@ -1,8 +1,8 @@
-# SeedStack W20 function 
+# SeedStack W20 bridge add-on
 
-[![Build status](https://travis-ci.org/seedstack/w20-function.svg?branch=master)](https://travis-ci.org/seedstack/w20-function) [![Coverage Status](https://coveralls.io/repos/seedstack/w20-function/badge.svg?branch=master)](https://coveralls.io/r/seedstack/w20-function?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.seedstack.functions.w20/w20-function/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.seedstack.functions.w20/w20-function)
+[![Build status](https://travis-ci.org/seedstack/w20-bridge-addon.svg?branch=master)](https://travis-ci.org/seedstack/w20-bridge-addon) [![Coverage Status](https://coveralls.io/repos/seedstack/w20-bridge-addon/badge.svg?branch=master)](https://coveralls.io/r/seedstack/w20-bridge-addon?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.seedstack/seed-w20-bridge/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.seedstack/seed-w20-bridge)
 
-Integration bridge between the Java framework and the Web framework.
+Official W20 bridge integration for SeedStack.
 
 # Copyright and license
 
