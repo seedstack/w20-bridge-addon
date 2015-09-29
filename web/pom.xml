@@ -10,16 +10,17 @@
     file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.seedstack</groupId>
-        <artifactId>seed-w20-bridge</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+        <groupId>org.seedstack.addons</groupId>
+        <artifactId>w20-bridge</artifactId>
+        <version>2.1.0-M1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>seed-w20-bridge-web</artifactId>
+    <artifactId>w20-bridge-web</artifactId>
 
     <properties>
         <compatibility.skip>true</compatibility.skip>
@@ -27,8 +28,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.seedstack</groupId>
-            <artifactId>seed-w20-bridge-rest</artifactId>
+            <groupId>org.seedstack.addons</groupId>
+            <artifactId>w20-bridge-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
@@ -69,7 +70,7 @@
                         <configuration>
                             <target>
                                 <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components">
-                                    <fileset dir="${project.build.directory}/grunt/bower_components" />
+                                    <fileset dir="${project.build.directory}/grunt/bower_components"/>
                                 </copy>
                             </target>
                         </configuration>
