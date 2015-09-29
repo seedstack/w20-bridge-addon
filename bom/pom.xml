@@ -24,33 +24,33 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>seed-w20-bridge-specs</artifactId>
+                <groupId>org.seedstack.addons</groupId>
+                <artifactId>w20-bridge-specs</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>seed-w20-bridge-core</artifactId>
+                <groupId>org.seedstack.addons</groupId>
+                <artifactId>w20-bridge-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>seed-w20-bridge-rest</artifactId>
+                <groupId>org.seedstack.addons</groupId>
+                <artifactId>w20-bridge-rest</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>seed-w20-bridge-web</artifactId>
+                <groupId>org.seedstack.addons</groupId>
+                <artifactId>w20-bridge-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>seed-w20-bridge-web-business-theme</artifactId>
+                <groupId>org.seedstack.addons</groupId>
+                <artifactId>w20-bridge-web-business-theme</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.seedstack</groupId>
-                <artifactId>seed-w20-bridge-web-simple-theme</artifactId>
+                <groupId>org.seedstack.addons</groupId>
+                <artifactId>w20-bridge-web-simple-theme</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
