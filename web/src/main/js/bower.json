@@ -1,5 +1,5 @@
 {
-  "name": "w20-function-web",
+  "name": "w20-bridge-web",
   "devDependencies": {
     "w20": "~2.0.0"
   }
