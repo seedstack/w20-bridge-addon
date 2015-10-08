@@ -17,7 +17,7 @@ before_install: npm install -g bower
 install: /bin/true
 
 script:
-  - mvn -q -B -U -Pstaging,javadoc,compatibility install jacoco:report
+  - mvn -q -B -T 2 -U -Pstaging,javadoc,compatibility install jacoco:report
   - mvn -q -B coveralls:report -DrepoToken=$COVERALLS_TOKEN
 
 after_success:

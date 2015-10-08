@@ -15,8 +15,8 @@
 
     <parent>
         <groupId>org.seedstack</groupId>
-        <artifactId>parent</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+        <artifactId>parent-internal</artifactId>
+        <version>2.1.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.seedstack.addons</groupId>
@@ -26,7 +26,7 @@
 
     <properties>
         <seed.version>2.1.0-M1-SNAPSHOT</seed.version>
-        <jackson.version>2.4.4</jackson.version>
+        <grunt-maven-plugin.version>1.5.0</grunt-maven-plugin.version>
 
         <compatibility.groupId>org.seedstack.functions.w20</compatibility.groupId>
         <compatibility.version>2.0.0</compatibility.version>
@@ -55,10 +55,8 @@
                             <includedLicense>LGPL 2.1</includedLicense>
                             <includedLicense>LGPL 3.0</includedLicense>
                             <includedLicense>MIT</includedLicense>
-                            <includedLicense>MPL 1.1</includedLicense>
                             <includedLicense>MPL 2.0</includedLicense>
                             <includedLicense>Public Domain</includedLicense>
-                            <includedLicense>The JSON License</includedLicense>
                             <includedLicense>WTFPL</includedLicense>
 
                             <!-- Some licenses are ignored because they are alternatives to acceptable licenses and the plugin doesn't handle alternate licenses -->
@@ -72,7 +70,7 @@
                             <licenseMerge>MIT|MIT License</licenseMerge>
                             <licenseMerge>LGPL 3.0|GNU Lesser Public License</licenseMerge>
 
-                            <licenseMerge>IGNORED_LICENSE|GPL2 w/ CPE</licenseMerge>
+                            <licenseMerge>IGNORED_LICENSE|MPL 1.1</licenseMerge>
                         </licenseMerges>
                     </configuration>
                 </plugin>

@@ -28,7 +28,7 @@
     <dependencies>
         <dependency>
             <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-core-support-specs</artifactId>
+            <artifactId>seed-specs</artifactId>
             <version>${seed.version}</version>
         </dependency>
         <dependency>

@@ -39,7 +39,7 @@
             <plugin>
                 <groupId>pl.allegro</groupId>
                 <artifactId>grunt-maven-plugin</artifactId>
-                <version>1.5.0</version>
+                <version>${grunt-maven-plugin.version}</version>
                 <configuration>
                     <sourceDirectory>${project.basedir}/src/main/js</sourceDirectory>
                     <jsSourceDirectory>.</jsSourceDirectory>
@@ -70,8 +70,7 @@
                         <configuration>
                             <target>
                                 <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components/w20-business-theme">
-                                    <fileset
-                                            dir="${project.build.directory}/grunt/bower_components/w20-business-theme"/>
+                                    <fileset dir="${project.build.directory}/grunt/bower_components/w20-business-theme"/>
                                 </copy>
                             </target>
                         </configuration>
