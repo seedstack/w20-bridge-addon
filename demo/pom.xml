@@ -62,6 +62,11 @@
             <version>${seed.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.seedstack.seed</groupId>
+            <artifactId>seed-rest-jersey1</artifactId>
+            <version>${seed.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.seedstack.addons</groupId>
             <artifactId>w20-bridge-web</artifactId>
             <version>${project.version}</version>
