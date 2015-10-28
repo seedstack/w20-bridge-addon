@@ -13,7 +13,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.seedstack.addons.w20-bridge</groupId>
+        <groupId>org.seedstack.addons.w20</groupId>
         <artifactId>w20-bridge</artifactId>
         <version>2.1.0-M1-SNAPSHOT</version>
     </parent>
@@ -26,7 +26,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.seedstack.addons.w20-bridge</groupId>
+            <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-specs</artifactId>
             <version>${project.version}</version>
         </dependency>
