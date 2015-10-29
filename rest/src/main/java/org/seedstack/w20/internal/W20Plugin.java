@@ -8,7 +8,7 @@
 package org.seedstack.w20.internal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.seedstack.w20.spi.FragmentConfigurationHandler;
+import com.google.inject.AbstractModule;
 import io.nuun.kernel.api.Plugin;
 import io.nuun.kernel.api.plugin.InitState;
 import io.nuun.kernel.api.plugin.PluginException;
@@ -17,12 +17,18 @@ import io.nuun.kernel.api.plugin.request.ClasspathScanRequest;
 import io.nuun.kernel.core.AbstractPlugin;
 import org.apache.commons.configuration.Configuration;
 import org.seedstack.seed.core.internal.application.ApplicationPlugin;
+import org.seedstack.w20.spi.FragmentConfigurationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This plugin handles W20 fragment scanning.
@@ -129,6 +135,15 @@ public class W20Plugin extends AbstractPlugin {
 
     @Override
     public Object nativeUnitModule() {
-        return new W20WebModule(masterPageEnabled, w20Fragments, fragmentConfigurationHandlerClasses, this.configuredApplication);
+        return new AbstractModule() {
+            @Override
+            protected void configure() {
+                install(new W20Module(w20Fragments, fragmentConfigurationHandlerClasses, configuredApplication));
+
+                if (servletContext != null && masterPageEnabled) {
+                    install(new W20WebModule());
+                }
+            }
+        };
     }
 }

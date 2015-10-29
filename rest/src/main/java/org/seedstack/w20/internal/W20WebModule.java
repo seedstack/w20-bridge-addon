@@ -15,25 +15,9 @@ import java.util.Map;
 import java.util.Set;
 
 class W20WebModule extends ServletModule {
-    private final Map<String, AvailableFragment> w20Fragments;
-    private final Set<Class<? extends FragmentConfigurationHandler>> moduleConfigurationHandlerClasses;
-    private final ConfiguredApplication configuredApplication;
-    private final boolean masterPageEnabled;
-
-    W20WebModule(boolean masterPageEnabled, Map<String, AvailableFragment> w20Fragments, Set<Class<? extends FragmentConfigurationHandler>> moduleConfigurationHandlerClasses, ConfiguredApplication configuredApplication) {
-        this.masterPageEnabled = masterPageEnabled;
-        this.w20Fragments = w20Fragments;
-        this.moduleConfigurationHandlerClasses = moduleConfigurationHandlerClasses;
-        this.configuredApplication = configuredApplication;
-    }
-
     @Override
     protected void configureServlets() {
-        install(new W20Module(w20Fragments, moduleConfigurationHandlerClasses, configuredApplication));
-
-        if (masterPageEnabled) {
-            bind(MasterpageServlet.class).in(Scopes.SINGLETON);
-            serve("/").with(MasterpageServlet.class);
-        }
+        bind(MasterpageServlet.class).in(Scopes.SINGLETON);
+        serve("/").with(MasterpageServlet.class);
     }
 }
