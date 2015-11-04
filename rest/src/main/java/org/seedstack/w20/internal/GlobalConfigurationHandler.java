@@ -8,7 +8,7 @@
 package org.seedstack.w20.internal;
 
 import com.google.inject.Inject;
-import org.seedstack.seed.core.api.Application;
+import org.seedstack.seed.Application;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
 import javax.inject.Named;

@@ -5,15 +5,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.w20.rest.security;
+package org.seedstack.w20.internal.rest.security;
 
 
-import org.seedstack.seed.security.api.Permission;
-import org.seedstack.seed.security.api.Role;
-import org.seedstack.seed.security.api.Scope;
-import org.seedstack.seed.security.api.SecuritySupport;
-import org.seedstack.seed.security.api.principals.Principals;
-import org.seedstack.seed.security.api.principals.SimplePrincipalProvider;
+import org.seedstack.seed.security.Permission;
+import org.seedstack.seed.security.Role;
+import org.seedstack.seed.security.Scope;
+import org.seedstack.seed.security.SecuritySupport;
+import org.seedstack.seed.security.principals.Principals;
+import org.seedstack.seed.security.principals.SimplePrincipalProvider;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

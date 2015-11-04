@@ -8,7 +8,7 @@
 package org.seedstack.w20.internal;
 
 
-import org.seedstack.seed.core.api.SeedException;
+import org.seedstack.seed.SeedException;
 import org.seedstack.w20.api.ConfiguredFragmentDeclaration;
 import org.seedstack.w20.api.ConfiguredModule;
 import org.seedstack.w20.api.FragmentDeclaration;
