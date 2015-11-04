@@ -5,10 +5,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.w20.rest.security;
+package org.seedstack.w20.internal.rest.security;
 
 
-import org.seedstack.seed.security.api.SecuritySupport;
+import org.seedstack.seed.security.SecuritySupport;
 
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;

@@ -10,9 +10,8 @@ package org.seedstack.w20.internal;
 
 import com.google.inject.Inject;
 import org.apache.commons.lang.StringUtils;
-import org.seedstack.seed.core.api.Application;
-import org.seedstack.seed.core.api.Configuration;
-import org.seedstack.seed.core.utils.SeedStringUtils;
+import org.seedstack.seed.Application;
+import org.seedstack.seed.Configuration;
 
 import javax.inject.Named;
 import javax.servlet.ServletException;
@@ -24,6 +23,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class MasterpageServlet extends HttpServlet {
     private final ClassLoader classLoader = MasterpageServlet.class.getClassLoader();
@@ -101,10 +102,34 @@ class MasterpageServlet extends HttpServlet {
                 variables.put("componentsPath", PathUtils.removeTrailingSlash(componentsPath));
             }
 
-            String result = SeedStringUtils.replaceTokens(template, variables);
+            String result = replaceTokens(template, variables);
             resp.setContentLength(result.length());
             resp.setContentType("text/html");
             resp.getWriter().write(result);
         }
+    }
+
+    /**
+     * Replace ${...} placeholders in a string looking up in a replacement map.
+     *
+     * @param text the text to replace.
+     * @param replacements the map of replacements.
+     * @return the replaced text.
+     */
+    private String replaceTokens(String text, Map<String, Object> replacements) {
+        // TODO use a better solution for templating
+        Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
+        Matcher matcher = pattern.matcher(text);
+        StringBuffer buffer = new StringBuffer();
+        while (matcher.find()) {
+            Object replacement = replacements.get(matcher.group(1));
+            matcher.appendReplacement(buffer, "");
+
+            if (replacement != null) {
+                buffer.append(replacement.toString());
+            }
+        }
+        matcher.appendTail(buffer);
+        return buffer.toString();
     }
 }

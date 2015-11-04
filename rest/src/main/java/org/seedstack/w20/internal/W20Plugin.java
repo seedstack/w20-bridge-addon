@@ -51,7 +51,7 @@ public class W20Plugin extends AbstractPlugin {
 
     @Override
     public String name() {
-        return "seed-w20-function-plugin";
+        return "w20";
     }
 
     @Override

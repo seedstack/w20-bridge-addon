@@ -8,7 +8,7 @@
 package org.seedstack.w20.internal;
 
 
-import org.seedstack.seed.core.api.ErrorCode;
+import org.seedstack.seed.ErrorCode;
 
 enum W20ErrorCode implements ErrorCode {
     FRAGMENT_NOT_AVAILABLE_IN_APPLICATION,

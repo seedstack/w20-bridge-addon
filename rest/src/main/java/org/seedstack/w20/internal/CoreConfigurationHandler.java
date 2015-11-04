@@ -9,8 +9,8 @@ package org.seedstack.w20.internal;
 
 
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
-import org.seedstack.seed.core.api.Application;
-import org.seedstack.seed.core.api.Configuration;
+import org.seedstack.seed.Application;
+import org.seedstack.seed.Configuration;
 
 import javax.inject.Inject;
 import java.util.Map;
