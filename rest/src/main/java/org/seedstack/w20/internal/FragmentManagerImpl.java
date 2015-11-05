@@ -9,10 +9,10 @@ package org.seedstack.w20.internal;
 
 
 import org.seedstack.seed.SeedException;
-import org.seedstack.w20.api.ConfiguredFragmentDeclaration;
-import org.seedstack.w20.api.ConfiguredModule;
-import org.seedstack.w20.api.FragmentDeclaration;
-import org.seedstack.w20.api.FragmentManager;
+import org.seedstack.w20.ConfiguredFragmentDeclaration;
+import org.seedstack.w20.ConfiguredModule;
+import org.seedstack.w20.FragmentDeclaration;
+import org.seedstack.w20.FragmentManager;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
 import javax.annotation.Nullable;

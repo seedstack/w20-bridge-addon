@@ -10,11 +10,11 @@ package org.seedstack.w20.internal.rest.application;
 
 import com.google.inject.Inject;
 import org.seedstack.seed.web.WebResourceResolver;
-import org.seedstack.w20.api.AnonymousFragmentDeclaration;
-import org.seedstack.w20.api.ConfiguredFragmentDeclaration;
-import org.seedstack.w20.api.ConfiguredModule;
-import org.seedstack.w20.api.FragmentDeclaration;
-import org.seedstack.w20.api.FragmentManager;
+import org.seedstack.w20.AnonymousFragmentDeclaration;
+import org.seedstack.w20.ConfiguredFragmentDeclaration;
+import org.seedstack.w20.ConfiguredModule;
+import org.seedstack.w20.FragmentDeclaration;
+import org.seedstack.w20.FragmentManager;
 import org.seedstack.w20.internal.rest.EmptyObjectRepresentation;
 
 import javax.ws.rs.GET;

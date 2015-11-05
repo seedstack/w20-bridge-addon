@@ -10,8 +10,8 @@ package org.seedstack.w20.internal;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.seedstack.w20.api.AnonymousFragmentDeclaration;
-import org.seedstack.w20.api.ConfiguredFragmentDeclaration;
+import org.seedstack.w20.AnonymousFragmentDeclaration;
+import org.seedstack.w20.ConfiguredFragmentDeclaration;
 
 import java.util.HashMap;
 import java.util.Map;

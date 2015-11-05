@@ -11,7 +11,7 @@ import com.google.inject.PrivateModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.util.Providers;
-import org.seedstack.w20.api.FragmentManager;
+import org.seedstack.w20.FragmentManager;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
 import java.util.Map;
