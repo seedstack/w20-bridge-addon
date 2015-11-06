@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2013-2015, The SeedStack authors <http://seedstack.org>
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.seedstack.addons.w20</groupId>
+        <artifactId>w20-bridge</artifactId>
+        <version>2.1.0-M1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>w20-bridge-web-dataviz</artifactId>
+
+    <properties>
+        <compatibility.skip>true</compatibility.skip>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.seedstack.addons.w20</groupId>
+            <artifactId>w20-bridge-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>pl.allegro</groupId>
+                <artifactId>grunt-maven-plugin</artifactId>
+                <version>${grunt-maven-plugin.version}</version>
+                <configuration>
+                    <sourceDirectory>${project.basedir}/src/main/js</sourceDirectory>
+                    <jsSourceDirectory>.</jsSourceDirectory>
+                    <gruntBuildDirectory>${project.build.directory}/grunt</gruntBuildDirectory>
+                    <ignoreTasksErrors>false</ignoreTasksErrors>
+                    <ignoreAllErrors>false</ignoreAllErrors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>grunt-default-task</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>create-resources</goal>
+                            <goal>bower</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-web-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components">
+                                    <fileset dir="${project.build.directory}/grunt/bower_components">
+                                        <include name="**/w20-dataviz/**" />
+                                        <include name="**/nvd3/**" />
+                                        <include name="**/d3/**" />
+                                    </fileset>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

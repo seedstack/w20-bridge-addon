@@ -1,6 +1,6 @@
 {
   "name": "w20-bridge-web",
   "devDependencies": {
-    "w20": "~2.1"
+    "w20-bootstrap-3": "~2.1"
   }
 }
