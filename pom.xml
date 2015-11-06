@@ -34,6 +34,12 @@
         <module>specs</module>
         <module>rest</module>
         <module>web</module>
+        <module>web-components</module>
+        <module>web-dataviz</module>
+        <module>web-extras</module>
+        <module>web-material</module>
+        <module>web-bootstrap-2</module>
+        <module>web-bootstrap-3</module>
         <module>web-simple-theme</module>
         <module>web-business-theme</module>
         <module>demo</module>

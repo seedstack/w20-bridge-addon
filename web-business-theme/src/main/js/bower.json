@@ -1,6 +1,6 @@
 {
   "name": "w20-bridge-web-business-theme",
   "devDependencies": {
-    "w20-business-theme": "~1.0.0"
+    "w20-business-theme": "~1.1"
   }
 }

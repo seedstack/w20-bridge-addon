@@ -1,6 +1,6 @@
 {
   "name": "w20-bridge-web-simple-theme",
   "devDependencies": {
-    "w20-simple-theme": "~3.0.0"
+    "w20-simple-theme": "~3.1"
   }
 }

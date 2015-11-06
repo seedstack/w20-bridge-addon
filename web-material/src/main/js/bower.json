@@ -1,0 +1,9 @@
+{
+  "name": "w20-bridge-web",
+  "devDependencies": {
+    "w20-material": "~2.1"
+  },
+  "resolutions": {
+    "angular": ">= 1.3.16"
+  }
+}
