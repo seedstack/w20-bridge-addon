@@ -9,17 +9,23 @@ package org.seedstack.w20.internal.rest.application;
 
 
 import com.google.inject.Inject;
-import org.seedstack.seed.web.WebResourceResolver;
+import org.seedstack.seed.Application;
+import org.seedstack.seed.web.WebResourceResolverFactory;
 import org.seedstack.w20.AnonymousFragmentDeclaration;
 import org.seedstack.w20.ConfiguredFragmentDeclaration;
 import org.seedstack.w20.ConfiguredModule;
 import org.seedstack.w20.FragmentDeclaration;
 import org.seedstack.w20.FragmentManager;
+import org.seedstack.w20.internal.PathUtils;
+import org.seedstack.w20.internal.W20Plugin;
 import org.seedstack.w20.internal.rest.EmptyObjectRepresentation;
 
+import javax.inject.Named;
+import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.net.URI;
 import java.util.HashMap;
@@ -35,8 +41,22 @@ public class ApplicationConfigurationResource {
     @Inject
     FragmentManager fragmentManager;
 
+    @Inject
+    Application application;
+
+    @Inject
+    @Named("SeedRestPath")
+    private String restPath;
+
     @Inject(optional = true)
-    private WebResourceResolver webResourceResolver;
+    @Named("SeedWebResourcesPath")
+    private String webResourcesPath;
+
+    @Inject(optional = true)
+    private WebResourceResolverFactory webResourceResolverFactory;
+
+    @Context
+    private ServletContext servletContext;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -57,14 +77,18 @@ public class ApplicationConfigurationResource {
                     Object configuration = configuredModule.getConfiguration();
                     modules.put(configuredModule.getName(), configuration != null ? configuration : new EmptyObjectRepresentation());
                 }
-
                 value.setModules(modules);
-                value.setVars(configuredFragment.getVars() != null ? configuredFragment.getVars() : new HashMap<String, String>());
+
+                Map<String, String> vars = configuredFragment.getVars() != null ? configuredFragment.getVars() : new HashMap<String, String>();
+                populateVars(vars);
+                value.setVars(vars);
 
                 if (configuredFragment.getManifestLocation() != null) {
                     // Only includes scanned fragments if a resource resolver is available, otherwise they must be configured manually
-                    if (webResourceResolver != null) {
-                        URI resolvedUri = webResourceResolver.resolveURI(configuredFragment.getManifestLocation());
+                    if (webResourceResolverFactory != null) {
+                        URI resolvedUri = webResourceResolverFactory
+                                .createWebResourceResolver(servletContext)
+                                .resolveURI(configuredFragment.getManifestLocation());
 
                         if (resolvedUri == null) {
                             throw new IllegalArgumentException("Unable to resolve a web serving path for fragment " + configuredFragment.getName());
@@ -79,5 +103,23 @@ public class ApplicationConfigurationResource {
         }
 
         return configuredFragmentRepresentations;
+    }
+
+    private void populateVars(Map<String, String> vars) {
+        String contextPath = servletContext.getContextPath();
+        String componentsPath = application.getConfiguration().getString(W20Plugin.W20_PLUGIN_CONFIGURATION_PREFIX + ".components-path");
+
+        vars.put("seed-base-path", PathUtils.removeTrailingSlash(contextPath));
+        vars.put("seed-rest-path", PathUtils.buildPath(contextPath, restPath));
+        if (webResourcesPath != null) {
+            vars.put("seed-webresources-path", PathUtils.buildPath(contextPath, webResourcesPath));
+        }
+        if (componentsPath == null) {
+            if (webResourcesPath != null) {
+                vars.put("components-path", PathUtils.buildPath(contextPath, webResourcesPath, "bower_components"));
+            }
+        } else {
+            vars.put("components-path", PathUtils.removeTrailingSlash(componentsPath));
+        }
     }
 }

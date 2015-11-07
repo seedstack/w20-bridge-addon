@@ -12,11 +12,11 @@ package org.seedstack.w20.internal;
  *
  * @author adrien.lauer@mpsa.com
  */
-final class PathUtils {
+public final class PathUtils {
     private PathUtils() {
     }
 
-    static String removeTrailingSlash(String path) {
+    public static String removeTrailingSlash(String path) {
         if (path.endsWith("/")) {
             return path.substring(0, path.length() - 1);
         } else {
@@ -24,7 +24,7 @@ final class PathUtils {
         }
     }
 
-    static String buildPath(String first, String... parts) {
+    public static String buildPath(String first, String... parts) {
         String result = first;
 
         for (String part : parts) {
