@@ -7,30 +7,11 @@
  */
 package org.seedstack.w20.internal;
 
-import com.google.inject.Inject;
-import org.seedstack.seed.Application;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
-import javax.inject.Named;
-import javax.servlet.ServletContext;
 import java.util.Map;
 
 class GlobalConfigurationHandler implements FragmentConfigurationHandler {
-    private final String restPath;
-    private final String componentsPath;
-    private final String contextPath;
-
-    @Inject(optional = true)
-    @Named("SeedWebResourcesPath")
-    private String webResourcesPath;
-
-    @Inject
-    GlobalConfigurationHandler(ServletContext servletContext, Application application, @Named("SeedRestPath") String restPath) {
-        this.restPath = restPath;
-        this.contextPath = servletContext.getContextPath();
-        this.componentsPath = application.getConfiguration().getString(W20Plugin.W20_PLUGIN_CONFIGURATION_PREFIX + ".components-path");
-    }
-
     @Override
     public Boolean overrideFragmentStatus(String fragmentName) {
         if ("w20-core".equals(fragmentName)) {
@@ -52,18 +33,6 @@ class GlobalConfigurationHandler implements FragmentConfigurationHandler {
 
     @Override
     public void overrideVariables(String fragmentName, Map<String, String> variables) {
-        // Global variables in all fragments
-        variables.put("seed-base-path", PathUtils.removeTrailingSlash(contextPath));
-        variables.put("seed-rest-path", PathUtils.buildPath(contextPath, restPath));
-        if (webResourcesPath != null) {
-            variables.put("seed-webresources-path", PathUtils.buildPath(contextPath, webResourcesPath));
-        }
-        if (componentsPath == null) {
-            if (webResourcesPath != null) {
-                variables.put("components-path", PathUtils.buildPath(contextPath, webResourcesPath, "bower_components"));
-            }
-        } else {
-            variables.put("components-path", PathUtils.removeTrailingSlash(componentsPath));
-        }
+        // nothing to do here
     }
 }
