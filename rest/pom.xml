@@ -35,6 +35,12 @@
             <artifactId>seed-web-core</artifactId>
             <version>${seed.version}</version>
         </dependency>
+        <!-- TODO replace by seed-rest-specs when a facet for registering root resources will be available -->
+        <dependency>
+            <groupId>org.seedstack.seed</groupId>
+            <artifactId>seed-rest-jersey1</artifactId>
+            <version>${seed.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.seedstack.seed</groupId>
             <artifactId>seed-web-security</artifactId>
@@ -75,12 +81,6 @@
         <dependency>
             <groupId>org.seedstack.seed</groupId>
             <artifactId>seed-testing</artifactId>
-            <version>${seed.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-rest-jersey1</artifactId>
             <version>${seed.version}</version>
             <scope>test</scope>
         </dependency>

@@ -30,7 +30,7 @@ public class NoSeedWebResourcesIT extends AbstractSeedWebIT {
     @Test
     @RunAsClient
     public void non_resolvable_fragments_are_omitted(@ArquillianResource URL baseUrl) {
-        String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "rest/seed-w20/application/configuration").getBody().asString();
-        assertThat(response).doesNotContain("\"" + baseUrl.getPath() + "resources/seed-w20/seed-w20.w20.json\"");
+        String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "seed-w20/application/configuration").getBody().asString();
+        assertThat(response).doesNotContain("\"" + baseUrl.getPath() + "seed-w20/seed-w20.w20.json\"");
     }
 }

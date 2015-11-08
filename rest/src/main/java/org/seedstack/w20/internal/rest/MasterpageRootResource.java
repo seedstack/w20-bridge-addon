@@ -5,19 +5,24 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.w20.internal;
-
+package org.seedstack.w20.internal.rest;
 
 import com.google.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.seedstack.seed.Application;
 import org.seedstack.seed.Configuration;
+import org.seedstack.seed.SeedException;
+import org.seedstack.seed.core.utils.SeedReflectionUtils;
+import org.seedstack.seed.rest.spi.RootResource;
+import org.seedstack.w20.internal.PathUtils;
+import org.seedstack.w20.internal.W20ErrorCode;
 
 import javax.inject.Named;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -26,9 +31,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class MasterpageServlet extends HttpServlet {
-    private final ClassLoader classLoader = MasterpageServlet.class.getClassLoader();
-
+public class MasterpageRootResource implements RootResource {
     @Inject
     @Named("SeedRestPath")
     private String restPath;
@@ -62,26 +65,31 @@ class MasterpageServlet extends HttpServlet {
     private Application application;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!req.getRequestURI().endsWith("/")) {
-            String queryString = req.getQueryString();
+    public Response buildResponse(HttpServletRequest httpServletRequest, UriInfo uriInfo) {
+        if (!httpServletRequest.getRequestURI().endsWith("/")) {
+            String queryString = httpServletRequest.getQueryString();
 
             if (queryString != null) {
-                resp.sendRedirect(req.getRequestURI() + "/" + queryString);
+                return Response.status(302).header(HttpHeaders.LOCATION, httpServletRequest.getRequestURI() + "/" + queryString).build();
             } else {
-                resp.sendRedirect(req.getRequestURI() + "/");
+                return Response.status(302).header(HttpHeaders.LOCATION, httpServletRequest.getRequestURI() + "/").build();
             }
         } else {
-            URL masterpageURL = classLoader.getResource(masterpagePath);
+            URL masterpageURL = SeedReflectionUtils.findMostCompleteClassLoader().getResource(masterpagePath);
             if (masterpageURL == null) {
                 throw new RuntimeException("Unable to generate W20 masterpage, template not found");
             }
 
-            Scanner scanner = new Scanner(masterpageURL.openStream()).useDelimiter("\\A");
+            Scanner scanner;
+            try {
+                scanner = new Scanner(masterpageURL.openStream()).useDelimiter("\\A");
+            } catch (IOException e) {
+                throw SeedException.wrap(e, W20ErrorCode.UNABLE_TO_GENERATE_MASTERPAGE);
+            }
             String template = scanner.next();
             scanner.close();
 
-            String contextPath = req.getContextPath();
+            String contextPath = httpServletRequest.getContextPath();
 
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("applicationTitle", StringUtils.isBlank(applicationTitle) ? application.getName() : applicationTitle);
@@ -102,17 +110,14 @@ class MasterpageServlet extends HttpServlet {
                 variables.put("componentsPath", PathUtils.removeTrailingSlash(componentsPath));
             }
 
-            String result = replaceTokens(template, variables);
-            resp.setContentLength(result.length());
-            resp.setContentType("text/html");
-            resp.getWriter().write(result);
+            return Response.ok(replaceTokens(template, variables)).type(MediaType.TEXT_HTML_TYPE).build();
         }
     }
 
     /**
      * Replace ${...} placeholders in a string looking up in a replacement map.
      *
-     * @param text the text to replace.
+     * @param text         the text to replace.
      * @param replacements the map of replacements.
      * @return the replaced text.
      */

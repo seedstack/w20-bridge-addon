@@ -34,7 +34,7 @@ public class SecurityAuthorizationsResourceIT extends AbstractSeedWebIT {
     @Test
     @RunAsClient
     public void connectThePoltergeist(@ArquillianResource URL baseURL) throws Exception {
-        ResponseBody r = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseURL.toString() + "rest/seed-w20/security/authorizations").body();
+        ResponseBody r = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseURL.toString() + "seed-w20/security/authorizations").body();
         String expected = "{\"id\":\"ThePoltergeist\",\"type\":\"user\",\"principals\":{\"userId\":\"ThePoltergeist\"},\"roles\":[{\"name\":\"jedi\",\"attributes\":{},\"permissions\":[[\"academy\",\"*\"],[\"lightSaber\",\"*\"]]},{\"name\":\"ghost\",\"attributes\":{\"scope\":[\"MU\",\"PY\"]},\"permissions\":[[\"site\",\"haunt\"]]}],\"permissions\":[]}";
         assertEquals(expected, r.asString(), false);
     }
