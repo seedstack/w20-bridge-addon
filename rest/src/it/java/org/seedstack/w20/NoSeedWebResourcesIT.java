@@ -24,13 +24,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class NoSeedWebResourcesIT extends AbstractSeedWebIT {
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class).addAsResource("org.seedstack.w20.no-resources.props", "META-INF/configuration/org.seedstack.w20.no-resources.props").setWebXML("WEB-INF/web.xml");
+        return ShrinkWrap.create(WebArchive.class).addAsResource("no-resources.props", "META-INF/configuration/no-resources.props").setWebXML("WEB-INF/web.xml");
     }
 
     @Test
     @RunAsClient
     public void non_resolvable_fragments_are_omitted(@ArquillianResource URL baseUrl) {
-        String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "rest/seed-w20/application/configuration").getBody().asString();
-        assertThat(response).doesNotContain("\"" + baseUrl.getPath() + "resources/seed-w20/seed-w20.w20.json\"");
+        String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "seed-w20/application/configuration").getBody().asString();
+        assertThat(response).doesNotContain("\"" + baseUrl.getPath() + "seed-w20/seed-w20.w20.json\"");
     }
 }

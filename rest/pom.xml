@@ -41,6 +41,11 @@
             <version>${seed.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.seedstack.seed</groupId>
+            <artifactId>seed-rest-jersey1</artifactId>
+            <version>${seed.version}</version>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet-api.version}</version>
@@ -54,7 +59,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.seedstack</groupId>
+            <groupId>org.seedstack.poms</groupId>
             <artifactId>arquillian-composite</artifactId>
             <version>${poms.version}</version>
             <type>pom</type>
@@ -75,12 +80,6 @@
         <dependency>
             <groupId>org.seedstack.seed</groupId>
             <artifactId>seed-testing</artifactId>
-            <version>${seed.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-rest-jersey1</artifactId>
             <version>${seed.version}</version>
             <scope>test</scope>
         </dependency>

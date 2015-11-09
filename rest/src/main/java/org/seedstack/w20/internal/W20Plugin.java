@@ -9,6 +9,8 @@ package org.seedstack.w20.internal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
+import com.google.inject.servlet.ServletModule;
 import io.nuun.kernel.api.Plugin;
 import io.nuun.kernel.api.plugin.InitState;
 import io.nuun.kernel.api.plugin.PluginException;
@@ -17,11 +19,15 @@ import io.nuun.kernel.api.plugin.request.ClasspathScanRequest;
 import io.nuun.kernel.core.AbstractPlugin;
 import org.apache.commons.configuration.Configuration;
 import org.seedstack.seed.core.internal.application.ApplicationPlugin;
+import org.seedstack.seed.rest.internal.RestPlugin;
+import org.seedstack.w20.internal.rest.MasterpageRootResource;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContext;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Variant;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,9 +51,12 @@ public class W20Plugin extends AbstractPlugin {
     private final Set<Class<? extends FragmentConfigurationHandler>> fragmentConfigurationHandlerClasses = new HashSet<Class<? extends FragmentConfigurationHandler>>();
     private final ClassLoader classLoader = W20Plugin.class.getClassLoader();
 
+    private ApplicationPlugin applicationPlugin;
+    private RestPlugin restPlugin;
     private ConfiguredApplication configuredApplication = null;
     private ServletContext servletContext = null;
     private boolean masterPageEnabled = false;
+    private boolean masterPageAsServlet = false;
 
     @Override
     public String name() {
@@ -66,15 +75,21 @@ public class W20Plugin extends AbstractPlugin {
             return InitState.INITIALIZED;
         }
 
-        ApplicationPlugin applicationPlugin = (ApplicationPlugin) initContext.pluginsRequired().iterator().next();
+        collectPlugins(initContext);
+
         Configuration w20Configuration = applicationPlugin.getApplication().getConfiguration().subset(W20Plugin.W20_PLUGIN_CONFIGURATION_PREFIX);
 
         masterPageEnabled = !w20Configuration.getBoolean("disable-masterpage", false);
+        if (masterPageEnabled) {
+            if (restPlugin.getRestPath().isEmpty()) {
+                restPlugin.registerRootResource(new Variant(MediaType.TEXT_HTML_TYPE, null, null), MasterpageRootResource.class);
+            } else {
+                masterPageAsServlet = true;
+            }
+        }
 
         Map<String, Collection<String>> scannedManifestPaths = initContext.mapResourcesByRegex();
-
         ObjectMapper objectMapper = new ObjectMapper();
-
         for (String manifestPath : scannedManifestPaths.get(FRAGMENTS_REGEX)) {
             try {
                 AvailableFragment availableFragment = new AvailableFragment(manifestPath, objectMapper.readValue(classLoader.getResource(manifestPath), Fragment.class));
@@ -123,6 +138,7 @@ public class W20Plugin extends AbstractPlugin {
     public Collection<Class<? extends Plugin>> requiredPlugins() {
         Collection<Class<? extends Plugin>> plugins = new ArrayList<Class<? extends Plugin>>();
         plugins.add(ApplicationPlugin.class);
+        plugins.add(RestPlugin.class);
         return plugins;
     }
 
@@ -141,9 +157,37 @@ public class W20Plugin extends AbstractPlugin {
                 install(new W20Module(w20Fragments, fragmentConfigurationHandlerClasses, configuredApplication));
 
                 if (servletContext != null && masterPageEnabled) {
-                    install(new W20WebModule());
+                    install(new ServletModule() {
+                        @Override
+                        protected void configureServlets() {
+                            bind(MasterPageBuilder.class);
+
+                            if (masterPageAsServlet) {
+                                bind(MasterpageServlet.class).in(Scopes.SINGLETON);
+                                serve("/").with(MasterpageServlet.class);
+                            }
+                        }
+                    });
                 }
             }
         };
+    }
+
+    private void collectPlugins(InitContext initContext) {
+        for (Plugin plugin : initContext.pluginsRequired()) {
+            if (plugin instanceof ApplicationPlugin) {
+                applicationPlugin = (ApplicationPlugin) plugin;
+            } else if (plugin instanceof RestPlugin) {
+                restPlugin = (RestPlugin) plugin;
+            }
+        }
+
+        if (applicationPlugin == null) {
+            throw new PluginException("Unable to find Seed application plugin");
+        }
+
+        if (restPlugin == null) {
+            throw new PluginException("Unable to find Seed REST plugin");
+        }
     }
 }

@@ -30,6 +30,11 @@
             <artifactId>w20-bridge-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.seedstack.addons.w20</groupId>
+            <artifactId>w20-bridge-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -67,7 +72,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components">
+                                <copy todir="${project.build.directory}/classes/META-INF/resources/bower_components">
                                     <fileset dir="${project.build.directory}/grunt/bower_components">
                                         <include name="**/w20-bootstrap-2/**" />
                                     </fileset>

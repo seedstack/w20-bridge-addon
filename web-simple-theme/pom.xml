@@ -27,7 +27,17 @@
     <dependencies>
         <dependency>
             <groupId>org.seedstack.addons.w20</groupId>
+            <artifactId>w20-bridge-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-web</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.addons.w20</groupId>
+            <artifactId>w20-bridge-web-bootstrap-3</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
@@ -67,7 +77,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <copy todir="${project.build.directory}/classes/META-INF/resources/resources/bower_components/w20-simple-theme">
+                                <copy todir="${project.build.directory}/classes/META-INF/resources/bower_components/w20-simple-theme">
                                     <fileset dir="${project.build.directory}/grunt/bower_components/w20-simple-theme"/>
                                 </copy>
                             </target>
