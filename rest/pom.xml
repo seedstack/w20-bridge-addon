@@ -35,15 +35,14 @@
             <artifactId>seed-web-core</artifactId>
             <version>${seed.version}</version>
         </dependency>
-        <!-- TODO replace by seed-rest-specs when a facet for registering root resources will be available -->
         <dependency>
             <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-rest-jersey1</artifactId>
+            <artifactId>seed-web-security</artifactId>
             <version>${seed.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-web-security</artifactId>
+            <artifactId>seed-rest-jersey1</artifactId>
             <version>${seed.version}</version>
         </dependency>
         <dependency>
@@ -60,7 +59,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.seedstack</groupId>
+            <groupId>org.seedstack.poms</groupId>
             <artifactId>arquillian-composite</artifactId>
             <version>${poms.version}</version>
             <type>pom</type>
