@@ -8,10 +8,10 @@
 package org.seedstack.w20.internal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.servlet.ServletModule;
-import io.nuun.kernel.api.Plugin;
 import io.nuun.kernel.api.plugin.InitState;
 import io.nuun.kernel.api.plugin.PluginException;
 import io.nuun.kernel.api.plugin.context.InitContext;
@@ -29,12 +29,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Variant;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This plugin handles W20 fragment scanning.
@@ -75,7 +70,8 @@ public class W20Plugin extends AbstractPlugin {
             return InitState.INITIALIZED;
         }
 
-        collectPlugins(initContext);
+        applicationPlugin = initContext.dependency(ApplicationPlugin.class);
+        restPlugin = initContext.dependency(RestPlugin.class);
 
         Configuration w20Configuration = applicationPlugin.getApplication().getConfiguration().subset(W20Plugin.W20_PLUGIN_CONFIGURATION_PREFIX);
 
@@ -135,11 +131,8 @@ public class W20Plugin extends AbstractPlugin {
     }
 
     @Override
-    public Collection<Class<? extends Plugin>> requiredPlugins() {
-        Collection<Class<? extends Plugin>> plugins = new ArrayList<Class<? extends Plugin>>();
-        plugins.add(ApplicationPlugin.class);
-        plugins.add(RestPlugin.class);
-        return plugins;
+    public Collection<Class<?>> requiredPlugins() {
+        return Lists.<Class<?>>newArrayList(ApplicationPlugin.class, RestPlugin.class);
     }
 
     @Override
@@ -171,23 +164,5 @@ public class W20Plugin extends AbstractPlugin {
                 }
             }
         };
-    }
-
-    private void collectPlugins(InitContext initContext) {
-        for (Plugin plugin : initContext.pluginsRequired()) {
-            if (plugin instanceof ApplicationPlugin) {
-                applicationPlugin = (ApplicationPlugin) plugin;
-            } else if (plugin instanceof RestPlugin) {
-                restPlugin = (RestPlugin) plugin;
-            }
-        }
-
-        if (applicationPlugin == null) {
-            throw new PluginException("Unable to find Seed application plugin");
-        }
-
-        if (restPlugin == null) {
-            throw new PluginException("Unable to find Seed REST plugin");
-        }
     }
 }
