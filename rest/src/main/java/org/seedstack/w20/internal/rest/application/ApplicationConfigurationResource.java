@@ -110,16 +110,21 @@ public class ApplicationConfigurationResource {
         String componentsPath = application.getConfiguration().getString(W20Plugin.W20_PLUGIN_CONFIGURATION_PREFIX + ".components-path");
 
         vars.put("seed-base-path", PathUtils.removeTrailingSlash(contextPath));
-        vars.put("seed-rest-path", PathUtils.buildPath(contextPath, restPath));
+        vars.put("seed-base-path-slash", PathUtils.ensureTrailingSlash(contextPath));
+        vars.put("seed-rest-path", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, restPath)));
+        vars.put("seed-rest-path-slash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, restPath)));
         if (webResourcesPath != null) {
-            vars.put("seed-webresources-path", PathUtils.buildPath(contextPath, webResourcesPath));
+            vars.put("seed-webresources-path", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath)));
+            vars.put("seed-webresources-path-slash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath)));
         }
         if (componentsPath == null) {
             if (webResourcesPath != null) {
-                vars.put("components-path", PathUtils.buildPath(contextPath, webResourcesPath, "bower_components"));
+                vars.put("components-path", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath, "bower_components")));
+                vars.put("components-path-slash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath, "bower_components")));
             }
         } else {
-            vars.put("components-path", PathUtils.removeTrailingSlash(componentsPath));
+            vars.put("components-path", PathUtils.removeTrailingSlash(PathUtils.removeTrailingSlash(componentsPath)));
+            vars.put("components-path-slash", PathUtils.ensureTrailingSlash(PathUtils.removeTrailingSlash(componentsPath)));
         }
     }
 }

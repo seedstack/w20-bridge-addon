@@ -8,13 +8,13 @@
 
 -->
 <!doctype html>
-<html data-w20-app="${restPath}/seed-w20/application/configuration" data-w20-app-version="${applicationVersion}" data-w20-timeout="${timeout}" data-w20-cors-with-credentials="${corsWithCredentials}">
+<html data-w20-app="${restPathSlash}seed-w20/application/configuration" data-w20-app-version="${applicationVersion}" data-w20-timeout="${timeout}" data-w20-cors-with-credentials="${corsWithCredentials}">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <title>${applicationTitle}</title>
-    <script type="text/javascript" data-main="${componentsPath}/w20/modules/w20.js?__v=${applicationVersion}" src="${componentsPath}/requirejs/require.js?__v=${applicationVersion}"></script>
+    <script type="text/javascript" data-main="${componentsPathSlash}w20/modules/w20.js?__v=${applicationVersion}" src="${componentsPathSlash}requirejs/require.js?__v=${applicationVersion}"></script>
 </head>
 <body>
 <div id="w20-loading-cloak">

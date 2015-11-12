@@ -71,4 +71,19 @@ public class W20BridgeIT extends AbstractSeedWebIT {
         String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "seed-w20/application/configuration").getBody().asString();
         assertThat(response).contains("\"\":{\"routes\":{\"/\":{\"templateUrl\":\"non-existent-template.html\"}}}");
     }
+
+    @Test
+    @RunAsClient
+    public void paths_are_correctly_built(@ArquillianResource URL baseUrl) {
+        String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "seed-w20/application/configuration").getBody().asString();
+        String prefix = baseUrl.toString().substring((baseUrl.getProtocol() + "://" + baseUrl.getHost() + ":" + baseUrl.getPort()).length(), baseUrl.toString().length() - 1);
+        assertThat(response).contains("\"seed-webresources-path\":\"" + prefix + "\"");
+        assertThat(response).contains("\"seed-webresources-path-slash\":\"" + prefix + "/\"");
+        assertThat(response).contains("\"components-path\":\"" + prefix + "/bower_components\"");
+        assertThat(response).contains("\"components-path-slash\":\"" + prefix + "/bower_components/\"");
+        assertThat(response).contains("\"seed-base-path\":\"" + prefix + "\"");
+        assertThat(response).contains("\"seed-base-path-slash\":\"" + prefix + "/\"");
+        assertThat(response).contains("\"seed-rest-path\":\"" + prefix + "\"");
+        assertThat(response).contains("\"seed-rest-path-slash\":\"" + prefix + "/\"");
+    }
 }
