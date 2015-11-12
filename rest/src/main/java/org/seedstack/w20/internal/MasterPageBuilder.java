@@ -81,16 +81,21 @@ public class MasterPageBuilder {
         variables.put("timeout", timeout);
         variables.put("corsWithCredentials", corsWithCredentials);
         variables.put("basePath", PathUtils.removeTrailingSlash(contextPath));
-        variables.put("restPath", PathUtils.buildPath(contextPath, restPath));
+        variables.put("basePathSlash", PathUtils.ensureTrailingSlash(contextPath));
+        variables.put("restPath", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, restPath)));
+        variables.put("restPathSlash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, restPath)));
         if (webResourcesPath != null) {
-            variables.put("webResourcesPath", PathUtils.buildPath(contextPath, webResourcesPath));
+            variables.put("webResourcesPath", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath)));
+            variables.put("webResourcesPathSlash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath)));
         }
         if (componentsPath == null) {
             if (webResourcesPath != null) {
-                variables.put("componentsPath", PathUtils.buildPath(contextPath, webResourcesPath, "bower_components"));
+                variables.put("componentsPath", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath, "bower_components")));
+                variables.put("componentsPathSlash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath, "bower_components")));
             }
         } else {
             variables.put("componentsPath", PathUtils.removeTrailingSlash(componentsPath));
+            variables.put("componentsPathSlash", PathUtils.ensureTrailingSlash(componentsPath));
         }
 
         return replaceTokens(template, variables);

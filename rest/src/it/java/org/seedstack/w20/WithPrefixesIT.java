@@ -22,11 +22,12 @@ import javax.ws.rs.core.MediaType;
 import java.net.URL;
 
 import static com.jayway.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class WithRestPrefixIT extends AbstractSeedWebIT {
+public class WithPrefixesIT extends AbstractSeedWebIT {
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class).addAsResource("with-rest-prefix.props", "META-INF/configuration/with-rest-prefix.props").setWebXML("WEB-INF/web.xml");
+        return ShrinkWrap.create(WebArchive.class).addAsResource("with-prefixes.props", "META-INF/configuration/with-prefixes.props").setWebXML("WEB-INF/web.xml");
     }
 
     @Test
@@ -68,5 +69,20 @@ public class WithRestPrefixIT extends AbstractSeedWebIT {
                 .header(HttpHeaders.CONTENT_TYPE, new StartsWith(MediaType.APPLICATION_JSON))
                 .when()
                 .get(baseUrl.toString() + "rest/");
+    }
+
+    @Test
+    @RunAsClient
+    public void paths_are_correctly_built(@ArquillianResource URL baseUrl) {
+        String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "rest/seed-w20/application/configuration").getBody().asString();
+        String prefix = baseUrl.toString().substring((baseUrl.getProtocol() + "://" + baseUrl.getHost() + ":" + baseUrl.getPort()).length(), baseUrl.toString().length() - 1);
+        assertThat(response).contains("\"seed-webresources-path\":\"" + prefix + "/resources\"");
+        assertThat(response).contains("\"seed-webresources-path-slash\":\"" + prefix + "/resources/\"");
+        assertThat(response).contains("\"components-path\":\"" + prefix + "/resources/bower_components\"");
+        assertThat(response).contains("\"components-path-slash\":\"" + prefix + "/resources/bower_components/\"");
+        assertThat(response).contains("\"seed-base-path\":\"" + prefix + "\"");
+        assertThat(response).contains("\"seed-base-path-slash\":\"" + prefix + "/\"");
+        assertThat(response).contains("\"seed-rest-path\":\"" + prefix + "/rest\"");
+        assertThat(response).contains("\"seed-rest-path-slash\":\"" + prefix + "/rest/\"");
     }
 }

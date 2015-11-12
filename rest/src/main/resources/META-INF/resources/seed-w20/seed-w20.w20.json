@@ -6,8 +6,8 @@
     "security": {
         "provider": "BasicAuthentication",
         "config": {
-            "authentication": "${seed-rest-path}/seed-w20/security/basic-authentication",
-            "authorizations": "${seed-rest-path}/seed-w20/security/authorizations"
+            "authentication": "${seed-rest-path-slash}seed-w20/security/basic-authentication",
+            "authorizations": "${seed-rest-path-slash}seed-w20/security/authorizations"
         }
     }
 }

@@ -17,8 +17,16 @@ public final class PathUtils {
     }
 
     public static String removeTrailingSlash(String path) {
-        if (path.endsWith("/")) {
+        if (!path.equals("/") && path.endsWith("/")) {
             return path.substring(0, path.length() - 1);
+        } else {
+            return path;
+        }
+    }
+
+    public static String ensureTrailingSlash(String path) {
+        if (!path.equals("/") && !path.endsWith("/")) {
+            return path + "/";
         } else {
             return path;
         }
@@ -37,6 +45,6 @@ public final class PathUtils {
             }
         }
 
-        return removeTrailingSlash(result);
+        return result;
     }
 }
