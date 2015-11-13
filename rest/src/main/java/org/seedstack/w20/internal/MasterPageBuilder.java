@@ -29,10 +29,6 @@ public class MasterPageBuilder {
     @Named("SeedRestPath")
     private String restPath;
 
-    @Inject(optional = true)
-    @Named("SeedWebResourcesPath")
-    private String webResourcesPath;
-
     @Configuration(value = "org.seedstack.w20.masterpage-template", defaultValue = "org/seedstack/w20/masterpage.html", mandatory = false)
     private String masterpagePath;
 
@@ -51,8 +47,11 @@ public class MasterPageBuilder {
     @Configuration(value = "org.seedstack.w20.cors-with-credentials", mandatory = false, defaultValue = "false")
     private boolean corsWithCredentials;
 
+    @Configuration(value = "org.seedstack.w20.rest-path", mandatory = false)
+    private String configuredRestPath;
+
     @Configuration(value = "org.seedstack.w20.components-path", mandatory = false)
-    private String componentsPath;
+    private String configuredComponentsPath;
 
     @Inject
     private Application application;
@@ -72,9 +71,8 @@ public class MasterPageBuilder {
         String template = scanner.next();
         scanner.close();
 
-        String contextPath = httpServletRequest.getContextPath();
-
         Map<String, Object> variables = new HashMap<String, Object>();
+        String contextPath = httpServletRequest.getContextPath();
         variables.put("applicationTitle", StringUtils.isBlank(applicationTitle) ? application.getName() : applicationTitle);
         variables.put("applicationSubtitle", applicationSubtitle);
         variables.put("applicationVersion", StringUtils.isBlank(applicationVersion) ? application.getVersion() : applicationVersion);
@@ -82,24 +80,29 @@ public class MasterPageBuilder {
         variables.put("corsWithCredentials", corsWithCredentials);
         variables.put("basePath", PathUtils.removeTrailingSlash(contextPath));
         variables.put("basePathSlash", PathUtils.ensureTrailingSlash(contextPath));
-        variables.put("restPath", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, restPath)));
-        variables.put("restPathSlash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, restPath)));
-        if (webResourcesPath != null) {
-            variables.put("webResourcesPath", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath)));
-            variables.put("webResourcesPathSlash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath)));
-        }
-        if (componentsPath == null) {
-            if (webResourcesPath != null) {
-                variables.put("componentsPath", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath, "bower_components")));
-                variables.put("componentsPathSlash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath, "bower_components")));
-            }
-        } else {
-            variables.put("componentsPath", PathUtils.removeTrailingSlash(componentsPath));
-            variables.put("componentsPathSlash", PathUtils.ensureTrailingSlash(componentsPath));
-        }
+        variables.put("restPath", PathUtils.removeTrailingSlash(getRestPath(contextPath)));
+        variables.put("restPathSlash", PathUtils.ensureTrailingSlash(getRestPath(contextPath)));
+        variables.put("componentsPath", PathUtils.removeTrailingSlash(getComponentsPath(contextPath)));
+        variables.put("componentsPathSlash", PathUtils.ensureTrailingSlash(getComponentsPath(contextPath)));
 
         return replaceTokens(template, variables);
 
+    }
+
+    public String getRestPath(String contextPath) {
+        if (configuredRestPath != null) {
+            return configuredRestPath;
+        } else {
+            return PathUtils.buildPath(contextPath, restPath);
+        }
+    }
+
+    public String getComponentsPath(String contextPath) {
+        if (configuredComponentsPath != null) {
+            return configuredComponentsPath;
+        } else {
+            return PathUtils.buildPath(contextPath, "bower_components");
+        }
     }
 
     /**

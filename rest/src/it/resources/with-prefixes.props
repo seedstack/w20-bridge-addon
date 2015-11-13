@@ -7,4 +7,3 @@
 #
 
 org.seedstack.seed.rest.path = /rest
-org.seedstack.seed.web.resources.path = /resources
