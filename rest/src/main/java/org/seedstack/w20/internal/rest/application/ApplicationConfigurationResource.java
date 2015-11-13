@@ -16,11 +16,10 @@ import org.seedstack.w20.ConfiguredFragmentDeclaration;
 import org.seedstack.w20.ConfiguredModule;
 import org.seedstack.w20.FragmentDeclaration;
 import org.seedstack.w20.FragmentManager;
+import org.seedstack.w20.internal.MasterPageBuilder;
 import org.seedstack.w20.internal.PathUtils;
-import org.seedstack.w20.internal.W20Plugin;
 import org.seedstack.w20.internal.rest.EmptyObjectRepresentation;
 
-import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -39,18 +38,13 @@ import java.util.Map;
 @Path("/seed-w20/application/configuration")
 public class ApplicationConfigurationResource {
     @Inject
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
     @Inject
-    Application application;
+    private Application application;
 
     @Inject
-    @Named("SeedRestPath")
-    private String restPath;
-
-    @Inject(optional = true)
-    @Named("SeedWebResourcesPath")
-    private String webResourcesPath;
+    private MasterPageBuilder masterPageBuilder;
 
     @Inject(optional = true)
     private WebResourceResolverFactory webResourceResolverFactory;
@@ -107,24 +101,11 @@ public class ApplicationConfigurationResource {
 
     private void populateVars(Map<String, String> vars) {
         String contextPath = servletContext.getContextPath();
-        String componentsPath = application.getConfiguration().getString(W20Plugin.W20_PLUGIN_CONFIGURATION_PREFIX + ".components-path");
-
         vars.put("seed-base-path", PathUtils.removeTrailingSlash(contextPath));
         vars.put("seed-base-path-slash", PathUtils.ensureTrailingSlash(contextPath));
-        vars.put("seed-rest-path", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, restPath)));
-        vars.put("seed-rest-path-slash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, restPath)));
-        if (webResourcesPath != null) {
-            vars.put("seed-webresources-path", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath)));
-            vars.put("seed-webresources-path-slash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath)));
-        }
-        if (componentsPath == null) {
-            if (webResourcesPath != null) {
-                vars.put("components-path", PathUtils.removeTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath, "bower_components")));
-                vars.put("components-path-slash", PathUtils.ensureTrailingSlash(PathUtils.buildPath(contextPath, webResourcesPath, "bower_components")));
-            }
-        } else {
-            vars.put("components-path", PathUtils.removeTrailingSlash(PathUtils.removeTrailingSlash(componentsPath)));
-            vars.put("components-path-slash", PathUtils.ensureTrailingSlash(PathUtils.removeTrailingSlash(componentsPath)));
-        }
+        vars.put("seed-rest-path", PathUtils.removeTrailingSlash(masterPageBuilder.getRestPath(contextPath)));
+        vars.put("seed-rest-path-slash", PathUtils.ensureTrailingSlash(masterPageBuilder.getRestPath(contextPath)));
+        vars.put("components-path", PathUtils.removeTrailingSlash(masterPageBuilder.getComponentsPath(contextPath)));
+        vars.put("components-path-slash", PathUtils.ensureTrailingSlash(masterPageBuilder.getComponentsPath(contextPath)));
     }
 }

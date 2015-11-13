@@ -76,10 +76,8 @@ public class WithPrefixesIT extends AbstractSeedWebIT {
     public void paths_are_correctly_built(@ArquillianResource URL baseUrl) {
         String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "rest/seed-w20/application/configuration").getBody().asString();
         String prefix = baseUrl.toString().substring((baseUrl.getProtocol() + "://" + baseUrl.getHost() + ":" + baseUrl.getPort()).length(), baseUrl.toString().length() - 1);
-        assertThat(response).contains("\"seed-webresources-path\":\"" + prefix + "/resources\"");
-        assertThat(response).contains("\"seed-webresources-path-slash\":\"" + prefix + "/resources/\"");
-        assertThat(response).contains("\"components-path\":\"" + prefix + "/resources/bower_components\"");
-        assertThat(response).contains("\"components-path-slash\":\"" + prefix + "/resources/bower_components/\"");
+        assertThat(response).contains("\"components-path\":\"" + prefix + "/bower_components\"");
+        assertThat(response).contains("\"components-path-slash\":\"" + prefix + "/bower_components/\"");
         assertThat(response).contains("\"seed-base-path\":\"" + prefix + "\"");
         assertThat(response).contains("\"seed-base-path-slash\":\"" + prefix + "/\"");
         assertThat(response).contains("\"seed-rest-path\":\"" + prefix + "/rest\"");
