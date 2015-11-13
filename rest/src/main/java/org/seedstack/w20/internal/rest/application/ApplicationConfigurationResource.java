@@ -101,8 +101,8 @@ public class ApplicationConfigurationResource {
 
     private void populateVars(Map<String, String> vars) {
         String contextPath = servletContext.getContextPath();
-        vars.put("seed-base-path", PathUtils.removeTrailingSlash(contextPath));
-        vars.put("seed-base-path-slash", PathUtils.ensureTrailingSlash(contextPath));
+        vars.put("seed-base-path", PathUtils.removeTrailingSlash(masterPageBuilder.getBasePath(contextPath)));
+        vars.put("seed-base-path-slash", PathUtils.ensureTrailingSlash(masterPageBuilder.getBasePath(contextPath)));
         vars.put("seed-rest-path", PathUtils.removeTrailingSlash(masterPageBuilder.getRestPath(contextPath)));
         vars.put("seed-rest-path-slash", PathUtils.ensureTrailingSlash(masterPageBuilder.getRestPath(contextPath)));
         vars.put("components-path", PathUtils.removeTrailingSlash(masterPageBuilder.getComponentsPath(contextPath)));

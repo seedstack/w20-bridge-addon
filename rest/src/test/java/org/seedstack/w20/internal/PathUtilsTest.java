@@ -14,7 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PathUtilsTest {
     @Test
     public void testRemoveTrailingSlash() throws Exception {
-        assertThat(PathUtils.removeTrailingSlash("/")).isEqualTo("/");
+        assertThat(PathUtils.removeTrailingSlash("/")).isEqualTo("");
+        assertThat(PathUtils.removeTrailingSlash("")).isEqualTo("");
         assertThat(PathUtils.removeTrailingSlash("/path/")).isEqualTo("/path");
         assertThat(PathUtils.removeTrailingSlash("/path")).isEqualTo("/path");
         assertThat(PathUtils.removeTrailingSlash("path")).isEqualTo("path");
@@ -22,7 +23,8 @@ public class PathUtilsTest {
 
     @Test
     public void testEnsureTrailingSlash() throws Exception {
-        assertThat(PathUtils.removeTrailingSlash("/")).isEqualTo("/");
+        assertThat(PathUtils.ensureTrailingSlash("")).isEqualTo("/");
+        assertThat(PathUtils.ensureTrailingSlash("/")).isEqualTo("/");
         assertThat(PathUtils.ensureTrailingSlash("/path/")).isEqualTo("/path/");
         assertThat(PathUtils.ensureTrailingSlash("/path")).isEqualTo("/path/");
         assertThat(PathUtils.ensureTrailingSlash("path")).isEqualTo("path/");
@@ -30,6 +32,12 @@ public class PathUtilsTest {
 
     @Test
     public void testBuildPath() throws Exception {
+        assertThat(PathUtils.buildPath("", "")).isEqualTo("");
+        assertThat(PathUtils.buildPath("/", "")).isEqualTo("/");
+        assertThat(PathUtils.buildPath("", "/")).isEqualTo("");
+        assertThat(PathUtils.buildPath("/", "/toto")).isEqualTo("/toto");
+        assertThat(PathUtils.buildPath("", "/toto")).isEqualTo("toto");
+        assertThat(PathUtils.buildPath("", "toto")).isEqualTo("toto");
         assertThat(PathUtils.buildPath("/part1", "part2", "part3", "part4")).isEqualTo("/part1/part2/part3/part4");
         assertThat(PathUtils.buildPath("/part1/", "/part2/", "/part3/", "/part4/")).isEqualTo("/part1/part2/part3/part4/");
         assertThat(PathUtils.buildPath("/part1/", "/part2", "/part3", "part4/")).isEqualTo("/part1/part2/part3/part4/");

@@ -47,9 +47,6 @@ public class MasterPageBuilder {
     @Configuration(value = "org.seedstack.w20.cors-with-credentials", mandatory = false, defaultValue = "false")
     private boolean corsWithCredentials;
 
-    @Configuration(value = "org.seedstack.w20.rest-path", mandatory = false)
-    private String configuredRestPath;
-
     @Configuration(value = "org.seedstack.w20.components-path", mandatory = false)
     private String configuredComponentsPath;
 
@@ -78,8 +75,8 @@ public class MasterPageBuilder {
         variables.put("applicationVersion", StringUtils.isBlank(applicationVersion) ? application.getVersion() : applicationVersion);
         variables.put("timeout", timeout);
         variables.put("corsWithCredentials", corsWithCredentials);
-        variables.put("basePath", PathUtils.removeTrailingSlash(contextPath));
-        variables.put("basePathSlash", PathUtils.ensureTrailingSlash(contextPath));
+        variables.put("basePath", PathUtils.removeTrailingSlash(getBasePath(contextPath)));
+        variables.put("basePathSlash", PathUtils.ensureTrailingSlash(getBasePath(contextPath)));
         variables.put("restPath", PathUtils.removeTrailingSlash(getRestPath(contextPath)));
         variables.put("restPathSlash", PathUtils.ensureTrailingSlash(getRestPath(contextPath)));
         variables.put("componentsPath", PathUtils.removeTrailingSlash(getComponentsPath(contextPath)));
@@ -89,19 +86,19 @@ public class MasterPageBuilder {
 
     }
 
+    public String getBasePath(String contextPath) {
+        return PathUtils.buildPath("/", contextPath);
+    }
+
     public String getRestPath(String contextPath) {
-        if (configuredRestPath != null) {
-            return configuredRestPath;
-        } else {
-            return PathUtils.buildPath(contextPath, restPath);
-        }
+        return PathUtils.buildPath("/", contextPath, restPath);
     }
 
     public String getComponentsPath(String contextPath) {
         if (configuredComponentsPath != null) {
             return configuredComponentsPath;
         } else {
-            return PathUtils.buildPath(contextPath, "bower_components");
+            return PathUtils.buildPath("/", contextPath, "bower_components");
         }
     }
 
