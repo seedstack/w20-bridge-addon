@@ -5,6 +5,7 @@ repo: "https://github.com/seedstack/w20-bridge-addon"
 author: "SeedStack"
 description: "Acts as an extensible integration bridge between SeedStack Java and Web frameworks."
 min-version: "15.11+"
+backend: true
 menu:
     W20BridgeAddon:
         weight: 10
