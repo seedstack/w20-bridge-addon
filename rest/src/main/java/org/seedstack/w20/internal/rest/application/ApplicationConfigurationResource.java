@@ -9,7 +9,6 @@ package org.seedstack.w20.internal.rest.application;
 
 
 import com.google.inject.Inject;
-import org.seedstack.seed.Application;
 import org.seedstack.seed.web.WebResourceResolverFactory;
 import org.seedstack.w20.AnonymousFragmentDeclaration;
 import org.seedstack.w20.ConfiguredFragmentDeclaration;
@@ -39,9 +38,6 @@ import java.util.Map;
 public class ApplicationConfigurationResource {
     @Inject
     private FragmentManager fragmentManager;
-
-    @Inject
-    private Application application;
 
     @Inject
     private MasterPageBuilder masterPageBuilder;

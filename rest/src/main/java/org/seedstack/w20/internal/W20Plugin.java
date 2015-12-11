@@ -29,7 +29,11 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Variant;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This plugin handles W20 fragment scanning.
@@ -46,8 +50,6 @@ public class W20Plugin extends AbstractPlugin {
     private final Set<Class<? extends FragmentConfigurationHandler>> fragmentConfigurationHandlerClasses = new HashSet<Class<? extends FragmentConfigurationHandler>>();
     private final ClassLoader classLoader = W20Plugin.class.getClassLoader();
 
-    private ApplicationPlugin applicationPlugin;
-    private RestPlugin restPlugin;
     private ConfiguredApplication configuredApplication = null;
     private ServletContext servletContext = null;
     private boolean masterPageEnabled = false;
@@ -70,8 +72,8 @@ public class W20Plugin extends AbstractPlugin {
             return InitState.INITIALIZED;
         }
 
-        applicationPlugin = initContext.dependency(ApplicationPlugin.class);
-        restPlugin = initContext.dependency(RestPlugin.class);
+        ApplicationPlugin applicationPlugin = initContext.dependency(ApplicationPlugin.class);
+        RestPlugin restPlugin = initContext.dependency(RestPlugin.class);
 
         Configuration w20Configuration = applicationPlugin.getApplication().getConfiguration().subset(W20Plugin.W20_PLUGIN_CONFIGURATION_PREFIX);
 
@@ -149,13 +151,13 @@ public class W20Plugin extends AbstractPlugin {
             protected void configure() {
                 install(new W20Module(w20Fragments, fragmentConfigurationHandlerClasses, configuredApplication));
 
-                if (servletContext != null && masterPageEnabled) {
+                if (servletContext != null) {
                     install(new ServletModule() {
                         @Override
                         protected void configureServlets() {
                             bind(MasterPageBuilder.class);
 
-                            if (masterPageAsServlet) {
+                            if (masterPageEnabled && masterPageAsServlet) {
                                 bind(MasterpageServlet.class).in(Scopes.SINGLETON);
                                 serve("/").with(MasterpageServlet.class);
                             }
