@@ -1,6 +1,6 @@
 {
   "name": "w20-bridge-web",
   "devDependencies": {
-    "w20": "#master"
+    "w20": "~2.1.1"
   }
 }
