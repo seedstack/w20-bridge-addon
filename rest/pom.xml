@@ -20,10 +20,6 @@
 
     <artifactId>w20-bridge-rest</artifactId>
 
-    <properties>
-        <compatibility.artifactId>w20-function-rest</compatibility.artifactId>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.seedstack.addons.w20</groupId>

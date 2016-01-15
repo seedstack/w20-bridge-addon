@@ -19,10 +19,6 @@
 
     <artifactId>w20-bridge-specs</artifactId>
 
-    <properties>
-        <compatibility.artifactId>w20-function-specs</compatibility.artifactId>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.seedstack.seed</groupId>
