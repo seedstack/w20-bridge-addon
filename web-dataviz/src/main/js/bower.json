@@ -1,6 +1,6 @@
 {
   "name": "w20-bridge-web",
   "devDependencies": {
-    "w20-dataviz": "^2.0"
+    "w20-dataviz": "^2.2"
   }
 }
