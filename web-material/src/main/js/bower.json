@@ -1,6 +1,6 @@
 {
   "name": "w20-bridge-web-material",
   "devDependencies": {
-    "w20-material": "~2.2.0"
+    "w20-material": "2.1.3"
   }
 }

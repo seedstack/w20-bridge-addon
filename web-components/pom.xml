@@ -77,7 +77,8 @@
                                         <include name="**/w20-components/**" />
                                         <include name="**/angular-ui-grid/**" />
                                         <include name="**/angular-ui-select/**" />
-                                        <include name="**/angular-mocks/**" />
+                                        <include name="**/angular-formly/**" />
+                                        <include name="**/api-check/**" />
                                     </fileset>
                                 </copy>
                             </target>
