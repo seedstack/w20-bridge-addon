@@ -1,6 +1,6 @@
 {
-  "name": "w20-bridge-web",
+  "name": "w20-bridge-web-components",
   "devDependencies": {
-    "w20-components": "^2.2"
+    "w20-components": "~2.2.0"
   }
 }
