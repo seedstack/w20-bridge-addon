@@ -28,6 +28,8 @@
         <grunt-maven-plugin.version>1.5.0</grunt-maven-plugin.version>
 
         <compatibility.version>2.1.0</compatibility.version>
+
+        <bintray.package>w20-bridge-addon</bintray.package>
     </properties>
 
     <modules>
