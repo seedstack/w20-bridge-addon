@@ -130,7 +130,7 @@
                     <releases>
                         <enabled>true</enabled>
                     </releases>
-                    <id>bintray-seedstack-jars</id>
+                    <id>bintray</id>
                     <name>bintray</name>
                     <url>http://dl.bintray.com/seedstack/jars</url>
                 </repository>

@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -80,7 +81,7 @@ public class W20Plugin extends AbstractPlugin {
         masterPageEnabled = !w20Configuration.getBoolean("disable-masterpage", false);
         if (masterPageEnabled) {
             if (restPlugin.getConfiguration().getRestPath().isEmpty()) {
-                restPlugin.addRootResourceVariant(new Variant(MediaType.TEXT_HTML_TYPE, null, null), MasterpageRootResource.class);
+                restPlugin.addRootResourceVariant(new Variant(MediaType.TEXT_HTML_TYPE, (Locale)null, null), MasterpageRootResource.class);
             } else {
                 masterPageAsServlet = true;
             }
