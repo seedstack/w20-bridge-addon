@@ -1,4 +1,8 @@
-# Version 2.1.2 (2015-01-21)
+# Version 2.2.1 (2016-02-08)
+
+* [chg] Update `w20` to [2.2.1](https://github.com/seedstack/w20/releases/tag/v2.2.1)
+
+# Version 2.2.0 (2016-01-21)
 
 * [fix] Fixed Guice error when disabling masterpage.
 * [new] For ease of use, `w20-bridge-web` jar also packages the following bower dependencies in addition to W20: `angular-aria`, `angular-animate`, `angular-cookies`, `angular-messages`, `angular-mocks`, `angular-touch`
