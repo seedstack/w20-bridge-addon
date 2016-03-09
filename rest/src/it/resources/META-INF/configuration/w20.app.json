@@ -5,5 +5,17 @@
         "templateUrl": "non-existent-template.html"
       }
     }
+  },
+  "optional-fragment": {
+    "optional": true
+  },
+  "optional-external-fragment.w20.json": {
+    "optional": true
+  },
+  "ignored-fragment": {
+    "ignore": true
+  },
+  "ignored-external-fragment.w20.json": {
+    "ignore": true
   }
 }

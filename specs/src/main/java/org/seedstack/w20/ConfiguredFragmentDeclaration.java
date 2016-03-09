@@ -15,6 +15,8 @@ import java.util.Map;
  * @author adrien.lauer@mpsa.com
  */
 public class ConfiguredFragmentDeclaration implements FragmentDeclaration {
+    private Boolean optional;
+    private Boolean ignore;
     private Boolean preload;
     private String name;
     private Map<String, ConfiguredModule> modules;
@@ -124,5 +126,41 @@ public class ConfiguredFragmentDeclaration implements FragmentDeclaration {
      */
     public void setManifestLocation(String manifestLocation) {
         this.manifestLocation = manifestLocation;
+    }
+
+    /**
+     * Gets the fragment optional status.
+     *
+     * @return true if the fragment is optional, false otherwise.
+     */
+    public Boolean isOptional() {
+        return optional;
+    }
+
+    /**
+     * Sets the fragment optional status.
+     *
+     * @param optional true to set the fragment as optional, false otherwise.
+     */
+    public void setOptional(Boolean optional) {
+        this.optional = optional;
+    }
+
+    /**
+     * Gets the fragment ignore status.
+     *
+     * @return true if the fragment should be ignored, false otherwise.
+     */
+    public Boolean isIgnore() {
+        return ignore;
+    }
+
+    /**
+     * Sets the fragment ignore status.
+     *
+     * @param ignore true to set the fragment as ignored, false otherwise.
+     */
+    public void setIgnore(Boolean ignore) {
+        this.ignore = ignore;
     }
 }

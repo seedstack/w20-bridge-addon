@@ -48,6 +48,10 @@ class FragmentManagerImpl implements FragmentManager {
         for (Map.Entry<String, AvailableFragment> availableFragmentEntry : availableFragments.entrySet()) {
             ConfiguredFragmentDeclaration configuredFragment = getFragment(availableFragmentEntry.getKey());
 
+            if (Boolean.TRUE.equals(configuredFragment.isIgnore())) {
+                continue;
+            }
+
             // Allow FragmentConfigurationHandlers to override module configuration
             if (availableFragmentEntry.getValue().getFragmentDefinition().getModules() != null) {
                 for (Map.Entry<String, Module> availableModule : availableFragmentEntry.getValue().getFragmentDefinition().getModules().entrySet()) {
@@ -182,6 +186,8 @@ class FragmentManagerImpl implements FragmentManager {
             ConfiguredFragmentDeclaration explicitConfiguredFragment = configuredApplication.getConfiguredFragments().get(fragmentName);
 
             configuredFragment.setPreload(explicitConfiguredFragment.isPreload());
+            configuredFragment.setOptional(explicitConfiguredFragment.isOptional());
+            configuredFragment.setIgnore(explicitConfiguredFragment.isIgnore());
 
             if (explicitConfiguredFragment.getModules() != null) {
                 for (Map.Entry<String, ConfiguredModule> explicitConfiguredModuleEntry : explicitConfiguredFragment.getModules().entrySet()) {

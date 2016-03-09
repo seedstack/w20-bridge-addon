@@ -1,3 +1,7 @@
+# Version 2.3.0 (?)
+
+* [new] Add support for the `optional` and `ignore` attributes on fragment configuration.
+
 # Version 2.2.2 (2016-02-15)
 
 * [chg] Update `w20` to [2.2.2](https://github.com/seedstack/w20/releases/tag/v2.2.2)

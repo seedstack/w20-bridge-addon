@@ -5,9 +5,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.seedstack.w20;
+package org.seedstack.w20.internal;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -16,9 +17,12 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.mockito.internal.matchers.StartsWith;
 import org.seedstack.seed.it.AbstractSeedWebIT;
+import org.seedstack.w20.ConfiguredFragmentDeclaration;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.net.URL;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -83,5 +87,29 @@ public class W20BridgeIT extends AbstractSeedWebIT {
         assertThat(response).contains("\"seed-base-path-slash\":\"" + prefix + "/\"");
         assertThat(response).contains("\"seed-rest-path\":\"" + prefix + "\"");
         assertThat(response).contains("\"seed-rest-path-slash\":\"" + prefix + "/\"");
+
+    }
+
+    @Test
+    @RunAsClient
+    public void fragment_ignore(@ArquillianResource URL baseUrl) throws IOException {
+        String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "seed-w20/application/configuration").getBody().asString();
+        assertThat(getFragment(response, baseUrl.getPath() + "seed-w20/seed-w20.w20.json").isIgnore()).isFalse();
+        assertThat(getFragment(response, baseUrl.getPath() + "ignored-fragment.w20.json")).isNull();
+        assertThat(getFragment(response, "ignored-external-fragment.w20.json").isIgnore()).isTrue();
+    }
+
+    @Test
+    @RunAsClient
+    public void fragment_optional(@ArquillianResource URL baseUrl) throws IOException {
+        String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "seed-w20/application/configuration").getBody().asString();
+        assertThat(getFragment(response, baseUrl.getPath() + "seed-w20/seed-w20.w20.json").isOptional()).isFalse();
+        assertThat(getFragment(response, baseUrl.getPath() + "optional-fragment.w20.json").isOptional()).isTrue();
+        assertThat(getFragment(response, "optional-external-fragment.w20.json").isOptional()).isTrue();
+    }
+
+    private ConfiguredFragmentDeclaration getFragment(String response, String key) throws IOException {
+        ConfiguredApplication configuredApplication = new ObjectMapper().readValue(response, ConfiguredApplication.class);
+        return configuredApplication.getConfiguredFragments().get(key);
     }
 }
