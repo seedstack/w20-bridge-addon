@@ -17,6 +17,8 @@ import java.util.Map;
  */
 public class ConfiguredFragmentRepresentation {
     private boolean preload;
+    private boolean optional;
+    private boolean ignore;
     private Map<String, Object> modules = new HashMap<String, Object>();
     private Map<String, String> vars = new HashMap<String, String>();
 
@@ -34,6 +36,36 @@ public class ConfiguredFragmentRepresentation {
      */
     public void setPreload(boolean preload) {
         this.preload = preload;
+    }
+
+    /**
+     * @return true if the fragment is optional, false otherwise.
+     */
+    public boolean isOptional() {
+        return optional;
+    }
+
+    /**
+     * Sets if the fragment is optional.
+     * @param optional true if the fragment is optional, false otherwise.
+     */
+    public void setOptional(boolean optional) {
+        this.optional = optional;
+    }
+
+    /**
+     * @return true if the fragment should be ignored, false otherwise.
+     */
+    public boolean isIgnore() {
+        return ignore;
+    }
+
+    /**
+     * Sets if the fragment should be ignored.
+     * @param ignore true if the fragment should be ignored, false otherwise.
+     */
+    public void setIgnore(boolean ignore) {
+        this.ignore = ignore;
     }
 
     /**

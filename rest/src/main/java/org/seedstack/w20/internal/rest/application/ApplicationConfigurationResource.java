@@ -60,7 +60,9 @@ public class ApplicationConfigurationResource {
                 ConfiguredFragmentDeclaration configuredFragment = (ConfiguredFragmentDeclaration) declaredFragment;
                 ConfiguredFragmentRepresentation value = new ConfiguredFragmentRepresentation();
 
-                value.setPreload(configuredFragment.isPreload() == null ? true : configuredFragment.isPreload());
+                value.setPreload(configuredFragment.isPreload() == null ? false : configuredFragment.isPreload());
+                value.setIgnore(configuredFragment.isIgnore() == null ? false : configuredFragment.isIgnore());
+                value.setOptional(configuredFragment.isOptional() == null ? false : configuredFragment.isOptional());
 
                 Map<String, Object> modules = new HashMap<String, Object>();
                 for (ConfiguredModule configuredModule : configuredFragment.getModules().values()) {
