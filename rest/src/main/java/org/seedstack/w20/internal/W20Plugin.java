@@ -18,6 +18,7 @@ import io.nuun.kernel.api.plugin.context.InitContext;
 import io.nuun.kernel.api.plugin.request.ClasspathScanRequest;
 import io.nuun.kernel.core.AbstractPlugin;
 import org.apache.commons.configuration.Configuration;
+import org.seedstack.seed.SeedRuntime;
 import org.seedstack.seed.core.internal.application.ApplicationPlugin;
 import org.seedstack.seed.rest.internal.RestPlugin;
 import org.seedstack.w20.internal.rest.MasterpageRootResource;
@@ -81,7 +82,7 @@ public class W20Plugin extends AbstractPlugin {
         masterPageEnabled = !w20Configuration.getBoolean("disable-masterpage", false);
         if (masterPageEnabled) {
             if (restPlugin.getConfiguration().getRestPath().isEmpty()) {
-                restPlugin.addRootResourceVariant(new Variant(MediaType.TEXT_HTML_TYPE, (Locale)null, null), MasterpageRootResource.class);
+                restPlugin.addRootResourceVariant(new Variant(MediaType.TEXT_HTML_TYPE, (Locale) null, null), MasterpageRootResource.class);
             } else {
                 masterPageAsServlet = true;
             }
@@ -140,9 +141,7 @@ public class W20Plugin extends AbstractPlugin {
 
     @Override
     public void provideContainerContext(Object containerContext) {
-        if (containerContext != null && ServletContext.class.isAssignableFrom(containerContext.getClass())) {
-            this.servletContext = (ServletContext) containerContext;
-        }
+        servletContext = ((SeedRuntime) containerContext).contextAs(ServletContext.class);
     }
 
     @Override

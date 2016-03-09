@@ -24,7 +24,7 @@
 
     <properties>
         <poms.version>2.3.0</poms.version>
-        <seed.version>2.2.0</seed.version>
+        <seed.version>2.3.0-SNAPSHOT</seed.version>
         <grunt-maven-plugin.version>1.5.0</grunt-maven-plugin.version>
 
         <compatibility.version>2.1.0</compatibility.version>
