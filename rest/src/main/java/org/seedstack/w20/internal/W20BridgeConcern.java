@@ -7,11 +7,12 @@
  */
 package org.seedstack.w20.internal;
 
+import io.nuun.kernel.spi.Concern;
 
-import org.seedstack.seed.ErrorCode;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-enum W20ErrorCode implements ErrorCode {
-    UNABLE_TO_GENERATE_MASTERPAGE,
-    FRAGMENT_NOT_AVAILABLE_IN_APPLICATION,
-    MISSING_REST_PREFIX_FOR_HTML5_MODE, MODULE_DOES_NOT_EXIST_IN_FRAGMENT
+@Retention(RetentionPolicy.RUNTIME)
+@Concern(name = "w20-bridge", priority = Concern.Priority.NORMAL, order = -20000)
+@interface W20BridgeConcern {
 }

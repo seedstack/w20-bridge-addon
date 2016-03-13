@@ -1,5 +1,6 @@
 # Version 2.3.0 (?)
 
+* [new] Add support for HTML5 mode (pretty urls) and enable it by default.
 * [new] Add support for the `optional` and `ignore` attributes on fragment configuration.
 
 # Version 2.2.2 (2016-02-15)

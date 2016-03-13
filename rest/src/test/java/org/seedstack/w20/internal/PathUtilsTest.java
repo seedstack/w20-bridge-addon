@@ -31,6 +31,15 @@ public class PathUtilsTest {
     }
 
     @Test
+    public void testEnsureLeadingSlash() throws Exception {
+        assertThat(PathUtils.ensureLeadingSlash("")).isEqualTo("/");
+        assertThat(PathUtils.ensureLeadingSlash("/")).isEqualTo("/");
+        assertThat(PathUtils.ensureLeadingSlash("/path/")).isEqualTo("/path/");
+        assertThat(PathUtils.ensureLeadingSlash("path/")).isEqualTo("/path/");
+        assertThat(PathUtils.ensureLeadingSlash("path")).isEqualTo("/path");
+    }
+
+    @Test
     public void testBuildPath() throws Exception {
         assertThat(PathUtils.buildPath("", "")).isEqualTo("");
         assertThat(PathUtils.buildPath("/", "")).isEqualTo("/");
