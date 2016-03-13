@@ -8,9 +8,9 @@
 package org.seedstack.w20.internal;
 
 
-import org.seedstack.w20.spi.FragmentConfigurationHandler;
 import org.seedstack.seed.Application;
 import org.seedstack.seed.Configuration;
+import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -20,6 +20,9 @@ class CoreConfigurationHandler implements FragmentConfigurationHandler {
 
     @Configuration(value = "org.seedstack.w20.environment", mandatory = false)
     private String environment;
+
+    @Configuration(value = "org.seedstack.w20.pretty-urls", mandatory = false, defaultValue = "true")
+    private boolean prettyUrls;
 
     @Inject
     CoreConfigurationHandler(Application application) {
@@ -55,6 +58,7 @@ class CoreConfigurationHandler implements FragmentConfigurationHandler {
         if ("w20-core".equals(fragmentName)) {
             if ("application".equals(moduleName)) {
                 sourceConfiguration.put("id", application.getId());
+                sourceConfiguration.put("prettyUrls", prettyUrls);
             }
 
             if ("env".equals(moduleName)) {

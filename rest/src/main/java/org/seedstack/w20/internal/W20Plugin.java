@@ -9,9 +9,6 @@ package org.seedstack.w20.internal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import com.google.inject.AbstractModule;
-import com.google.inject.Scopes;
-import com.google.inject.servlet.ServletModule;
 import io.nuun.kernel.api.plugin.InitState;
 import io.nuun.kernel.api.plugin.PluginException;
 import io.nuun.kernel.api.plugin.context.InitContext;
@@ -30,12 +27,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Variant;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This plugin handles W20 fragment scanning.
@@ -52,10 +44,9 @@ public class W20Plugin extends AbstractPlugin {
     private final Set<Class<? extends FragmentConfigurationHandler>> fragmentConfigurationHandlerClasses = new HashSet<Class<? extends FragmentConfigurationHandler>>();
     private final ClassLoader classLoader = W20Plugin.class.getClassLoader();
 
-    private ConfiguredApplication configuredApplication = null;
-    private ServletContext servletContext = null;
-    private boolean masterPageEnabled = false;
-    private boolean masterPageAsServlet = false;
+    private ConfiguredApplication configuredApplication;
+    private ServletContext servletContext;
+    private W20Module w20Module;
 
     @Override
     public String name() {
@@ -75,13 +66,14 @@ public class W20Plugin extends AbstractPlugin {
         }
 
         ApplicationPlugin applicationPlugin = initContext.dependency(ApplicationPlugin.class);
-        RestPlugin restPlugin = initContext.dependency(RestPlugin.class);
+        final RestPlugin restPlugin = initContext.dependency(RestPlugin.class);
+        final String restPath = restPlugin.getConfiguration().getRestPath();
 
         Configuration w20Configuration = applicationPlugin.getApplication().getConfiguration().subset(W20Plugin.W20_PLUGIN_CONFIGURATION_PREFIX);
 
-        masterPageEnabled = !w20Configuration.getBoolean("disable-masterpage", false);
-        if (masterPageEnabled) {
-            if (restPlugin.getConfiguration().getRestPath().isEmpty()) {
+        boolean masterPageAsServlet = false;
+        if (!w20Configuration.getBoolean("disable-masterpage", false)) {
+            if (restPath.isEmpty()) {
                 restPlugin.addRootResourceVariant(new Variant(MediaType.TEXT_HTML_TYPE, (Locale) null, null), MasterpageRootResource.class);
             } else {
                 masterPageAsServlet = true;
@@ -117,21 +109,36 @@ public class W20Plugin extends AbstractPlugin {
 
         Map<Class<?>, Collection<Class<?>>> scannedClassesByParentClass = initContext.scannedSubTypesByParentClass();
 
-        Collection<Class<?>> fragmentConfigurationHandlerClasses = scannedClassesByParentClass.get(FragmentConfigurationHandler.class);
-        if (fragmentConfigurationHandlerClasses != null) {
-            for (Class<?> candidate : fragmentConfigurationHandlerClasses) {
+        Collection<Class<?>> fragmentConfigurationHandlerCandidateClasses = scannedClassesByParentClass.get(FragmentConfigurationHandler.class);
+        if (fragmentConfigurationHandlerCandidateClasses != null) {
+            for (Class<?> candidate : fragmentConfigurationHandlerCandidateClasses) {
                 if (FragmentConfigurationHandler.class.isAssignableFrom(candidate)) {
                     this.fragmentConfigurationHandlerClasses.add(candidate.asSubclass(FragmentConfigurationHandler.class));
                 }
             }
         }
 
+        boolean prettyUrls = w20Configuration.getBoolean("pretty-urls", true);
+        logger.debug("Pretty URLs are " + (prettyUrls ? "enabled" : "disabled"));
+
+        w20Module = new W20Module(
+                w20Fragments,
+                fragmentConfigurationHandlerClasses,
+                configuredApplication,
+                masterPageAsServlet,
+                prettyUrls
+        );
+
         return InitState.INITIALIZED;
     }
 
     @Override
     public Collection<ClasspathScanRequest> classpathScanRequests() {
-        return classpathScanRequestBuilder().subtypeOf(FragmentConfigurationHandler.class).resourcesRegex(FRAGMENTS_REGEX).resourcesRegex(APP_CONF_REGEX).build();
+        return classpathScanRequestBuilder()
+                .subtypeOf(FragmentConfigurationHandler.class)
+                .resourcesRegex(FRAGMENTS_REGEX)
+                .resourcesRegex(APP_CONF_REGEX)
+                .build();
     }
 
     @Override
@@ -146,25 +153,6 @@ public class W20Plugin extends AbstractPlugin {
 
     @Override
     public Object nativeUnitModule() {
-        return new AbstractModule() {
-            @Override
-            protected void configure() {
-                install(new W20Module(w20Fragments, fragmentConfigurationHandlerClasses, configuredApplication));
-
-                if (servletContext != null) {
-                    install(new ServletModule() {
-                        @Override
-                        protected void configureServlets() {
-                            bind(MasterPageBuilder.class);
-
-                            if (masterPageEnabled && masterPageAsServlet) {
-                                bind(MasterpageServlet.class).in(Scopes.SINGLETON);
-                                serve("/").with(MasterpageServlet.class);
-                            }
-                        }
-                    });
-                }
-            }
-        };
+        return w20Module;
     }
 }

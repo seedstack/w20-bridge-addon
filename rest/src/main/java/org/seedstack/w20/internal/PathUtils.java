@@ -32,7 +32,7 @@ public final class PathUtils {
     }
 
     /**
-     * Add a trailing slash to the specified path if missing. Warning, a slash will be append to the path even if it
+     * Add a trailing slash to the specified path if missing. Warning, a slash will be appended to the path even if it
      * is empty, making it a root absolute path.
      *
      * @param path the path to modify.
@@ -41,6 +41,21 @@ public final class PathUtils {
     public static String ensureTrailingSlash(String path) {
         if (!path.endsWith("/")) {
             return path + "/";
+        } else {
+            return path;
+        }
+    }
+
+    /**
+     * Add a leading slash to the specified path if missing. Warning, a slash will be prepended to the path even if it
+     * is empty, making it a root absolute path.
+     *
+     * @param path the path to modify.
+     * @return the altered path.
+     */
+    public static String ensureLeadingSlash(String path) {
+        if (!path.startsWith("/")) {
+            return "/" + path;
         } else {
             return path;
         }

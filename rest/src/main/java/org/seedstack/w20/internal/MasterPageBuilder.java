@@ -50,6 +50,9 @@ public class MasterPageBuilder {
     @Configuration(value = "org.seedstack.w20.components-path", mandatory = false)
     private String configuredComponentsPath;
 
+    @Configuration(value = "org.seedstack.w20.pretty-urls", mandatory = false, defaultValue = "true")
+    private boolean prettyUrls;
+
     @Inject
     private Application application;
 
@@ -81,6 +84,7 @@ public class MasterPageBuilder {
         variables.put("restPathSlash", PathUtils.ensureTrailingSlash(getRestPath(contextPath)));
         variables.put("componentsPath", PathUtils.removeTrailingSlash(getComponentsPath(contextPath)));
         variables.put("componentsPathSlash", PathUtils.ensureTrailingSlash(getComponentsPath(contextPath)));
+        variables.put("prettyUrls", prettyUrls);
 
         return replaceTokens(template, variables);
 
@@ -110,7 +114,6 @@ public class MasterPageBuilder {
      * @return the replaced text.
      */
     private String replaceTokens(String text, Map<String, Object> replacements) {
-        // TODO use a better solution for templating
         Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
         Matcher matcher = pattern.matcher(text);
         StringBuffer buffer = new StringBuffer();
