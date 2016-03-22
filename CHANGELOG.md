@@ -2,6 +2,15 @@
 
 * [new] Add support for HTML5 mode (pretty urls) and enable it by default.
 * [new] Add support for the `optional` and `ignore` attributes on fragment configuration.
+* [nfo] w20: [2.3.0](https://github.com/seedstack/w20/releases/tag/v2.3.0)
+* [nfo] w20-bootstrap-2: 2.1.2
+* [nfo] w20-bootstrap-3: 2.1.2
+* [nfo] w20-business-theme: 1.1.3
+* [nfo] w20-components: 2.2.0
+* [nfo] w20-dataviz: 2.1.1
+* [nfo] w20-extras: 2.1.1
+* [nfo] w20-material: [2.3.0](https://github.com/seedstack/w20/releases/tag/v2.3.0)
+* [nfo] w20-simple-theme: 3.1.1
 
 # Version 2.2.2 (2016-02-15)
 

@@ -76,6 +76,7 @@
                                     <fileset dir="${project.build.directory}/grunt/bower_components">
                                         <include name="**/w20-extras/**" />
                                         <include name="**/angulartics/**" />
+                                        <include name="**/showdown/**" />
                                         <include name="**/SHA-1/**" />
                                     </fileset>
                                 </copy>

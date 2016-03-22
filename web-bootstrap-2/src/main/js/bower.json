@@ -2,5 +2,8 @@
   "name": "w20-bridge-web-bootstrap-2",
   "devDependencies": {
     "w20-bootstrap-2": "2.1.2"
+  },
+  "resolutions": {
+    "w20": "#master"
   }
 }

@@ -2,5 +2,9 @@
   "name": "w20-bridge-web-business-theme",
   "devDependencies": {
     "w20-business-theme": "1.1.3"
+  },
+  "resolutions": {
+    "w20": "#master",
+    "w20-bootstrap-3": "#master"
   }
 }
