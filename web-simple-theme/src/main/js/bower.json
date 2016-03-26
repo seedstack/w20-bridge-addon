@@ -1,10 +1,6 @@
 {
   "name": "w20-bridge-web-simple-theme",
   "devDependencies": {
-    "w20-simple-theme": "3.1.1"
-  },
-  "resolutions": {
-    "w20": "#master",
-    "w20-bootstrap-3": "#master"
+    "w20-simple-theme": "#master"
   }
 }
