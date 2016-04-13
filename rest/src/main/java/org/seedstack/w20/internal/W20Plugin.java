@@ -18,6 +18,10 @@ import org.apache.commons.configuration.Configuration;
 import org.seedstack.seed.SeedRuntime;
 import org.seedstack.seed.core.internal.application.ApplicationPlugin;
 import org.seedstack.seed.rest.internal.RestPlugin;
+import org.seedstack.seed.web.spi.FilterDefinition;
+import org.seedstack.seed.web.spi.ListenerDefinition;
+import org.seedstack.seed.web.spi.ServletDefinition;
+import org.seedstack.seed.web.spi.WebProvider;
 import org.seedstack.w20.internal.rest.MasterpageRootResource;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 import org.slf4j.Logger;
@@ -27,14 +31,20 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Variant;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This plugin handles W20 fragment scanning.
  *
  * @author adrien.lauer@mpsa.com
  */
-public class W20Plugin extends AbstractPlugin {
+public class W20Plugin extends AbstractPlugin implements WebProvider {
     public static final String W20_PLUGIN_CONFIGURATION_PREFIX = "org.seedstack.w20";
     public static final String APP_CONF_REGEX = "w20\\.app\\.json";
     public static final String FRAGMENTS_REGEX = ".*\\.w20\\.json";
@@ -47,6 +57,8 @@ public class W20Plugin extends AbstractPlugin {
     private ConfiguredApplication configuredApplication;
     private ServletContext servletContext;
     private W20Module w20Module;
+    private boolean masterPageAsServlet;
+    private boolean prettyUrls;
 
     @Override
     public String name() {
@@ -71,7 +83,6 @@ public class W20Plugin extends AbstractPlugin {
 
         Configuration w20Configuration = applicationPlugin.getApplication().getConfiguration().subset(W20Plugin.W20_PLUGIN_CONFIGURATION_PREFIX);
 
-        boolean masterPageAsServlet = false;
         if (!w20Configuration.getBoolean("disable-masterpage", false)) {
             if (restPath.isEmpty()) {
                 restPlugin.addRootResourceVariant(new Variant(MediaType.TEXT_HTML_TYPE, (Locale) null, null), MasterpageRootResource.class);
@@ -118,7 +129,7 @@ public class W20Plugin extends AbstractPlugin {
             }
         }
 
-        boolean prettyUrls = w20Configuration.getBoolean("pretty-urls", true);
+        prettyUrls = w20Configuration.getBoolean("pretty-urls", true);
         logger.debug("Pretty URLs are " + (prettyUrls ? "enabled" : "disabled"));
 
         w20Module = new W20Module(
@@ -154,5 +165,34 @@ public class W20Plugin extends AbstractPlugin {
     @Override
     public Object nativeUnitModule() {
         return w20Module;
+    }
+
+    @Override
+    public List<ServletDefinition> servlets() {
+        if (masterPageAsServlet) {
+            ServletDefinition servletDefinition = new ServletDefinition("w20-masterpage", MasterpageServlet.class);
+            servletDefinition.addMappings("/");
+            return Lists.newArrayList(servletDefinition);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<FilterDefinition> filters() {
+        if (prettyUrls) {
+            FilterDefinition html5RedirectFilter = new FilterDefinition("w20-html5-redirect", Html5RewriteFilter.class);
+            html5RedirectFilter.setPriority(-2000);
+            html5RedirectFilter.addMappings(new FilterDefinition.Mapping("/*"));
+            html5RedirectFilter.setAsyncSupported(true);
+            return Lists.newArrayList(html5RedirectFilter);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<ListenerDefinition> listeners() {
+        return null;
     }
 }

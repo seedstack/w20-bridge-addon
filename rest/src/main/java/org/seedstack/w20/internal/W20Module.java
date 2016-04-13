@@ -11,7 +11,6 @@ import com.google.inject.PrivateModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
-import com.google.inject.servlet.ServletModule;
 import com.google.inject.util.Providers;
 import org.seedstack.w20.FragmentManager;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
@@ -19,8 +18,7 @@ import org.seedstack.w20.spi.FragmentConfigurationHandler;
 import java.util.Map;
 import java.util.Set;
 
-@W20BridgeConcern
-class W20Module extends ServletModule {
+class W20Module extends PrivateModule {
     private final Map<String, AvailableFragment> w20Fragments;
     private final Set<Class<? extends FragmentConfigurationHandler>> moduleConfigurationHandlerClasses;
     private final ConfiguredApplication configuredApplication;
@@ -36,40 +34,35 @@ class W20Module extends ServletModule {
     }
 
     @Override
-    protected void configureServlets() {
-        install(new PrivateModule() {
-            @Override
-            protected void configure() {
-                Multibinder<FragmentConfigurationHandler> multiBinder = Multibinder.newSetBinder(binder(), FragmentConfigurationHandler.class);
-                for (Class<? extends FragmentConfigurationHandler> moduleConfigurationHandlerClass : moduleConfigurationHandlerClasses) {
-                    multiBinder.addBinding().to(moduleConfigurationHandlerClass);
-                }
+    protected void configure() {
+        Multibinder<FragmentConfigurationHandler> multiBinder = Multibinder.newSetBinder(binder(), FragmentConfigurationHandler.class);
+        for (Class<? extends FragmentConfigurationHandler> moduleConfigurationHandlerClass : moduleConfigurationHandlerClasses) {
+            multiBinder.addBinding().to(moduleConfigurationHandlerClass);
+        }
 
-                bind(new TypeLiteral<Map<String, AvailableFragment>>() {
-                }).toInstance(W20Module.this.w20Fragments);
+        bind(new TypeLiteral<Map<String, AvailableFragment>>() {
+        }).toInstance(W20Module.this.w20Fragments);
 
-                bind(FragmentManager.class).to(FragmentManagerImpl.class);
+        if (W20Module.this.configuredApplication != null) {
+            bind(ConfiguredApplication.class).toInstance(W20Module.this.configuredApplication);
+        } else {
+            bind(ConfiguredApplication.class).toProvider(Providers.<ConfiguredApplication>of(null));
+        }
 
-                if (W20Module.this.configuredApplication != null) {
-                    bind(ConfiguredApplication.class).toInstance(W20Module.this.configuredApplication);
-                } else {
-                    bind(ConfiguredApplication.class).toProvider(Providers.<ConfiguredApplication>of(null));
-                }
-
-                expose(FragmentManager.class);
-            }
-        });
+        bind(FragmentManager.class).to(FragmentManagerImpl.class);
+        expose(FragmentManager.class);
 
         bind(MasterPageBuilder.class);
-
-        if (prettyUrls) {
-            bind(Html5RewriteFilter.class).in(Scopes.SINGLETON);
-            filter("/*").through(Html5RewriteFilter.class);
-        }
+        expose(MasterPageBuilder.class);
 
         if (masterPageServlet) {
             bind(MasterpageServlet.class).in(Scopes.SINGLETON);
-            serve("/").with(MasterpageServlet.class);
+            expose(MasterpageServlet.class);
+        }
+
+        if (prettyUrls) {
+            bind(Html5RewriteFilter.class).in(Scopes.SINGLETON);
+            expose(Html5RewriteFilter.class);
         }
     }
 }
