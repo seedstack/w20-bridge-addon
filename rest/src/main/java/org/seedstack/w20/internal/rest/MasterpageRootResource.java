@@ -7,12 +7,11 @@
  */
 package org.seedstack.w20.internal.rest;
 
-import com.google.inject.Inject;
 import org.seedstack.seed.rest.spi.RootResource;
 import org.seedstack.w20.internal.MasterPageBuilder;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -23,16 +22,6 @@ public class MasterpageRootResource implements RootResource {
 
     @Override
     public Response buildResponse(HttpServletRequest httpServletRequest, UriInfo uriInfo) {
-        if (!httpServletRequest.getRequestURI().endsWith("/")) {
-            String queryString = httpServletRequest.getQueryString();
-
-            if (queryString != null) {
-                return Response.status(302).header(HttpHeaders.LOCATION, httpServletRequest.getRequestURI() + "/" + queryString).build();
-            } else {
-                return Response.status(302).header(HttpHeaders.LOCATION, httpServletRequest.getRequestURI() + "/").build();
-            }
-        } else {
-            return Response.ok(masterPageBuilder.build(httpServletRequest)).type(MediaType.TEXT_HTML_TYPE).build();
-        }
+        return Response.ok(masterPageBuilder.build(httpServletRequest)).type(MediaType.TEXT_HTML_TYPE).build();
     }
 }

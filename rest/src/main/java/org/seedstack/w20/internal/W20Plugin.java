@@ -85,8 +85,10 @@ public class W20Plugin extends AbstractPlugin implements WebProvider {
 
         if (!w20Configuration.getBoolean("disable-masterpage", false)) {
             if (restPath.isEmpty()) {
+                logger.debug("Serving W20 masterpage with a JAX-RS resource");
                 restPlugin.addRootResourceVariant(new Variant(MediaType.TEXT_HTML_TYPE, (Locale) null, null), MasterpageRootResource.class);
             } else {
+                logger.debug("Serving W20 masterpage with a servlet");
                 masterPageAsServlet = true;
             }
         }

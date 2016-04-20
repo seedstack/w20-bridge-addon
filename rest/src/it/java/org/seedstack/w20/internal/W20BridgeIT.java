@@ -36,22 +36,7 @@ public class W20BridgeIT extends AbstractSeedWebIT {
 
     @Test
     @RunAsClient
-    public void masterpage_is_served_without_trailing_slash(@ArquillianResource URL baseUrl) {
-        String url = baseUrl.toString();
-        url = url.substring(0, url.length() - 1);
-        given()
-                .auth().basic("ThePoltergeist", "bouh")
-                .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
-                .expect()
-                .statusCode(200)
-                .header(HttpHeaders.CONTENT_TYPE, new StartsWith(MediaType.TEXT_HTML))
-                .when()
-                .get(url);
-    }
-
-    @Test
-    @RunAsClient
-    public void masterpage_is_served_with_trailing_slash(@ArquillianResource URL baseUrl) {
+    public void masterpage_is_correctly_served(@ArquillianResource URL baseUrl) {
         given()
                 .auth().basic("ThePoltergeist", "bouh")
                 .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
