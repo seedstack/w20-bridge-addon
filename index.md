@@ -2,9 +2,9 @@
 title: "Basics"
 name: "W20 bridge"
 repo: "https://github.com/seedstack/w20-bridge-addon"
-author: "SeedStack"
+date: 2016-02-15
+author: Adrien LAUER
 description: "Acts as an extensible integration bridge between SeedStack Java and Web frameworks."
-min-version: "15.11+"
 backend: true
 weight: -1
 tags:
