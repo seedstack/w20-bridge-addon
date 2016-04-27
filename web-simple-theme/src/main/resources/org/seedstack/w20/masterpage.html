@@ -1,0 +1,29 @@
+<!--
+
+    Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+-->
+<!doctype html>
+<html data-w20-app="${restPathSlash}seed-w20/application/configuration" data-w20-app-version="${applicationVersion}" data-w20-timeout="${timeout}" data-w20-cors-with-credentials="${corsWithCredentials}">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>${applicationTitle}</title>
+    <script type="text/javascript" data-main="${componentsPathSlash}w20/modules/w20.js?__v=${applicationVersion}" src="${componentsPathSlash}requirejs/require.js?__v=${applicationVersion}"></script>
+    <base href="${basePathSlash}">
+</head>
+<body>
+<div id="w20-loading-cloak">
+    <div class="w20-loading-indicator"></div>
+</div>
+<div data-w20-topbar data-title="'${applicationTitle}'" data-subtitle="'${applicationSubtitle}'"></div>
+<div data-w20-sidebar></div>
+<div id="w20-view" class="w20-content" data-ng-view></div>
+<div data-w20-error-report></div>
+</body>
+</html>

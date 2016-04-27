@@ -59,6 +59,9 @@ public class MasterPageBuilder {
     public String build(HttpServletRequest httpServletRequest) {
         URL masterpageURL = SeedReflectionUtils.findMostCompleteClassLoader().getResource(masterpagePath);
         if (masterpageURL == null) {
+            masterpageURL = SeedReflectionUtils.findMostCompleteClassLoader().getResource("org/seedstack/w20/masterpage-fallback.html");
+        }
+        if (masterpageURL == null) {
             throw new RuntimeException("Unable to generate W20 masterpage, template not found");
         }
 

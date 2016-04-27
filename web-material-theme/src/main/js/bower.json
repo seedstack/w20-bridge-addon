@@ -1,7 +1,7 @@
 {
   "name": "w20-bridge-web-business-theme",
   "devDependencies": {
-    "w20-business-theme": "1.2.0",
+    "w20-material-theme": "1.0.0",
     "w20": "2.3.0"
   }
 }

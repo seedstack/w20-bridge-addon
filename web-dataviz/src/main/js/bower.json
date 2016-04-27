@@ -1,6 +1,7 @@
 {
   "name": "w20-bridge-web-dataviz",
   "devDependencies": {
-    "w20-dataviz": "#master"
+    "w20-dataviz": "2.2.0",
+    "w20": "2.3.0"
   }
 }

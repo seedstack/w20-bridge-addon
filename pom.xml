@@ -44,6 +44,7 @@
         <module>web-bootstrap-3</module>
         <module>web-simple-theme</module>
         <module>web-business-theme</module>
+        <module>web-material-theme</module>
     </modules>
 
     <build>
