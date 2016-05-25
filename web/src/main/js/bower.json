@@ -1,7 +1,7 @@
 {
   "name": "w20-bridge-web",
   "devDependencies": {
-    "w20": "2.3.0",
+    "w20": "2.3.1",
     "angular-aria": "1.4.10",
     "angular-animate": "1.4.10",
     "angular-cookies": "1.4.10",

@@ -2,6 +2,6 @@
   "name": "w20-bridge-web-extras",
   "devDependencies": {
     "w20-extras": "2.2.0",
-    "w20": "2.3.0"
+    "w20": "2.3.1"
   }
 }

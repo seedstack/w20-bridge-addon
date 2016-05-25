@@ -1,3 +1,7 @@
+# Version 2.3.0 (2016-05-25)
+
+* [nfo] w20: [2.3.1](https://github.com/seedstack/w20/releases/tag/v2.3.1)
+
 # Version 2.3.0 (2016-04-26)
 
 * [new] Add support for HTML5 mode (pretty urls) and enable it by default.
