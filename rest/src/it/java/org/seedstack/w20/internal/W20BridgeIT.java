@@ -49,6 +49,19 @@ public class W20BridgeIT extends AbstractSeedWebIT {
 
     @Test
     @RunAsClient
+    public void redirection_to_masterpage_is_working(@ArquillianResource URL baseUrl) {
+        given()
+                .auth().basic("ThePoltergeist", "bouh")
+                .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
+                .expect()
+                .statusCode(200)
+                .header(HttpHeaders.CONTENT_TYPE, new StartsWith(MediaType.TEXT_HTML))
+                .when()
+                .get(baseUrl.toString() + "subpage");
+    }
+
+    @Test
+    @RunAsClient
     public void detected_fragments_are_resolved(@ArquillianResource URL baseUrl) {
         String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "seed-w20/application/configuration").getBody().asString();
         assertThat(response).contains("\"" + baseUrl.getPath() + "seed-w20/seed-w20.w20.json\"");

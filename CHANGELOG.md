@@ -1,4 +1,9 @@
-# Version 2.3.0 (2016-05-25)
+# Version 2.3.2 (2016-07-28)
+
+* [fix] Html5 redirection filter now ignores WebSocket upgrade requests and REST request if configured on a specific prefix path
+* [chg] Upgrade AngularJs to 1.4.12
+
+# Version 2.3.1 (2016-05-25)
 
 * [nfo] w20: [2.3.1](https://github.com/seedstack/w20/releases/tag/v2.3.1)
 

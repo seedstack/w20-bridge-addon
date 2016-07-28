@@ -73,6 +73,17 @@ public class WithPrefixesIT extends AbstractSeedWebIT {
 
     @Test
     @RunAsClient
+    public void wrong_rest_url_is_not_redirected(@ArquillianResource URL baseUrl) {
+        given()
+                .auth().basic("ThePoltergeist", "bouh")
+                .expect()
+                .statusCode(404)
+                .when()
+                .get(baseUrl.toString() + "rest/wrong");
+    }
+
+    @Test
+    @RunAsClient
     public void paths_are_correctly_built(@ArquillianResource URL baseUrl) {
         String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "rest/seed-w20/application/configuration").getBody().asString();
         String prefix = baseUrl.toString().substring((baseUrl.getProtocol() + "://" + baseUrl.getHost() + ":" + baseUrl.getPort()).length(), baseUrl.toString().length() - 1);
