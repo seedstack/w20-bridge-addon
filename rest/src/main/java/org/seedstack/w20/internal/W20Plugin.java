@@ -139,7 +139,8 @@ public class W20Plugin extends AbstractPlugin implements WebProvider {
                 fragmentConfigurationHandlerClasses,
                 configuredApplication,
                 masterPageAsServlet,
-                prettyUrls
+                prettyUrls,
+                restPath
         );
 
         return InitState.INITIALIZED;
@@ -173,7 +174,7 @@ public class W20Plugin extends AbstractPlugin implements WebProvider {
     public List<ServletDefinition> servlets() {
         if (masterPageAsServlet) {
             ServletDefinition servletDefinition = new ServletDefinition("w20-masterpage", MasterpageServlet.class);
-            servletDefinition.addMappings("/");
+            servletDefinition.addMappings("");
             return Lists.newArrayList(servletDefinition);
         } else {
             return null;

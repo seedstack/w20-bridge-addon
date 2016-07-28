@@ -2,6 +2,7 @@
   "name": "w20-bridge-web-material",
   "devDependencies": {
     "w20-material": "2.1.5",
-    "w20": "2.3.1"
+    "w20": "2.3.1",
+    "angular": "1.4.12"
   }
 }

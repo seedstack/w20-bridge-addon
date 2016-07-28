@@ -24,13 +24,15 @@ class W20Module extends PrivateModule {
     private final ConfiguredApplication configuredApplication;
     private final boolean masterPageServlet;
     private final boolean prettyUrls;
+    private final String restPath;
 
-    W20Module(Map<String, AvailableFragment> w20Fragments, Set<Class<? extends FragmentConfigurationHandler>> moduleConfigurationHandlerClasses, ConfiguredApplication configuredApplication, boolean masterPageServlet, boolean prettyUrls) {
+    W20Module(Map<String, AvailableFragment> w20Fragments, Set<Class<? extends FragmentConfigurationHandler>> moduleConfigurationHandlerClasses, ConfiguredApplication configuredApplication, boolean masterPageServlet, boolean prettyUrls, String restPath) {
         this.w20Fragments = w20Fragments;
         this.moduleConfigurationHandlerClasses = moduleConfigurationHandlerClasses;
         this.configuredApplication = configuredApplication;
         this.masterPageServlet = masterPageServlet;
         this.prettyUrls = prettyUrls;
+        this.restPath = restPath;
     }
 
     @Override
@@ -61,7 +63,7 @@ class W20Module extends PrivateModule {
         }
 
         if (prettyUrls) {
-            bind(Html5RewriteFilter.class).in(Scopes.SINGLETON);
+            bind(Html5RewriteFilter.class).toInstance(new Html5RewriteFilter(restPath));
             expose(Html5RewriteFilter.class);
         }
     }
