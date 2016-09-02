@@ -25,6 +25,12 @@ add it with the following dependency:
 
 {{< dependency g="org.seedstack.addons.w20" a="w20-bridge-web" >}}
 
+If you don't want to serve W20 static files from the Java application, use the following dependency instead:
+
+{{< dependency g="org.seedstack.addons.w20" a="w20-bridge-rest" >}}
+
+This will only provide the REST API required by the W20 frontend to bridge. Use the default masterpage template presented below to update your own index.html page on the frontend.
+
 # How it works
 
 The W20 bridge automatically generates and serves W20 resources that should normally be written manually:
