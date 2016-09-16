@@ -1,3 +1,8 @@
+# Version 2.3.3 (2016-09-16)
+
+* [chg] Upgrade business theme to [1.2.1](https://github.com/seedstack/w20-business-theme/releases/tag/v1.2.1)
+* [chg] Upgrade simple theme to [3.2.1](https://github.com/seedstack/w20-simple-theme/releases/tag/v3.2.1)
+
 # Version 2.3.2 (2016-07-28)
 
 * [fix] Html5 redirection filter now ignores WebSocket upgrade requests and REST request if configured on a specific prefix path
