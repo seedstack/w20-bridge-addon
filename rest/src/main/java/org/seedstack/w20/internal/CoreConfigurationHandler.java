@@ -24,6 +24,9 @@ class CoreConfigurationHandler implements FragmentConfigurationHandler {
     @Configuration(value = "org.seedstack.w20.pretty-urls", mandatory = false, defaultValue = "true")
     private boolean prettyUrls;
 
+    @Configuration(value = "org.seedstack.w20.security-provider", mandatory = false, defaultValue = "BasicAuthentication")
+    private String securityProvider;
+
     @Inject
     CoreConfigurationHandler(Application application) {
         this.application = application;
@@ -71,6 +74,8 @@ class CoreConfigurationHandler implements FragmentConfigurationHandler {
 
     @Override
     public void overrideVariables(String fragmentName, Map<String, String> variables) {
-        // nothing to do here
+        if ("seed-w20".equals(fragmentName)) {
+            variables.put("securityProvider", securityProvider);
+        }
     }
 }

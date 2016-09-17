@@ -4,7 +4,7 @@
     "author": "adrien.lauer@mpsa.com",
 
     "security": {
-        "provider": "BasicAuthentication",
+        "provider": "${securityProvider}",
         "config": {
             "authentication": "${seed-rest-path-slash}seed-w20/security/basic-authentication",
             "authorizations": "${seed-rest-path-slash}seed-w20/security/authorizations"
