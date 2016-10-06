@@ -2,7 +2,7 @@
   "name": "w20-bridge-web-extras",
   "devDependencies": {
     "w20-extras": "2.2.0",
-    "w20": "2.3.1",
+    "w20": "2.3.2",
     "angular": "1.4.12"
   }
 }

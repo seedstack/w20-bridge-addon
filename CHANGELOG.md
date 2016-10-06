@@ -1,8 +1,7 @@
-# Version 2.4.0 (2016-09-18)
+# Version 2.3.4 (2016-09-18)
 
-* [new] Add the ability to change the W20 security provider with the configuration property `org.seedstack.w20.security-provider`
-
-* [chg] Upgrade business theme to [1.2.1](https://github.com/seedstack/w20-business-theme/releases/tag/v1.2.1)
+* [chg] Upgrade business theme to [1.2.2](https://github.com/seedstack/w20-business-theme/releases/tag/v1.2.2)
+* [chg] Upgrade simple theme to [3.2.2](https://github.com/seedstack/w20-simple-theme/releases/tag/v3.2.2)
 
 # Version 2.3.3 (2016-09-16)
 
