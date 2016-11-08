@@ -62,7 +62,7 @@ can be used as `${variable-name[:default-value]}` placeholders in the fragment m
 * `seed-rest-path`: the path under which the REST resources are served (without a trailing slash),
 * `seed-rest-path-slash`: the path under which the REST resources are served (with a trailing slash),
 * `components-path`: the path under which the Web components are served (without a trailing slash),
-* `components-path-slash`: the path under which the Web components are served (with a trailing slash),
+* `components-path-slash`: the path under which the Web components are served (with a trailing slash).
 
 ## Automatic configuration
 
@@ -81,6 +81,20 @@ override the generated configuration. As an example, it is used by the [i18n add
 the frontend `culture` module if backend internationalization is active.
 {{% /callout %}}
 
+# Pretty URLS
+
+By default AngularJS HTML5 mode is enabled when using the W20 bridge.  Its allows pretty URLs to be used instead of historic hashbang URLs (#!). To achieve this, a servlet filter is automatically placed at the root of the application: it redirects any URL that doesn't exist on the server to the masterpage, so the W20 frontend can load and AngularJS can then display the corresponding view. 
+
+{{% callout warning %}}
+The HTML5 redirect filter tries its best to avoid redirecting legitimate 404 or special cases like WebSocket upgrades. To ensure that your REST API calls returning legitimate 404 are not redirected by the filter, you must place the API on its own base path (like `/api`). See the [REST manual page](/docs/seed/manual/rest/#base-prefix) to learn how to do so.
+{{% /callout %}}
+
+Sometimes it is desirable to revert to hashbang URLs. You can do so with the following configuration:
+
+```ini
+[org.seedstack.w20]
+pretty-urls = false
+```
 
 # Configuration
 
@@ -90,7 +104,10 @@ The behavior of W20 bridge can be altered with several backend configuration pro
 
 You can set the W20 application title with the following option:
 
-    org.seedstack.w20.application.title = My application
+```ini
+[org.seedstack.w20]
+application.title = My application
+```
 
 The default value is set to the Seed application name (coming from the `org.seedstack.seed.core.application-name`).
 
@@ -98,7 +115,10 @@ The default value is set to the Seed application name (coming from the `org.seed
 
 You can set the W20 application subtitle with the following option:
 
-    org.seedstack.w20.application.subtitle = A great application
+```ini
+[org.seedstack.w20]
+application.subtitle = A great application
+```
 
 There is no default value.
 
@@ -106,7 +126,10 @@ There is no default value.
 
 You can set the W20 application version with the following option:
 
-    org.seedstack.w20.application.version = 1.2.3
+```ini
+[org.seedstack.w20]
+application.version = 1.2.3
+```
 
 The version is treated as a string so there is no restriction format. The default value is set to the Seed application
 version (coming from the `org.seedstack.seed.core.application-version`). It is not recommended to change this default
@@ -118,53 +141,44 @@ W20 loader to ensure that resources are refreshed when the version change.
 The W20 loader has a predefined time limit to load all the application assets. Although the default value of 30 seconds
 should be enough for all applications, tt is sometimes desirable to increase it with the following option:
 
-    org.seedstack.w20.timeout = 60
+```ini
+[org.seedstack.w20]
+timeout = 60
+```
 
 ## CORS with credentials
 
 To allow the application to access **secured** resources from other domains than its own, use the following option:
 
-    org.seedstack.w20.cors-with-credentials = true
+```ini
+[org.seedstack.w20]
+cors-with-credentials = true
+```
 
 This option is not necessary when accessing its own resources or publicly accessible cross-origin resources only.
 
-## Masterpage disabling
+# Masterpage customization
+
+## Disable the masterpage
 
 The generation of the masterpage can be completely disabled with the following configuration:
 
-    org.seedstack.w20.disable-masterpage = true
+```ini
+[org.seedstack.w20]
+disable-masterpage = true
+```
 
 ## Custom masterpage template
 
-The function uses a default html template for constructing the masterpage of the SPA. You can override this template by
-providing your own in the classpath and still benefit from the variables:
+Each theme provides its own general-purpose masterpage template. If no theme is used or the theme doesn't contain a masterpage, the W20 bridge will fallback to a default masterpage with minimal body content. You can override the masterpage template by specifying its classpath path in the following configuration property:
 
-    org.seedstack.w20.masterpage-template = path/to/masterpage-template.html
+```ini
+[org.seedstack.w20]
+masterpage-template = path/to/masterpage-template.html
+```
 
-Below is the default template used by the function. It uses variables and directives for themes. You may want to use it
-as a base for overriding.
-
-    <!doctype html>
-    <html data-w20-app="${restPath}/seed-w20/application/configuration" data-w20-app-version="${applicationVersion}" data-w20-timeout="${timeout}" data-w20-cors-with-credentials="${corsWithCredentials}">
-    <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="utf-8">
-        <title>${applicationTitle}</title>
-        <script type="text/javascript" data-main="${componentsPath}/w20/core/modules/w20.js?__v=${applicationVersion}" src="${componentsPath}/requirejs/require.js?__v=${applicationVersion}"></script>
-    </head>
-    <body>
-    <div id="w20-loading-cloak">
-        <div class="w20-loading-indicator"></div>
-    </div>
-    <div data-w20-topbar data-title="'${applicationTitle}'" data-subtitle="'${applicationSubtitle}'"></div>
-    <div data-w20-sidebar></div>
-    <div id="w20-view" class="w20-content" data-ng-view></div>
-    <div data-w20-error-report></div>
-    </body>
-    </html>
-
-The available variables are:
+{{% callout tips %}}
+Masterpage templates can use `${}` placeholders for some configuration-dependant values. The following variables are available:
 
 * `applicationTitle`,
 * `applicationSubtitle`,
@@ -177,3 +191,27 @@ The available variables are:
 * `restPathSlash`,
 * `componentsPath,`,
 * `componentsPathSlash`.
+{{% /callout %}}
+
+Below, you can find the fallback masterpage template that can be used as a starting point for your own custom templates:
+
+    <!doctype html>
+    <html data-w20-app="${restPathSlash}seed-w20/application/configuration" data-w20-app-version="${applicationVersion}" data-w20-timeout="${timeout}" data-w20-cors-with-credentials="${corsWithCredentials}">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+        <title>${applicationTitle}</title>
+        <script type="text/javascript" data-main="${componentsPathSlash}w20/modules/w20.js?__v=${applicationVersion}" src="${componentsPathSlash}requirejs/require.js?__v=${applicationVersion}"></script>
+        <base href="${basePathSlash}">
+    </head>
+    <body>
+    <div id="w20-loading-cloak">
+        <div class="w20-loading-indicator"></div>
+    </div>
+    <div id="w20-view" class="w20-content" data-ng-view></div>
+    <div data-w20-error-report></div>
+    </body>
+    </html>
+
+
