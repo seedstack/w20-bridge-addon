@@ -6,4 +6,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
-org.seedstack.w20.disable-masterpage = true
+w20:
+  disableMasterpage: true
+

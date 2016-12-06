@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class NoSeedWebResourcesIT extends AbstractSeedWebIT {
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class).addAsResource("no-resources.props", "META-INF/configuration/no-resources.props");
+        return ShrinkWrap.create(WebArchive.class).addAsResource("no-resources.yaml", "META-INF/configuration/no-resources.yaml");
     }
 
     @Test

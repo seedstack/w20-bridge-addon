@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MasterpageDisabledIT extends AbstractSeedWebIT {
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class).addAsResource("masterpage-disabled.props", "META-INF/configuration/masterpage-disabled.props").addAsWebResource("index.html", "index.html");
+        return ShrinkWrap.create(WebArchive.class).addAsResource("masterpage-disabled.yaml", "META-INF/configuration/masterpage-disabled.yaml").addAsWebResource("index.html", "index.html");
     }
 
     @Test

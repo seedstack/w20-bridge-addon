@@ -8,7 +8,6 @@
 package org.seedstack.w20.internal.rest.security;
 
 
-import org.seedstack.seed.security.Permission;
 import org.seedstack.seed.security.Role;
 import org.seedstack.seed.security.Scope;
 import org.seedstack.seed.security.SecuritySupport;
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Path("/seed-w20/security/authorizations")
 public class AuthorizationsResource {
@@ -40,30 +40,28 @@ public class AuthorizationsResource {
         }
 
         // Principals
-        Map<String, String> principals = new HashMap<String, String>();
+        Map<String, String> principals = new HashMap<>();
         for (SimplePrincipalProvider simplePrincipalProvider : securitySupport.getSimplePrincipals()) {
             principals.put(simplePrincipalProvider.getName(), simplePrincipalProvider.getValue());
         }
 
         // Roles
-        List<RoleRepresentation> roleRepresentations = new ArrayList<RoleRepresentation>();
+        List<RoleRepresentation> roleRepresentations = new ArrayList<>();
 
         for (Role role : securitySupport.getRoles()) {
-            List<String[]> rolePermissions = new ArrayList<String[]>();
-            Map<String, List<String>> roleAttributes = new HashMap<String, List<String>>();
+            List<String[]> rolePermissions = new ArrayList<>();
+            Map<String, List<String>> roleAttributes = new HashMap<>();
             for (Scope scope : role.getScopes()) {
                 String attributeName = scope.getName();
                 List<String> scopeValues = roleAttributes.get(attributeName);
                 if (scopeValues == null) {
-                    scopeValues = new ArrayList<String>();
+                    scopeValues = new ArrayList<>();
                     roleAttributes.put(attributeName, scopeValues);
                 }
 
                 scopeValues.add(scope.getValue());
             }
-            for (Permission corePermission : role.getPermissions()) {
-                rolePermissions.add(corePermission.getPermission().split(":"));
-            }
+            rolePermissions.addAll(role.getPermissions().stream().map(corePermission -> corePermission.getPermission().split(":")).collect(Collectors.toList()));
             RoleRepresentation roleRepresentation = new RoleRepresentation();
             roleRepresentation.setName(role.getName());
             roleRepresentation.setPermissions(rolePermissions);
@@ -71,7 +69,7 @@ public class AuthorizationsResource {
             roleRepresentations.add(roleRepresentation);
         }
         // Individual permissions
-        List<String[]> individualPermissions = new ArrayList<String[]>();
+        List<String[]> individualPermissions = new ArrayList<>();
 
         AuthorizationsRepresentation authorizationsRepresentation = new AuthorizationsRepresentation();
         authorizationsRepresentation.setId(securitySupport.getSimplePrincipalByName(Principals.IDENTITY).getValue());

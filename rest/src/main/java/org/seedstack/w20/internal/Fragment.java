@@ -25,7 +25,7 @@ class Fragment {
 
     private Map<String, Module> modules;
 
-    private Map<String, Object> sections = new HashMap<String, Object>();
+    private Map<String, Object> sections = new HashMap<>();
 
     String getId() {
         return id;

@@ -19,8 +19,8 @@ public class ConfiguredFragmentRepresentation {
     private boolean preload;
     private boolean optional;
     private boolean ignore;
-    private Map<String, Object> modules = new HashMap<String, Object>();
-    private Map<String, String> vars = new HashMap<String, String>();
+    private Map<String, Object> modules = new HashMap<>();
+    private Map<String, String> vars = new HashMap<>();
 
     /**
      * @return true if the fragment can be preloaded, false otherwise.

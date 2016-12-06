@@ -18,7 +18,7 @@ import java.util.Map;
 
 class ConfiguredApplication {
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final Map<String, ConfiguredFragmentDeclaration> configuredFragments = new HashMap<String, ConfiguredFragmentDeclaration>();
+    private final Map<String, ConfiguredFragmentDeclaration> configuredFragments = new HashMap<>();
     private AnonymousFragmentDeclaration anonymousFragment;
 
     @JsonAnyGetter

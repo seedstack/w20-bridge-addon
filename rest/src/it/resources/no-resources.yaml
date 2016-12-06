@@ -6,4 +6,5 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
-org.seedstack.seed.web.resources.enabled = false
+web:
+  static: false

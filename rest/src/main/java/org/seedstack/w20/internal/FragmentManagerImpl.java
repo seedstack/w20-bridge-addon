@@ -42,7 +42,7 @@ class FragmentManagerImpl implements FragmentManager {
 
     @Override
     public Collection<FragmentDeclaration> getDeclaredFragments() {
-        Collection<FragmentDeclaration> activeFragments = new ArrayList<FragmentDeclaration>();
+        Collection<FragmentDeclaration> activeFragments = new ArrayList<>();
 
         // Check for fragments available in this application
         for (Map.Entry<String, AvailableFragment> availableFragmentEntry : availableFragments.entrySet()) {
@@ -93,34 +93,33 @@ class FragmentManagerImpl implements FragmentManager {
 
         // Add fragments explicitly configured and not available locally
         if (configuredApplication != null) {
-            for (Map.Entry<String, ConfiguredFragmentDeclaration> fragmentEntry : configuredApplication.getConfiguredFragments().entrySet()) {
-                if (!availableFragments.containsKey(fragmentEntry.getKey())) {
-                    ConfiguredFragmentDeclaration configuredFragment = fragmentEntry.getValue();
-                    configuredFragment.setName(fragmentEntry.getKey());
-                    configuredFragment.setEnabled(true);
+            // Allow FragmentConfigurationHandlers to override variables
+            configuredApplication.getConfiguredFragments().entrySet().stream().filter(fragmentEntry -> !availableFragments.containsKey(fragmentEntry.getKey())).forEach(fragmentEntry -> {
+                ConfiguredFragmentDeclaration configuredFragment = fragmentEntry.getValue();
+                configuredFragment.setName(fragmentEntry.getKey());
+                configuredFragment.setEnabled(true);
 
-                    if (configuredFragment.getModules() != null) {
-                        for (Map.Entry<String, ConfiguredModule> moduleEntry : configuredFragment.getModules().entrySet()) {
-                            ConfiguredModule configuredModule = moduleEntry.getValue();
-                            configuredModule.setName(moduleEntry.getKey());
-                            configuredModule.setEnabled(true);
-                        }
-                    } else {
-                        configuredFragment.setModules(new HashMap<String, ConfiguredModule>());
+                if (configuredFragment.getModules() != null) {
+                    for (Map.Entry<String, ConfiguredModule> moduleEntry : configuredFragment.getModules().entrySet()) {
+                        ConfiguredModule configuredModule = moduleEntry.getValue();
+                        configuredModule.setName(moduleEntry.getKey());
+                        configuredModule.setEnabled(true);
                     }
-
-                    if (configuredFragment.getVars() == null) {
-                        configuredFragment.setVars(new HashMap<String, String>());
-                    }
-
-                    // Allow FragmentConfigurationHandlers to override variables
-                    for (FragmentConfigurationHandler fragmentConfigurationHandler : fragmentConfigurationHandlers) {
-                        fragmentConfigurationHandler.overrideVariables(fragmentEntry.getKey(), configuredFragment.getVars());
-                    }
-
-                    activeFragments.add(configuredFragment);
+                } else {
+                    configuredFragment.setModules(new HashMap<>());
                 }
-            }
+
+                if (configuredFragment.getVars() == null) {
+                    configuredFragment.setVars(new HashMap<>());
+                }
+
+                // Allow FragmentConfigurationHandlers to override variables
+                for (FragmentConfigurationHandler fragmentConfigurationHandler : fragmentConfigurationHandlers) {
+                    fragmentConfigurationHandler.overrideVariables(fragmentEntry.getKey(), configuredFragment.getVars());
+                }
+
+                activeFragments.add(configuredFragment);
+            });
         }
 
         // Add the anonymous fragment
@@ -179,8 +178,8 @@ class FragmentManagerImpl implements FragmentManager {
         configuredFragment.setName(fragmentName);
         configuredFragment.setEnabled(true);
         configuredFragment.setManifestLocation(availableFragment.getManifestLocation());
-        configuredFragment.setModules(new HashMap<String, ConfiguredModule>());
-        configuredFragment.setVars(new HashMap<String, String>());
+        configuredFragment.setModules(new HashMap<>());
+        configuredFragment.setVars(new HashMap<>());
 
         if (configuredApplication != null && configuredApplication.getConfiguredFragments() != null && configuredApplication.getConfiguredFragments().containsKey(fragmentName)) {
             ConfiguredFragmentDeclaration explicitConfiguredFragment = configuredApplication.getConfiguredFragments().get(fragmentName);

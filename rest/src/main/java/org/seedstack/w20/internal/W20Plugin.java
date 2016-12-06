@@ -13,15 +13,14 @@ import io.nuun.kernel.api.plugin.InitState;
 import io.nuun.kernel.api.plugin.PluginException;
 import io.nuun.kernel.api.plugin.context.InitContext;
 import io.nuun.kernel.api.plugin.request.ClasspathScanRequest;
-import io.nuun.kernel.core.AbstractPlugin;
-import org.apache.commons.configuration.Configuration;
-import org.seedstack.seed.SeedRuntime;
-import org.seedstack.seed.core.internal.application.ApplicationPlugin;
+import org.seedstack.seed.core.SeedRuntime;
+import org.seedstack.seed.core.internal.AbstractSeedPlugin;
 import org.seedstack.seed.rest.internal.RestPlugin;
 import org.seedstack.seed.web.spi.FilterDefinition;
 import org.seedstack.seed.web.spi.ListenerDefinition;
 import org.seedstack.seed.web.spi.ServletDefinition;
 import org.seedstack.seed.web.spi.WebProvider;
+import org.seedstack.w20.W20Config;
 import org.seedstack.w20.internal.rest.MasterpageRootResource;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 import org.slf4j.Logger;
@@ -44,14 +43,13 @@ import java.util.Set;
  *
  * @author adrien.lauer@mpsa.com
  */
-public class W20Plugin extends AbstractPlugin implements WebProvider {
-    public static final String W20_PLUGIN_CONFIGURATION_PREFIX = "org.seedstack.w20";
+public class W20Plugin extends AbstractSeedPlugin implements WebProvider {
     public static final String APP_CONF_REGEX = "w20\\.app\\.json";
     public static final String FRAGMENTS_REGEX = ".*\\.w20\\.json";
 
     private final Logger logger = LoggerFactory.getLogger(W20Plugin.class);
-    private final Map<String, AvailableFragment> w20Fragments = new HashMap<String, AvailableFragment>();
-    private final Set<Class<? extends FragmentConfigurationHandler>> fragmentConfigurationHandlerClasses = new HashSet<Class<? extends FragmentConfigurationHandler>>();
+    private final Map<String, AvailableFragment> w20Fragments = new HashMap<>();
+    private final Set<Class<? extends FragmentConfigurationHandler>> fragmentConfigurationHandlerClasses = new HashSet<>();
     private final ClassLoader classLoader = W20Plugin.class.getClassLoader();
 
     private ConfiguredApplication configuredApplication;
@@ -71,19 +69,36 @@ public class W20Plugin extends AbstractPlugin implements WebProvider {
     }
 
     @Override
-    public InitState init(InitContext initContext) {
+    public Collection<Class<?>> dependencies() {
+        return Lists.newArrayList(RestPlugin.class);
+    }
+
+    @Override
+    protected void setup(SeedRuntime seedRuntime) {
+        servletContext = seedRuntime.contextAs(ServletContext.class);
+    }
+
+    @Override
+    public Collection<ClasspathScanRequest> classpathScanRequests() {
+        return classpathScanRequestBuilder()
+                .subtypeOf(FragmentConfigurationHandler.class)
+                .resourcesRegex(FRAGMENTS_REGEX)
+                .resourcesRegex(APP_CONF_REGEX)
+                .build();
+    }
+
+    @Override
+    public InitState initialize(InitContext initContext) {
         if (servletContext == null) {
             logger.info("No servlet context detected, W20 integration disabled");
             return InitState.INITIALIZED;
         }
 
-        ApplicationPlugin applicationPlugin = initContext.dependency(ApplicationPlugin.class);
+        final W20Config w20Config = getConfiguration(W20Config.class);
         final RestPlugin restPlugin = initContext.dependency(RestPlugin.class);
-        final String restPath = restPlugin.getConfiguration().getRestPath();
+        final String restPath = restPlugin.getRestConfig().getPath();
 
-        Configuration w20Configuration = applicationPlugin.getApplication().getConfiguration().subset(W20Plugin.W20_PLUGIN_CONFIGURATION_PREFIX);
-
-        if (!w20Configuration.getBoolean("disable-masterpage", false)) {
+        if (!w20Config.isDisableMasterpage()) {
             if (restPath.isEmpty()) {
                 logger.debug("Serving W20 masterpage with a JAX-RS resource");
                 restPlugin.addRootResourceVariant(new Variant(MediaType.TEXT_HTML_TYPE, (Locale) null, null), MasterpageRootResource.class);
@@ -124,14 +139,12 @@ public class W20Plugin extends AbstractPlugin implements WebProvider {
 
         Collection<Class<?>> fragmentConfigurationHandlerCandidateClasses = scannedClassesByParentClass.get(FragmentConfigurationHandler.class);
         if (fragmentConfigurationHandlerCandidateClasses != null) {
-            for (Class<?> candidate : fragmentConfigurationHandlerCandidateClasses) {
-                if (FragmentConfigurationHandler.class.isAssignableFrom(candidate)) {
-                    this.fragmentConfigurationHandlerClasses.add(candidate.asSubclass(FragmentConfigurationHandler.class));
-                }
-            }
+            fragmentConfigurationHandlerCandidateClasses.stream().filter(FragmentConfigurationHandler.class::isAssignableFrom).forEach(candidate -> {
+                this.fragmentConfigurationHandlerClasses.add(candidate.asSubclass(FragmentConfigurationHandler.class));
+            });
         }
 
-        prettyUrls = w20Configuration.getBoolean("pretty-urls", true);
+        prettyUrls = w20Config.isPrettyUrls();
         logger.debug("Pretty URLs are " + (prettyUrls ? "enabled" : "disabled"));
 
         w20Module = new W20Module(
@@ -144,25 +157,6 @@ public class W20Plugin extends AbstractPlugin implements WebProvider {
         );
 
         return InitState.INITIALIZED;
-    }
-
-    @Override
-    public Collection<ClasspathScanRequest> classpathScanRequests() {
-        return classpathScanRequestBuilder()
-                .subtypeOf(FragmentConfigurationHandler.class)
-                .resourcesRegex(FRAGMENTS_REGEX)
-                .resourcesRegex(APP_CONF_REGEX)
-                .build();
-    }
-
-    @Override
-    public Collection<Class<?>> requiredPlugins() {
-        return Lists.<Class<?>>newArrayList(ApplicationPlugin.class, RestPlugin.class);
-    }
-
-    @Override
-    public void provideContainerContext(Object containerContext) {
-        servletContext = ((SeedRuntime) containerContext).contextAs(ServletContext.class);
     }
 
     @Override

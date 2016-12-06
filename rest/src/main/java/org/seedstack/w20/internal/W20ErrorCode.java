@@ -8,10 +8,10 @@
 package org.seedstack.w20.internal;
 
 
-import org.seedstack.seed.ErrorCode;
+import org.seedstack.shed.exception.ErrorCode;
 
 enum W20ErrorCode implements ErrorCode {
     UNABLE_TO_GENERATE_MASTERPAGE,
     FRAGMENT_NOT_AVAILABLE_IN_APPLICATION,
-    MISSING_REST_PREFIX_FOR_HTML5_MODE, MODULE_DOES_NOT_EXIST_IN_FRAGMENT
+    MODULE_DOES_NOT_EXIST_IN_FRAGMENT
 }

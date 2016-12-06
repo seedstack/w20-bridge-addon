@@ -48,7 +48,7 @@ class W20Module extends PrivateModule {
         if (W20Module.this.configuredApplication != null) {
             bind(ConfiguredApplication.class).toInstance(W20Module.this.configuredApplication);
         } else {
-            bind(ConfiguredApplication.class).toProvider(Providers.<ConfiguredApplication>of(null));
+            bind(ConfiguredApplication.class).toProvider(Providers.of(null));
         }
 
         bind(FragmentManager.class).to(FragmentManagerImpl.class);

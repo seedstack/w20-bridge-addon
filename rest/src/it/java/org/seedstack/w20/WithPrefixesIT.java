@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class WithPrefixesIT extends AbstractSeedWebIT {
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class).addAsResource("with-prefixes.props", "META-INF/configuration/with-prefixes.props");
+        return ShrinkWrap.create(WebArchive.class).addAsResource("with-prefixes.yaml", "META-INF/configuration/with-prefixes.yaml");
     }
 
     @Test

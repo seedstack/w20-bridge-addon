@@ -22,7 +22,7 @@ import java.util.Map;
 public class ConfiguredModule implements Serializable {
     private String name;
     private boolean enabled;
-    private Map<String, Object> configuration = new HashMap<String, Object>();
+    private Map<String, Object> configuration = new HashMap<>();
 
     /**
      * Gets the name of the module.

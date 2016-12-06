@@ -51,7 +51,7 @@ public class ApplicationConfigurationResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Map<String, Object> getConfiguration() {
-        Map<String, Object> configuredFragmentRepresentations = new HashMap<String, Object>();
+        Map<String, Object> configuredFragmentRepresentations = new HashMap<>();
 
         for (FragmentDeclaration declaredFragment : fragmentManager.getDeclaredFragments()) {
             if (declaredFragment instanceof AnonymousFragmentDeclaration) {
@@ -64,14 +64,14 @@ public class ApplicationConfigurationResource {
                 value.setIgnore(configuredFragment.isIgnore() == null ? false : configuredFragment.isIgnore());
                 value.setOptional(configuredFragment.isOptional() == null ? false : configuredFragment.isOptional());
 
-                Map<String, Object> modules = new HashMap<String, Object>();
+                Map<String, Object> modules = new HashMap<>();
                 for (ConfiguredModule configuredModule : configuredFragment.getModules().values()) {
                     Object configuration = configuredModule.getConfiguration();
                     modules.put(configuredModule.getName(), configuration != null ? configuration : new EmptyObjectRepresentation());
                 }
                 value.setModules(modules);
 
-                Map<String, String> vars = configuredFragment.getVars() != null ? configuredFragment.getVars() : new HashMap<String, String>();
+                Map<String, String> vars = configuredFragment.getVars() != null ? configuredFragment.getVars() : new HashMap<>();
                 populateVars(vars);
                 value.setVars(vars);
 
