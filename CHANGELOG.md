@@ -1,6 +1,6 @@
-# Version 3.0.0 (2016-12-??)
+# Version 3.0.0 (2016-12-13)
 
-* [brk] Moved to SeedStack 16.11 new configuration system.
+* [brk] Update to SeedStack 16.11 new configuration system.
 * [chg] Upgrade AngularJs to 1.4.14
 * [nfo] w20: [2.3.3](https://github.com/seedstack/w20/releases/tag/v2.3.3)
 

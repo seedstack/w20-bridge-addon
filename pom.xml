@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.seedstack.poms</groupId>
         <artifactId>parent-internal</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>3.0.0</version>
     </parent>
 
     <groupId>org.seedstack.addons.w20</groupId>
@@ -23,8 +23,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <poms.version>3.0.0-SNAPSHOT</poms.version>
-        <seed.version>3.0.0-SNAPSHOT</seed.version>
+        <poms.version>3.0.0</poms.version>
+        <seed.version>3.0.0</seed.version>
         <grunt-maven-plugin.version>1.5.0</grunt-maven-plugin.version>
 
         <compatibility.skip>true</compatibility.skip>
