@@ -20,6 +20,7 @@ import org.seedstack.seed.web.spi.FilterDefinition;
 import org.seedstack.seed.web.spi.ListenerDefinition;
 import org.seedstack.seed.web.spi.ServletDefinition;
 import org.seedstack.seed.web.spi.WebProvider;
+import org.seedstack.shed.ClassLoaders;
 import org.seedstack.w20.W20Config;
 import org.seedstack.w20.internal.rest.MasterpageRootResource;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
@@ -30,7 +31,9 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Variant;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,13 +47,13 @@ import java.util.Set;
  * @author adrien.lauer@mpsa.com
  */
 public class W20Plugin extends AbstractSeedPlugin implements WebProvider {
-    public static final String APP_CONF_REGEX = "w20\\.app\\.json";
-    public static final String FRAGMENTS_REGEX = ".*\\.w20\\.json";
+    private static final String FRAGMENTS_REGEX = ".*\\.w20\\.json";
+    private static final String W20_CONFIG_NAME = "w20.app.json";
 
     private final Logger logger = LoggerFactory.getLogger(W20Plugin.class);
     private final Map<String, AvailableFragment> w20Fragments = new HashMap<>();
     private final Set<Class<? extends FragmentConfigurationHandler>> fragmentConfigurationHandlerClasses = new HashSet<>();
-    private final ClassLoader classLoader = W20Plugin.class.getClassLoader();
+    private final ClassLoader classLoader = ClassLoaders.findMostCompleteClassLoader(W20Plugin.class);
 
     private ConfiguredApplication configuredApplication;
     private ServletContext servletContext;
@@ -83,7 +86,6 @@ public class W20Plugin extends AbstractSeedPlugin implements WebProvider {
         return classpathScanRequestBuilder()
                 .subtypeOf(FragmentConfigurationHandler.class)
                 .resourcesRegex(FRAGMENTS_REGEX)
-                .resourcesRegex(APP_CONF_REGEX)
                 .build();
     }
 
@@ -119,24 +121,23 @@ public class W20Plugin extends AbstractSeedPlugin implements WebProvider {
                 logger.warn("Unable to parse W20 fragment manifest at " + manifestPath, e);
             }
         }
-
         logger.debug("Detected {} W20 fragment(s)", w20Fragments.size());
 
-        Collection<String> appConfiguration = scannedManifestPaths.get(APP_CONF_REGEX);
-        if (appConfiguration.size() == 1) {
-            try {
-                String confPath = appConfiguration.iterator().next();
-                configuredApplication = objectMapper.readValue(classLoader.getResource(confPath), ConfiguredApplication.class);
-                logger.debug("Detected W20 configuration at " + confPath);
-            } catch (IOException e) {
-                throw new PluginException("Error reading W20 configuration", e);
+        try {
+            Enumeration<URL> resources = classLoader.getResources(W20_CONFIG_NAME);
+            if (resources.hasMoreElements()) {
+                URL confUrl = resources.nextElement();
+                if (resources.hasMoreElements()) {
+                    throw new PluginException("Found more than one W20 configuration (" + W20_CONFIG_NAME + ") in classpath root");
+                }
+                configuredApplication = objectMapper.readValue(confUrl, ConfiguredApplication.class);
+                logger.info("Loaded W20 configuration " + W20_CONFIG_NAME);
             }
-        } else if (appConfiguration.size() > 1) {
-            throw new PluginException("Found more than one W20 configuration: " + appConfiguration);
+        } catch (IOException e) {
+            throw new PluginException("Error reading W20 configuration " + W20_CONFIG_NAME, e);
         }
 
         Map<Class<?>, Collection<Class<?>>> scannedClassesByParentClass = initContext.scannedSubTypesByParentClass();
-
         Collection<Class<?>> fragmentConfigurationHandlerCandidateClasses = scannedClassesByParentClass.get(FragmentConfigurationHandler.class);
         if (fragmentConfigurationHandlerCandidateClasses != null) {
             fragmentConfigurationHandlerCandidateClasses.stream().filter(FragmentConfigurationHandler.class::isAssignableFrom).forEach(candidate -> {
