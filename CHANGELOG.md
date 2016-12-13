@@ -1,3 +1,8 @@
+# Version 2.3.5 (2016-12-14)
+
+* [fix] Allow to override routes in `w20.app.json`.
+* [nfo] w20: [2.3.3](https://github.com/seedstack/w20/releases/tag/v2.3.3)
+
 # Version 2.3.4 (2016-09-18)
 
 * [chg] Upgrade business theme to [1.2.2](https://github.com/seedstack/w20-business-theme/releases/tag/v1.2.2)

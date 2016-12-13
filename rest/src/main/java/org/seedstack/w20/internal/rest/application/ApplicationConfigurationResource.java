@@ -71,6 +71,12 @@ public class ApplicationConfigurationResource {
                 }
                 value.setModules(modules);
 
+                // Copy routes information if any
+                Map<String, Object> routes = configuredFragment.getRoutes();
+                if (routes != null) {
+                    value.setRoutes(routes);
+                }
+
                 Map<String, String> vars = configuredFragment.getVars() != null ? configuredFragment.getVars() : new HashMap<String, String>();
                 populateVars(vars);
                 value.setVars(vars);

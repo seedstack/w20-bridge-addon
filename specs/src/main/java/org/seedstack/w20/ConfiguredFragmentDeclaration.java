@@ -20,6 +20,7 @@ public class ConfiguredFragmentDeclaration implements FragmentDeclaration {
     private Boolean preload;
     private String name;
     private Map<String, ConfiguredModule> modules;
+    private Map<String, Object> routes;
     private Map<String, String> vars;
     private boolean enabled;
     private String manifestLocation;
@@ -54,6 +55,24 @@ public class ConfiguredFragmentDeclaration implements FragmentDeclaration {
      */
     public void setModules(Map<String, ConfiguredModule> modules) {
         this.modules = modules;
+    }
+
+    /**
+     * Gets the configured routes of this configured fragment.
+     *
+     * @return a map of raw JSON objects.
+     */
+    public Map<String, Object> getRoutes() {
+        return routes;
+    }
+
+    /**
+     * Sets the configured routes of this configured fragment
+     *
+     * @param routes a map of raw JSON objects.
+     */
+    public void setRoutes(Map<String, Object> routes) {
+        this.routes = routes;
     }
 
     /**
