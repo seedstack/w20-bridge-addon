@@ -20,6 +20,7 @@ public class ConfiguredFragmentRepresentation {
     private boolean optional;
     private boolean ignore;
     private Map<String, Object> modules = new HashMap<>();
+    private Map<String, Object> routes = new HashMap<>();
     private Map<String, String> vars = new HashMap<>();
 
     /**
@@ -82,6 +83,24 @@ public class ConfiguredFragmentRepresentation {
      */
     public void setModules(Map<String, Object> modules) {
         this.modules = modules;
+    }
+
+    /**
+     * Gets the configured routes.
+     *
+     * @return a map of raw JSON objects.
+     */
+    public Map<String, Object> getRoutes() {
+        return routes;
+    }
+
+    /**
+     * Sets the configured routes.
+     *
+     * @param routes a map of raw JSON objects.
+     */
+    public void setRoutes(Map<String, Object> routes) {
+        this.routes = routes;
     }
 
     /**

@@ -69,6 +69,13 @@ public class W20BridgeIT extends AbstractSeedWebIT {
 
     @Test
     @RunAsClient
+    public void routes_are_preserved(@ArquillianResource URL baseUrl) {
+        String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "seed-w20/application/configuration").getBody().asString();
+        assertThat(response).contains("\"routes\":{\"route1\":{\"hidden\":true,\"category\":\"a.b.c\"}}");
+    }
+
+    @Test
+    @RunAsClient
     public void anonymous_fragment_is_preserved(@ArquillianResource URL baseUrl) {
         String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "seed-w20/application/configuration").getBody().asString();
         assertThat(response).contains("\"\":{\"routes\":{\"/\":{\"templateUrl\":\"non-existent-template.html\"}}}");

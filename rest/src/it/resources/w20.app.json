@@ -6,6 +6,14 @@
       }
     }
   },
+  "fragment-with-routes": {
+    "routes": {
+      "route1": {
+        "hidden": true,
+        "category": "a.b.c"
+      }
+    }
+  },
   "optional-fragment": {
     "optional": true
   },
