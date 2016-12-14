@@ -1,0 +1,10 @@
+{
+  "id": "fragment-with-routes",
+  "routes": {
+    "routes": {
+      "route1": {
+        "template": "<h1>Hello</h1>"
+      }
+    }
+  }
+}
