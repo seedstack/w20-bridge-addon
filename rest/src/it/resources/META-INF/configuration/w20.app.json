@@ -14,6 +14,14 @@
       }
     }
   },
+  "external-fragment-with-routes.w20.json": {
+    "routes": {
+      "route2": {
+        "hidden": false,
+        "category": "x.y.z"
+      }
+    }
+  },
   "optional-fragment": {
     "optional": true
   },

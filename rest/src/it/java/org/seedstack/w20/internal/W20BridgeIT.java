@@ -72,6 +72,7 @@ public class W20BridgeIT extends AbstractSeedWebIT {
     public void routes_are_preserved(@ArquillianResource URL baseUrl) {
         String response = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseUrl.toString() + "seed-w20/application/configuration").getBody().asString();
         assertThat(response).contains("\"routes\":{\"route1\":{\"hidden\":true,\"category\":\"a.b.c\"}}");
+        assertThat(response).contains("\"routes\":{\"route2\":{\"hidden\":false,\"category\":\"x.y.z\"}}");
     }
 
     @Test

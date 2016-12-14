@@ -198,6 +198,10 @@ class FragmentManagerImpl implements FragmentManager {
                 }
             }
 
+            if (explicitConfiguredFragment.getRoutes() != null) {
+                configuredFragment.setRoutes(explicitConfiguredFragment.getRoutes());
+            }
+
             if (explicitConfiguredFragment.getVars() != null) {
                 configuredFragment.setVars(explicitConfiguredFragment.getVars());
             }
