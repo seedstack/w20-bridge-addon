@@ -9,6 +9,7 @@
 
 * [fix] Allow to override routes in `w20.app.json`.
 * [nfo] w20: [2.3.3](https://github.com/seedstack/w20/releases/tag/v2.3.3)
+* [nfo] w20-business-theme: [1.2.3](https://github.com/seedstack/w20/releases/tag/v1.2.3)
 
 # Version 2.3.4 (2016-09-18)
 
