@@ -158,10 +158,13 @@ class FragmentManagerImpl implements FragmentManager {
                         configuredModule.setEnabled(true);
                     }
                 } else {
-                    throw SeedException.createNew(W20ErrorCode.MODULE_DOES_NOT_EXIST_IN_FRAGMENT);
+                    throw SeedException.createNew(W20ErrorCode.MODULE_DOES_NOT_EXIST_IN_FRAGMENT)
+                            .put("fragment", configuredFragment.getName())
+                            .put("module", moduleName);
                 }
             } else {
-                throw SeedException.createNew(W20ErrorCode.FRAGMENT_NOT_AVAILABLE_IN_APPLICATION);
+                throw SeedException.createNew(W20ErrorCode.FRAGMENT_NOT_AVAILABLE_IN_APPLICATION)
+                        .put("fragment", configuredFragment.getName());
             }
         }
 
@@ -171,7 +174,8 @@ class FragmentManagerImpl implements FragmentManager {
     private ConfiguredFragmentDeclaration getFragment(String fragmentName) {
         AvailableFragment availableFragment = availableFragments.get(fragmentName);
         if (availableFragment == null) {
-            throw SeedException.createNew(W20ErrorCode.FRAGMENT_NOT_AVAILABLE_IN_APPLICATION);
+            throw SeedException.createNew(W20ErrorCode.FRAGMENT_NOT_AVAILABLE_IN_APPLICATION)
+                    .put("fragment", fragmentName);
         }
 
         ConfiguredFragmentDeclaration configuredFragment = new ConfiguredFragmentDeclaration();
