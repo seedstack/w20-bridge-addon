@@ -77,7 +77,7 @@ section below](#configuration) for more details.
 
 {{% callout info %}}
 The {{< java "org.seedstack.w20.spi.FragmentConfigurationHandler" >}} interface can be implemented to further enrich or
-override the generated configuration. As an example, it is used by the [i18n add-on](../i18n) for automatically managing
+override the generated configuration. As an example, it is used by the [i18n add-on]({{< ref "addons/i18n/index.md" >}}) for automatically managing
 the frontend `culture` module if backend internationalization is active.
 {{% /callout %}}
 
@@ -86,7 +86,7 @@ the frontend `culture` module if backend internationalization is active.
 By default AngularJS HTML5 mode is enabled when using the W20 bridge.  Its allows pretty URLs to be used instead of historic hashbang URLs (#!). To achieve this, a servlet filter is automatically placed at the root of the application: it redirects any URL that doesn't exist on the server to the masterpage, so the W20 frontend can load and AngularJS can then display the corresponding view. 
 
 {{% callout warning %}}
-The HTML5 redirect filter tries its best to avoid redirecting legitimate 404 or special cases like WebSocket upgrades. To ensure that your REST API calls returning legitimate 404 are not redirected by the filter, you must place the API on its own base path (like `/api`). See the [REST manual page](/docs/seed/manual/rest/#base-prefix) to learn how to do so.
+The HTML5 redirect filter tries its best to avoid redirecting legitimate 404 or special cases like WebSocket upgrades. To ensure that your REST API calls returning legitimate 404 are not redirected by the filter, you must place the API on its own base path (like `/api`). See the [REST manual page]({{< ref "docs/seed/manual/rest.md#base-prefix" >}}) to learn how to do so.
 {{% /callout %}}
 
 Sometimes it is desirable to revert to hashbang URLs. You can do so with the following configuration:
