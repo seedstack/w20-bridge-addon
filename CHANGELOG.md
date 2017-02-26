@@ -1,6 +1,7 @@
-# Version 3.0.1 (2016-12-??)
+# Version 3.0.1 (2017-02-26)
 
 * [fix] Add missing configuration and error description metadata.
+* [fix] Fix transitive dependency to poms SNAPSHOT.
 
 # Version 3.0.0 (2016-12-13)
 

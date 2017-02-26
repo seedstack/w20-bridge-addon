@@ -17,8 +17,7 @@ security:
   permissions:
     jedi: ['lightSaber:*', 'academy:*']
     ghost: 'site:haunt'
-web:
-  security:
+  web:
     urls:
       -
         pattern: /**
