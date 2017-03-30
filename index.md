@@ -4,11 +4,8 @@ repo: "https://github.com/seedstack/w20-bridge-addon"
 author: Adrien LAUER
 description: "Acts as an extensible integration bridge between SeedStack Java and Web frameworks."
 tags:
-    - "w20"
-    - "bridge"
-    - "frontend"
-    - "configuration"
-    - "security"
+    - interfaces
+    - security
 zones:
     - Addons
 menu:
@@ -16,8 +13,10 @@ menu:
         weight: 10
 ---
 
-The SeedStack W20 bridge acts as an integration bridge between the Seed Java framework and the W20 Web framework. You can
-add it with the following dependency:
+The SeedStack W20 bridge acts as an integration bridge between the Seed Java framework and the W20 Web framework. 
+<!--more-->
+
+You can add it with the following dependency:
 
 {{< dependency g="org.seedstack.addons.w20" a="w20-bridge-web" >}}
 
@@ -191,23 +190,24 @@ Masterpage templates can use `${}` placeholders for some configuration-dependant
 
 Below, you can find the fallback masterpage template that can be used as a starting point for your own custom templates:
 
-    <!doctype html>
-    <html data-w20-app="${restPathSlash}seed-w20/application/configuration" data-w20-app-version="${applicationVersion}" data-w20-timeout="${timeout}" data-w20-cors-with-credentials="${corsWithCredentials}">
-    <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="utf-8">
-        <title>${applicationTitle}</title>
-        <script type="text/javascript" data-main="${componentsPathSlash}w20/modules/w20.js?__v=${applicationVersion}" src="${componentsPathSlash}requirejs/require.js?__v=${applicationVersion}"></script>
-        <base href="${basePathSlash}">
-    </head>
-    <body>
-    <div id="w20-loading-cloak">
-        <div class="w20-loading-indicator"></div>
-    </div>
-    <div id="w20-view" class="w20-content" data-ng-view></div>
-    <div data-w20-error-report></div>
-    </body>
-    </html>
-
+```html
+<!doctype html>
+<html data-w20-app="${restPathSlash}seed-w20/application/configuration" data-w20-app-version="${applicationVersion}" data-w20-timeout="${timeout}" data-w20-cors-with-credentials="${corsWithCredentials}">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>${applicationTitle}</title>
+    <script type="text/javascript" data-main="${componentsPathSlash}w20/modules/w20.js?__v=${applicationVersion}" src="${componentsPathSlash}requirejs/require.js?__v=${applicationVersion}"></script>
+    <base href="${basePathSlash}">
+</head>
+<body>
+<div id="w20-loading-cloak">
+    <div class="w20-loading-indicator"></div>
+</div>
+<div id="w20-view" class="w20-content" data-ng-view></div>
+<div data-w20-error-report></div>
+</body>
+</html>
+```
 
