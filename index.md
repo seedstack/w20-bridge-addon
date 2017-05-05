@@ -80,6 +80,7 @@ the frontend `culture` module if backend internationalization is active.
 
 The behavior of W20 bridge can be altered with several backend configuration properties, described below:
 
+{{% config p="w20" %}}
 ```yaml
 w20:
   # If true, AngularJS HTML5 mode and the redirect filter is enabled (defaults to true)
@@ -107,6 +108,7 @@ w20:
     # The environment (development, pre-production, production, ...)
     environment: (String)
 ```  
+{{% /config %}}    
 
 # Pretty URLs
 
