@@ -6,11 +6,16 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
-org.seedstack.seed.core.application-id = w20-demo
+rest: /api
 
-[org.seedstack.seed.security.users]
-demo = demo
-
-[org.seedstack.seed.security.urls]
-/seed-w20/** = authcBasic, xsrf
-/** = anon
+security:
+  users:
+    demo: demo
+  web:
+    urls:
+      -
+        pattern: /api/**
+        filters: [authcBasic, xsrf]
+      -
+        pattern: /**
+        filters: anon

@@ -11,10 +11,6 @@ import org.seedstack.seed.core.SeedMain;
 
 public class Demo {
     public static void main(String[] args) {
-        try {
-            SeedMain.getLauncher().launch(args);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SeedMain.main(args);
     }
 }

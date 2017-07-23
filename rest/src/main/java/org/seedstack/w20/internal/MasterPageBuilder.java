@@ -18,7 +18,10 @@ import org.seedstack.w20.W20Config;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -48,7 +51,7 @@ public class MasterPageBuilder {
 
         Scanner scanner;
         try {
-            scanner = new Scanner(masterpageURL.openStream()).useDelimiter("\\A");
+            scanner = new Scanner(new InputStreamReader(masterpageURL.openStream(), StandardCharsets.UTF_8)).useDelimiter("\\A");
         } catch (IOException e) {
             throw SeedException.wrap(e, W20ErrorCode.UNABLE_TO_GENERATE_MASTERPAGE);
         }

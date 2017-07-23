@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.seedstack.addons.w20</groupId>
         <artifactId>w20-bridge</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>w20-bridge-rest</artifactId>
@@ -33,19 +33,19 @@
         </dependency>
         <dependency>
             <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-web-security</artifactId>
+            <artifactId>seed-rest-core</artifactId>
             <version>${seed.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.addons.web</groupId>
+            <artifactId>web-bridge</artifactId>
+            <version>${web-bridge.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-rest-core</artifactId>
-            <version>${seed.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>

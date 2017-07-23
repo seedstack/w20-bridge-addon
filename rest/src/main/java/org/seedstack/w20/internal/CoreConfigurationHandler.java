@@ -8,6 +8,7 @@
 package org.seedstack.w20.internal;
 
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.seedstack.seed.Application;
 import org.seedstack.seed.Configuration;
 import org.seedstack.w20.W20Config;
@@ -28,6 +29,7 @@ class CoreConfigurationHandler implements FragmentConfigurationHandler {
     }
 
     @Override
+    @SuppressFBWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "null used to denote no change")
     public Boolean overrideFragmentStatus(String fragmentName) {
         if ("w20-core".equals(fragmentName)) {
             return true;
@@ -37,6 +39,7 @@ class CoreConfigurationHandler implements FragmentConfigurationHandler {
     }
 
     @Override
+    @SuppressFBWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "null used to denote no change")
     public Boolean overrideModuleStatus(String fragmentName, String moduleName) {
         if ("w20-core".equals(fragmentName)) {
             if ("application".equals(moduleName)) {

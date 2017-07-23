@@ -69,26 +69,26 @@ public final class PathUtils {
      * @return the concatenated path.
      */
     public static String buildPath(String first, String... parts) {
-        String result = first;
+        StringBuilder result = new StringBuilder(first);
 
         for (String part : parts) {
-            if (result.isEmpty()) {
+            if (result.length() == 0) {
                 if (part.startsWith("/")) {
-                    result += part.substring(1);
+                    result.append(part.substring(1));
                 } else {
-                    result += part;
+                    result.append(part);
                 }
             } else {
-                if (result.endsWith("/") && part.startsWith("/")) {
-                    result += part.substring(1);
-                } else if (!result.endsWith("/") && !part.startsWith("/") && !part.isEmpty()) {
-                    result += "/" + part;
+                if (result.toString().endsWith("/") && part.startsWith("/")) {
+                    result.append(part.substring(1));
+                } else if (!result.toString().endsWith("/") && !part.startsWith("/") && !part.isEmpty()) {
+                    result.append("/").append(part);
                 } else {
-                    result += part;
+                    result.append(part);
                 }
             }
         }
 
-        return result;
+        return result.toString();
     }
 }

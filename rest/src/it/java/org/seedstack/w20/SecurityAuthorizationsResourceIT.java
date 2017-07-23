@@ -24,17 +24,15 @@ import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 
 
 public class SecurityAuthorizationsResourceIT extends AbstractSeedWebIT {
-
     @Deployment
     public static WebArchive createDeployment() {
         return ShrinkWrap.create(WebArchive.class);
     }
 
-
     @Test
     @RunAsClient
     public void connectThePoltergeist(@ArquillianResource URL baseURL) throws Exception {
-        ResponseBody r = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseURL.toString() + "seed-w20/security/authorizations").body();
+        ResponseBody r = given().auth().basic("ThePoltergeist", "bouh").expect().statusCode(200).when().get(baseURL.toString() + "web-bridge/security/authorizations").body();
         String expected = "{\"id\":\"ThePoltergeist\",\"type\":\"user\",\"principals\":{\"userId\":\"ThePoltergeist\"},\"roles\":[{\"name\":\"jedi\",\"attributes\":{},\"permissions\":[[\"academy\",\"*\"],[\"lightSaber\",\"*\"]]},{\"name\":\"ghost\",\"attributes\":{\"scope\":[\"MU\",\"PY\"]},\"permissions\":[[\"site\",\"haunt\"]]}],\"permissions\":[]}";
         assertEquals(expected, r.asString(), false);
     }

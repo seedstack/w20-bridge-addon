@@ -15,8 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 class MasterpageServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
     @Inject
-    private MasterPageBuilder masterPageBuilder;
+    private transient MasterPageBuilder masterPageBuilder;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

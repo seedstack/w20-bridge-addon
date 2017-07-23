@@ -7,12 +7,14 @@
  */
 package org.seedstack.w20.internal;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
 import java.util.Map;
 
 class GlobalConfigurationHandler implements FragmentConfigurationHandler {
     @Override
+    @SuppressFBWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "null used to denote no change")
     public Boolean overrideFragmentStatus(String fragmentName) {
         if ("w20-core".equals(fragmentName)) {
             return true;
@@ -22,6 +24,7 @@ class GlobalConfigurationHandler implements FragmentConfigurationHandler {
     }
 
     @Override
+    @SuppressFBWarnings(value = "NP_BOOLEAN_RETURN_NULL", justification = "null used to denote no change")
     public Boolean overrideModuleStatus(String fragmentName, String moduleName) {
         return null;
     }

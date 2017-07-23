@@ -1,13 +1,11 @@
 {
-    "id": "seed-w20",
-    "name": "SEED W20 integration",
-    "author": "adrien.lauer@mpsa.com",
-
-    "security": {
-        "provider": "${securityProvider}",
-        "config": {
-            "authentication": "${seed-rest-path-slash}seed-w20/security/basic-authentication",
-            "authorizations": "${seed-rest-path-slash}seed-w20/security/authorizations"
-        }
+  "id": "seed-w20",
+  "name": "SeedStack W20 integration",
+  "security": {
+    "provider": "${securityProvider}",
+    "config": {
+      "authentication": "${seed-rest-path-slash}web-bridge/security/authentication",
+      "authorizations": "${seed-rest-path-slash}web-bridge/security/authorizations"
     }
+  }
 }
