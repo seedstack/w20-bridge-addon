@@ -7,20 +7,3 @@
 #
 
 logging: WARN
-
-security:
-  users:
-    ThePoltergeist:
-      password: bouh
-      roles: [SEED.MU.GHOST, SEED.PY.GHOST, SEED.JEDI]
-  roles:
-    jedi: SEED.JEDI
-    ghost: SEED.{scope}.GHOST
-  permissions:
-    jedi: ['lightSaber:*', 'academy:*']
-    ghost: 'site:haunt'
-  web:
-    urls:
-      -
-        pattern: /**
-        filters: authcBasic
