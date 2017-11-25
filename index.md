@@ -120,7 +120,7 @@ then display the corresponding view.
 {{% callout warning %}}
 The HTML5 redirect filter tries its best to avoid redirecting legitimate 404 or special cases like WebSocket upgrades. 
 To ensure that your REST API calls returning legitimate 404 are not redirected by the filter, you must place the API on 
-its own base path (like `/api`). See the [REST manual page]({{< ref "docs/seed/manual/rest.md#base-prefix" >}}) to learn how 
+its own base path (like `/api`). See the [REST manual page]({{< ref "docs/web/rest.md#base-prefix" >}}) to learn how 
 to do so.
 {{% /callout %}}
 
