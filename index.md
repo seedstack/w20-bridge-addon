@@ -1,5 +1,6 @@
 ---
 title: "W20 bridge"
+addon: "W20 bridge"
 repo: "https://github.com/seedstack/w20-bridge-addon"
 author: Adrien LAUER
 description: "Acts as an extensible integration bridge between SeedStack Java and Web frameworks."
@@ -8,9 +9,7 @@ tags:
     - security
 zones:
     - Addons
-menu:
-    W20BridgeAddon:
-        weight: 10
+noMenu: true    
 ---
 
 The SeedStack W20 bridge acts as an integration bridge between the Seed Java framework and the W20 Web framework. 
@@ -26,7 +25,7 @@ If you don't want to serve W20 static files from the Java application, use the f
 
 This will only provide the REST API required by the W20 frontend to bridge. Use the default masterpage template presented below to update your own index.html page on the frontend.
 
-# How it works
+## How it works
 
 The W20 bridge automatically generates and serves W20 resources that should normally be written manually:
 
@@ -37,7 +36,7 @@ enriched version is served under `/seed-w20/application/configuration`.
 * A resource for basic authentication is served under `/seed-w20/security/basic-authentication`,
 * A resource for retrieving the authorizations of the authenticated subject is served under `/seed-w20/security/authorizations`.
 
-## Automatic activation of fragments
+### Automatic activation of fragments
 
 The W20 bridge automatically detects W20 fragments (manifests ending with the `.w20.json` extension) present in the classpath
 under `META-INF/resources` and enables them in the generated W20 configuration.
@@ -47,7 +46,7 @@ Note that the W20 bridge cannot detect fragments located outside the local class
 or external to the application. Those fragments must still be explicitly specified in the W20 configuration.
 {{% /callout %}}
 
-## Fragment variables
+### Fragment variables
 
 The W20 bridge provides several fragments variables containing path information about the application. These variables
 can be used as `${variable-name[:default-value]}` placeholders in the fragment manifests:
@@ -59,7 +58,7 @@ can be used as `${variable-name[:default-value]}` placeholders in the fragment m
 * `components-path`: the path under which the Web components are served (without a trailing slash),
 * `components-path-slash`: the path under which the Web components are served (with a trailing slash).
 
-## Automatic configuration
+### Automatic configuration
 
 Several aspects of the configuration are automatically managed:
 
@@ -76,7 +75,7 @@ override the generated configuration. As an example, it is used by the [i18n add
 the frontend `culture` module if backend internationalization is active.
 {{% /callout %}}
 
-# Configuration
+## Configuration
 
 The behavior of W20 bridge can be altered with several backend configuration properties, described below:
 
@@ -110,7 +109,7 @@ w20:
 ```  
 {{% /config %}}    
 
-# Pretty URLs
+## Pretty URLs
 
 By default AngularJS HTML5 mode is enabled when using the W20 bridge.  Its allows pretty URLs to be used instead of 
 historic hashbang URLs (#!). To achieve this, a servlet filter is automatically placed at the root of the application: 
@@ -124,7 +123,7 @@ its own base path (like `/api`). See the [REST manual page]({{< ref "docs/web/re
 to do so.
 {{% /callout %}}
 
-# Custom masterpage
+## Custom masterpage
 
 Each theme provides its own general-purpose masterpage template. If no theme is used or the theme doesn't contain a 
 masterpage, the W20 bridge will fallback to a default masterpage with minimal body content. 
