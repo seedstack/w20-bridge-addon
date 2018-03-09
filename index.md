@@ -31,8 +31,7 @@ The W20 bridge automatically generates and serves W20 resources that should norm
 
 * The W20 masterpage is automatically generated and served under `/`. There is no need to provide an `index.html` file,
 except for advanced use cases (see below).
-* The W20 configuration file (`w20.app.json`) is read from the `META-INF/configuration` classpath location and a managed,
-enriched version is served under `/seed-w20/application/configuration`.
+* The W20 configuration file, `w20.app.json`, is read from the root of the classpath, merged with auto-detected fragments and exposed as a REST resource at `/seed-w20/application/configuration`.
 * A resource for basic authentication is served under `/seed-w20/security/basic-authentication`,
 * A resource for retrieving the authorizations of the authenticated subject is served under `/seed-w20/security/authorizations`.
 
@@ -125,26 +124,28 @@ to do so.
 
 ## Custom masterpage
 
-Each theme provides its own general-purpose masterpage template. If no theme is used or the theme doesn't contain a 
-masterpage, the W20 bridge will fallback to a default masterpage with minimal body content. 
+Each theme provides its own general-purpose masterpage template, located in the classpath at `org/seedstack/w20/masterpage.html`. 
+You can override this location with the `w20.masterpageTemplate` configuration property and provide your own template. 
 
 {{% callout info %}}
-Masterpage templates can use `${}` placeholders for some configuration-dependant values. The following variables are available:
-
-* `applicationTitle`,
-* `applicationSubtitle`,
-* `applicationVersion`,
-* `timeout`,
-* `corsWithCredentials`,
-* `basePath`,
-* `basePathSlash`,
-* `restPath`,
-* `restPathSlash`,
-* `componentsPath,`,
-* `componentsPathSlash`.
+If no masterpage is present, the W20 bridge will fallback to a default masterpage with minimal body content, located in the classpath at `org/seedstack/w20/masterpage-fallback.html`.
 {{% /callout %}}
 
-Below, you can find the fallback masterpage template that can be used as a starting point for your own custom templates:
+Masterpage templates can use `${}` placeholders for some configuration-dependant values. The following variables are available:
+
+* `applicationTitle`
+* `applicationSubtitle`
+* `applicationVersion`
+* `timeout`
+* `corsWithCredentials`
+* `basePath`
+* `basePathSlash`
+* `restPath`
+* `restPathSlash`
+* `componentsPath,`
+* `componentsPathSlash`
+
+Below is the fallback masterpage template that you can use as a starting point for your own custom templates:
 
 ```html
 <!doctype html>
