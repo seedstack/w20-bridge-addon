@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,15 +7,13 @@
  */
 package org.seedstack.w20.internal;
 
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.Map;
+import javax.inject.Inject;
 import org.seedstack.seed.Application;
 import org.seedstack.seed.Configuration;
 import org.seedstack.w20.W20Config;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
-
-import javax.inject.Inject;
-import java.util.Map;
 
 class CoreConfigurationHandler implements FragmentConfigurationHandler {
     private final Application application;
@@ -73,6 +71,12 @@ class CoreConfigurationHandler implements FragmentConfigurationHandler {
 
     @Override
     public void overrideVariables(String fragmentName, Map<String, String> variables) {
+        w20Config.getVariables().forEach((k, v) -> {
+            if ("*".equals(k) || fragmentName.equals(k)) {
+                variables.putAll(v);
+            }
+        });
+
         if ("seed-w20".equals(fragmentName)) {
             variables.put("securityProvider", w20Config.getSecurityProvider());
         }

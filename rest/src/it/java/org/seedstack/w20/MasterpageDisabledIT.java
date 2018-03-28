@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,26 +7,28 @@
  */
 package org.seedstack.w20;
 
+import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import java.net.URL;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
-import org.seedstack.seed.it.AbstractSeedWebIT;
+import org.junit.runner.RunWith;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import java.net.URL;
-
-import static com.jayway.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
-
-public class MasterpageDisabledIT extends AbstractSeedWebIT {
+@RunWith(Arquillian.class)
+public class MasterpageDisabledIT {
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class).addAsResource("masterpage-disabled.yaml", "META-INF/configuration/masterpage-disabled.yaml").addAsWebResource("index.html", "index.html");
+        return ShrinkWrap.create(WebArchive.class)
+                .addAsResource("masterpage-disabled.yaml", "META-INF/configuration/masterpage-disabled.yaml")
+                .addAsWebResource("index.html", "index.html");
     }
 
     @Test

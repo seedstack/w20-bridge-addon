@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+    Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,19 +14,20 @@
     <parent>
         <groupId>org.seedstack.poms</groupId>
         <artifactId>parent-internal</artifactId>
-        <version>3.1.0</version>
+        <version>3.2.1</version>
     </parent>
 
     <groupId>org.seedstack.addons.w20</groupId>
     <artifactId>w20-bridge</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <poms.version>3.1.0</poms.version>
-        <seed.version>3.3.0</seed.version>
-        <web-bridge.version>1.0.0</web-bridge.version>
+        <seed.version>3.5.0</seed.version>
+        <arquillian.version>1.1.5.Final</arquillian.version>
+        <web-bridge.version>1.0.1-SNAPSHOT</web-bridge.version>
         <grunt-maven-plugin.version>1.5.0</grunt-maven-plugin.version>
+        <tomcat.version>8.5.24</tomcat.version>
 
         <compatibility.version>3.0.0</compatibility.version>
 
