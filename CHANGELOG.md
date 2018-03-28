@@ -1,3 +1,7 @@
+# Version 3.2.0 (2017-07-31)
+
+
+
 # Version 3.1.0 (2017-07-31)
 
 * [chg] Delegates security to the [web-bridge add-on](https://github.com/seedstack/web-bridge) API.

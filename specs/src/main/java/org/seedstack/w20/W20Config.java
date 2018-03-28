@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,6 +7,9 @@
  */
 package org.seedstack.w20;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import org.seedstack.coffig.Config;
 
 @Config("w20")
@@ -19,7 +22,7 @@ public class W20Config {
     private String componentsPath;
     private String securityProvider = "BasicAuthentication";
     private ApplicationInfo applicationInfo = new ApplicationInfo();
-
+    private Map<String, Map<String, String>> variables = new HashMap<>();
 
     public boolean isPrettyUrls() {
         return prettyUrls;
@@ -91,6 +94,18 @@ public class W20Config {
     public W20Config setApplicationInfo(ApplicationInfo applicationInfo) {
         this.applicationInfo = applicationInfo;
         return this;
+    }
+
+    public Map<String, Map<String, String>> getVariables() {
+        return Collections.unmodifiableMap(variables);
+    }
+
+    public void setVariable(String fragmentName, String name, String value) {
+        this.variables.computeIfAbsent(fragmentName, k -> new HashMap<>()).put(name, value);
+    }
+
+    public void setGlobalVariable(String name, String value) {
+        this.variables.computeIfAbsent("*", k -> new HashMap<>()).put(name, value);
     }
 
     @Config("application")
