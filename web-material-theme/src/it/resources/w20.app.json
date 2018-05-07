@@ -1,0 +1,49 @@
+{
+  "w20-core": {
+    "modules": {
+      "application": {
+        "home": "/home"
+      }
+    }
+  },
+
+  "w20-material-theme": {
+    "modules": {
+      "main": {
+        "sidenav": {
+          "logoUrl": "/home",
+          "logoImg": "img/logo.png",
+          "backgroundImg": "img/header-background.jpg"
+        },
+        "theme": {
+          "primaryPalette": {
+            "name": "blue"
+          },
+          "accentPalette": {
+            "name": "amber"
+          }
+        }
+      }
+    }
+  },
+
+  "": {
+    "modules": {
+      "demo": {
+        "path": "modules/demo",
+        "autoload": true
+      }
+    },
+
+    "i18n": {
+      "en": "i18n/en.json"
+    },
+
+    "routes": {
+      "home": {
+        "templateUrl": "templates/home.html",
+        "controller": "HomeController"
+      }
+    }
+  }
+}

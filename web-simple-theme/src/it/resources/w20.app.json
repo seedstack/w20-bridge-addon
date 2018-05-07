@@ -1,0 +1,29 @@
+{
+  "w20-core": {
+    "modules": {
+      "application": {
+        "home": "/home"
+      }
+    }
+  },
+
+  "": {
+    "modules": {
+      "demo": {
+        "path": "modules/demo",
+        "autoload": true
+      }
+    },
+
+    "i18n": {
+      "en": "i18n/en.json"
+    },
+
+    "routes": {
+      "home": {
+        "templateUrl": "templates/home.html",
+        "controller": "HomeController"
+      }
+    }
+  }
+}

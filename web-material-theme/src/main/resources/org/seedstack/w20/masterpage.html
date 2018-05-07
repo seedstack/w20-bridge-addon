@@ -17,11 +17,15 @@
     <script type="text/javascript" data-main="${componentsPathSlash}@w20/w20/modules/w20.js?__v=${applicationVersion}" src="${componentsPathSlash}requirejs/require.js?__v=${applicationVersion}"></script>
     <base href="${basePathSlash}">
 </head>
-<body>
+<body layout ng-cloak md-swipe-left="swipe.left()" md-swipe-right="swipe.right()">
 <div id="w20-loading-cloak">
     <div class="w20-loading-indicator"></div>
 </div>
-<div id="w20-view" class="w20-content" data-ng-view></div>
+<w20-material-sidenav></w20-material-sidenav>
+<main layout="column" flex>
+    <w20-material-topbar search-placeholder="search.placeholder" search-disabled="search.disabled"></w20-material-topbar>
+    <md-content ng-view layout="column" layout-align="start" flex></md-content>
+</main>
 <div data-w20-error-report></div>
 </body>
 </html>

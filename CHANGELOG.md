@@ -1,3 +1,8 @@
+# Version 3.2.1 (2018-05-07)
+
+* [fix] Fix wrong path to `w20.js` in fallback master page template.
+* [fix] Provide a proper master page template for simple and material themes.
+
 # Version 3.2.0 (2018-05-07)
 
 * [new] Allow populating fragment variables directly from SeedStack configuration using the `w20.variables` configuration property.

@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.seedstack.addons.w20</groupId>
         <artifactId>w20-bridge</artifactId>
-        <version>3.2.0-SNAPSHOT</version>
+        <version>3.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>w20-bridge-web-material-theme</artifactId>
@@ -29,6 +29,25 @@
             <groupId>org.seedstack.addons.w20</groupId>
             <artifactId>w20-bridge-web-material</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.seed</groupId>
+            <artifactId>seed-web-undertow</artifactId>
+            <version>${seed.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seedstack.seed</groupId>
+            <artifactId>seed-rest-jersey2</artifactId>
+            <version>${seed.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
