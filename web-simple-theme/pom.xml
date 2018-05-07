@@ -35,23 +35,13 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>pl.allegro</groupId>
-                <artifactId>grunt-maven-plugin</artifactId>
-                <version>${grunt-maven-plugin.version}</version>
-                <configuration>
-                    <sourceDirectory>${project.basedir}/src/main/js</sourceDirectory>
-                    <jsSourceDirectory>.</jsSourceDirectory>
-                    <gruntBuildDirectory>${project.build.directory}/grunt</gruntBuildDirectory>
-                    <ignoreTasksErrors>false</ignoreTasksErrors>
-                    <ignoreAllErrors>false</ignoreAllErrors>
-                </configuration>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>grunt-default-task</id>
-                        <phase>prepare-package</phase>
+                        <id>npm install</id>
                         <goals>
-                            <goal>create-resources</goal>
-                            <goal>bower</goal>
+                            <goal>npm</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -67,8 +57,10 @@
                         </goals>
                         <configuration>
                             <target>
-                                <copy todir="${project.build.directory}/classes/META-INF/resources/bower_components/w20-simple-theme">
-                                    <fileset dir="${project.build.directory}/grunt/bower_components/w20-simple-theme"/>
+                                <copy todir="${project.build.directory}/classes/META-INF/resources/node_modules">
+                                    <fileset dir="${project.basedir}/node_modules">
+                                        <include name="@w20/w20-simple-theme/**" />
+                                    </fileset>
                                 </copy>
                             </target>
                         </configuration>

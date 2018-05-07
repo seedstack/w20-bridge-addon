@@ -2,15 +2,11 @@ sudo: false
 
 language: java
 
-jdk: oraclejdk8
-
-node_js: "0.12"
+jdk: oraclejdk9
 
 cache:
   directories:
     - "$HOME/.m2/repository"
-
-before_install: npm install -g bower
 
 install:
   - echo "<settings><servers><server><id>bintray</id><username>\${env.BINTRAY_USER}</username><password>\${env.BINTRAY_KEY}</password></server></servers></settings>" > ~/.m2/settings.xml

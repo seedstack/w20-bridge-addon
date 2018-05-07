@@ -1,0 +1,10 @@
+{
+  "name": "w20-bridge-web-components",
+  "description": "w20-bridge-web-components",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "repository": "https://github.com/seedstack/w20-bridge-addon.git",
+  "devDependencies": {
+    "@w20/w20-components": "2.3.0"
+  }
+}

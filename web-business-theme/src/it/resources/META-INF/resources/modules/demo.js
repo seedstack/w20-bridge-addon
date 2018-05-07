@@ -7,22 +7,20 @@
  */
 define([
     '{angular}/angular'
-], function (angular, template) {
+], function (angular) {
     'use strict';
 
     var module = angular.module('demo', []);
 
-    module.controller('HomeController', [ '$scope', 'AuthenticationService', function ($scope, authenticationService) {
-        $scope.login = function() {
+    module.controller('HomeController', ['$scope', 'AuthenticationService', function ($scope, authenticationService) {
+        $scope.login = function () {
             authenticationService.authenticate();
         };
 
-        $scope.logout = function() {
+        $scope.logout = function () {
             authenticationService.deauthenticate();
         };
     }]);
-
-    console.warn(template);
 
     return {
         angularModules: ['demo']

@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.seedstack.poms</groupId>
         <artifactId>parent-internal</artifactId>
-        <version>3.2.1</version>
+        <version>3.3.1</version>
     </parent>
 
     <groupId>org.seedstack.addons.w20</groupId>
@@ -23,7 +23,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <seed.version>3.5.0</seed.version>
+        <seed.version>3.6.0</seed.version>
         <arquillian.version>1.1.5.Final</arquillian.version>
         <web-bridge.version>1.0.1-SNAPSHOT</web-bridge.version>
         <grunt-maven-plugin.version>1.5.0</grunt-maven-plugin.version>
@@ -76,16 +76,36 @@
                             <licenseMerge>Apache 2|Apache License 2.0</licenseMerge>
                             <licenseMerge>Apache 2|Apache License, version 2.0</licenseMerge>
                             <licenseMerge>Apache 2|Apache License Version 2.0</licenseMerge>
+                            <licenseMerge>Apache 2|Apache 2.0</licenseMerge>
                             <licenseMerge>BSD|The New BSD License</licenseMerge>
                             <licenseMerge>CDDL|CDDL License</licenseMerge>
                             <licenseMerge>CDDL|CDDL + GPLv2 with classpath exception</licenseMerge>
                             <licenseMerge>MIT|MIT License</licenseMerge>
+                            <licenseMerge>MIT|MIT license</licenseMerge>
+                            <licenseMerge>MIT|The MIT License</licenseMerge>
                             <licenseMerge>LGPL 3.0|GNU Lesser Public License</licenseMerge>
 
                             <licenseMerge>IGNORED_LICENSE|MPL 1.1</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|GPL2 w/ CPE</licenseMerge>
+                            <licenseMerge>IGNORED_LICENSE|GNU General Public License, version 2 (GPL2), with the classpath exception</licenseMerge>
                         </licenseMerges>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.eirslett</groupId>
+                    <artifactId>frontend-maven-plugin</artifactId>
+                    <version>1.6</version>
+                    <executions>
+                        <execution>
+                            <id>install node and npm</id>
+                            <goals>
+                                <goal>install-node-and-npm</goal>
+                            </goals>
+                            <configuration>
+                                <nodeVersion>v10.0.0</nodeVersion>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>

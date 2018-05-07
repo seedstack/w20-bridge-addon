@@ -15,5 +15,9 @@ pom.xml.versionsBackup
 pom.xml.next
 release.properties
 
-#Vim
+# Vim
 *~
+
+# Node
+node_modules/
+node/

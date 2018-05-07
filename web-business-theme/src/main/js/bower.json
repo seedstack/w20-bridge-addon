@@ -1,8 +1,0 @@
-{
-  "name": "w20-bridge-web-business-theme",
-  "devDependencies": {
-    "w20-business-theme": "1.2.3",
-    "w20": "2.3.3",
-    "angular": "1.4.14"
-  }
-}

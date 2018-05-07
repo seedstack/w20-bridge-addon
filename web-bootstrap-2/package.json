@@ -1,0 +1,10 @@
+{
+  "name": "w20-bridge-web-bootstrap-2",
+  "description": "w20-bridge-web-bootstrap-2",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "repository": "https://github.com/seedstack/w20-bridge-addon.git",
+  "devDependencies": {
+    "@w20/w20-bootstrap-2": "2.2.0"
+  }
+}

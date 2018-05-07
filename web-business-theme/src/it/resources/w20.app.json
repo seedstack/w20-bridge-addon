@@ -15,6 +15,10 @@
       }
     },
 
+    "i18n": {
+      "en": "i18n/en.json"
+    },
+
     "routes": {
       "home": {
         "templateUrl": "templates/home.html",

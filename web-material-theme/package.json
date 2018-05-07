@@ -1,0 +1,10 @@
+{
+  "name": "w20-bridge-web-material-theme",
+  "description": "w20-bridge-web-material-theme",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "repository": "https://github.com/seedstack/w20-bridge-addon.git",
+  "devDependencies": {
+    "@w20/w20-material-theme": "1.1.0"
+  }
+}

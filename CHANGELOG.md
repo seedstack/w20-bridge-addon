@@ -1,6 +1,17 @@
-# Version 3.2.0 (2017-07-31)
+# Version 3.2.0 (2018-05-07)
 
-
+* [new] Allow populating fragment variables directly from SeedStack configuration using the `w20.variables` configuration property.
+* [brk] Switch from Bower to NPM package manager.
+* [nfo] w20: [2.4.0](https://github.com/w20-framework/w20/releases/tag/v2.4.0)
+* [nfo] w20-bootstrap-2: [2.2.0](https://github.com/w20-framework/w20-bootstrap-2/releases/tag/v2.2.0)
+* [nfo] w20-bootstrap-3: [2.3.0](https://github.com/w20-framework/w20-bootstrap-3/releases/tag/v2.3.0)
+* [nfo] w20-business-theme: [1.3.0](https://github.com/w20-framework/w20-business-theme/releases/tag/v1.3.0)
+* [nfo] w20-components: [2.3.0](https://github.com/w20-framework/w20-components/releases/tag/v2.3.0)
+* [nfo] w20-dataviz: [2.3.0](https://github.com/w20-framework/w20-dataviz/releases/tag/v2.3.0)
+* [nfo] w20-extras: [2.3.0](https://github.com/w20-framework/w20-extras/releases/tag/v2.3.0)
+* [nfo] w20-material: [2.2.0](https://github.com/w20-framework/w20-material/releases/tag/v2.2.0)
+* [nfo] w20-material-theme: [1.1.0](https://github.com/w20-framework/w20-material-theme/releases/tag/v1.1.0)
+* [nfo] w20-simple-theme: [3.3.0](https://github.com/w20-framework/w20-simple-theme/releases/v3.3.0)
 
 # Version 3.1.0 (2017-07-31)
 
@@ -55,7 +66,7 @@
 * [nfo] w20-components: [2.2.1](https://github.com/seedstack/w20-components/releases/tag/v2.2.1)
 * [nfo] w20-dataviz: [2.2.0](https://github.com/seedstack/w20-dataviz/releases/tag/v2.2.0)
 * [nfo] w20-extras: [2.2.0](https://github.com/seedstack/w20-extras/releases/tag/v2.2.0)
-* [nfo] w20-material: [2.3.0](https://github.com/seedstack/w20/releases/tag/v2.3.0)
+* [nfo] w20-material: [2.1.5](https://github.com/seedstack/w20-material/releases/tag/v2.1.5)
 * [nfo] w20-simple-theme: [3.2.0](https://github.com/seedstack/w20-simple-theme/releases/v3.2.0)
 * [nfo] w20-material-theme: [1.0.0](https://github.com/seedstack/w20-material-theme/releases/tag/v1.0.0)
 

@@ -87,7 +87,7 @@ public class MasterPageBuilder {
     }
 
     public String getComponentsPath(String contextPath) {
-        return Optional.ofNullable(w20Config.getComponentsPath()).orElse(PathUtils.buildPath("/", contextPath, "bower_components"));
+        return Optional.ofNullable(w20Config.getComponentsPath()).orElse(PathUtils.buildPath("/", contextPath, "node_modules"));
     }
 
     /**

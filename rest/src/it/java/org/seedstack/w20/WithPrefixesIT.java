@@ -97,8 +97,8 @@ public class WithPrefixesIT {
         String prefix = baseUrl.toString()
                 .substring((baseUrl.getProtocol() + "://" + baseUrl.getHost() + ":" + baseUrl.getPort()).length(),
                         baseUrl.toString().length() - 1);
-        assertThat(response).contains("\"components-path\":\"" + prefix + "/bower_components\"");
-        assertThat(response).contains("\"components-path-slash\":\"" + prefix + "/bower_components/\"");
+        assertThat(response).contains("\"components-path\":\"" + prefix + "/node_modules\"");
+        assertThat(response).contains("\"components-path-slash\":\"" + prefix + "/node_modules/\"");
         assertThat(response).contains("\"seed-base-path\":\"" + prefix + "\"");
         assertThat(response).contains("\"seed-base-path-slash\":\"" + prefix + "/\"");
         assertThat(response).contains("\"seed-rest-path\":\"" + prefix + "/rest\"");
