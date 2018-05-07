@@ -58,7 +58,9 @@
                         <configuration>
                             <target>
                                 <copy todir="${project.build.directory}/classes/META-INF/resources/node_modules">
-                                    <fileset dir="${project.basedir}/node_modules"/>
+                                    <fileset dir="${project.basedir}/node_modules">
+                                        <exclude name="@w20/*/specs/**" />
+                                    </fileset>
                                 </copy>
                             </target>
                         </configuration>
