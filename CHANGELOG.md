@@ -1,3 +1,7 @@
+# Version 3.2.2 (2018-06-04)
+
+* [nfo] w20: [2.4.1](https://github.com/w20-framework/w20/releases/tag/v2.4.1)
+
 # Version 3.2.1 (2018-05-07)
 
 * [fix] Fix wrong path to `w20.js` in fallback master page template.

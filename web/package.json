@@ -5,6 +5,6 @@
   "license": "MPL-2.0",
   "repository": "https://github.com/seedstack/w20-bridge-addon.git",
   "devDependencies": {
-    "@w20/w20": "2.4.0"
+    "@w20/w20": "2.4.1"
   }
 }

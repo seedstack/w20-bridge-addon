@@ -3,7 +3,13 @@
     "modules": {
       "application": {
         "home": "/home"
-      }
+      },
+      "security": {},
+      "culture": {},
+      "env": {},
+      "utils": {},
+      "hypermedia": {},
+      "ui": {}
     }
   },
 
