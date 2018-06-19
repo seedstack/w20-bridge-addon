@@ -8,6 +8,7 @@
 package org.seedstack.w20.internal;
 
 
+import org.seedstack.seed.Nullable;
 import org.seedstack.seed.SeedException;
 import org.seedstack.w20.ConfiguredFragmentDeclaration;
 import org.seedstack.w20.ConfiguredModule;
@@ -15,7 +16,6 @@ import org.seedstack.w20.FragmentDeclaration;
 import org.seedstack.w20.FragmentManager;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;

@@ -19,11 +19,11 @@
 
     <groupId>org.seedstack.addons.w20</groupId>
     <artifactId>w20-bridge</artifactId>
-    <version>3.2.2-SNAPSHOT</version>
+    <version>3.2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <seed.version>3.6.0</seed.version>
+        <seed.version>3.6.2</seed.version>
         <arquillian.version>1.1.5.Final</arquillian.version>
         <web-bridge.version>1.0.1</web-bridge.version>
         <grunt-maven-plugin.version>1.5.0</grunt-maven-plugin.version>
