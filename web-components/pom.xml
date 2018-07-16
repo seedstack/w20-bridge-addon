@@ -22,6 +22,7 @@
 
     <properties>
         <compatibility.skip>true</compatibility.skip>
+        <jpms.moduleName>org.seedstack.w20.components</jpms.moduleName>
     </properties>
 
     <dependencies>
@@ -39,9 +40,9 @@
                 <artifactId>frontend-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>npm install</id>
+                        <id>yarn install</id>
                         <goals>
-                            <goal>npm</goal>
+                            <goal>yarn</goal>
                         </goals>
                     </execution>
                 </executions>

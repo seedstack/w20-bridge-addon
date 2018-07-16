@@ -20,6 +20,10 @@
 
     <artifactId>w20-bridge-rest</artifactId>
 
+    <properties>
+        <jpms.moduleName>org.seedstack.w20.rest</jpms.moduleName>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.seedstack.addons.w20</groupId>

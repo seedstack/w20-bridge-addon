@@ -19,6 +19,10 @@
 
     <artifactId>w20-bridge-specs</artifactId>
 
+    <properties>
+        <jpms.moduleName>org.seedstack.w20</jpms.moduleName>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.seedstack.seed</groupId>
