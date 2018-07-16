@@ -1,6 +1,8 @@
 # Version 3.2.3 (2018-06-19)
 
 * [chg] Switch to `org.seedstack.seed.Nullable` to avoid dependency to jsr305 or similar libs.
+* [nfo] w20: [2.4.6](https://github.com/w20-framework/w20/releases/tag/v2.4.6)
+* [nfo] w20-components: [2.3.2](https://github.com/w20-framework/w20-components/releases/tag/v2.3.2)
 
 # Version 3.2.2 (2018-06-04)
 
