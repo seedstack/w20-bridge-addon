@@ -1,4 +1,9 @@
-# Version 3.2.3 (2018-06-19)
+# Version 3.2.4 (2018-07-18)
+
+* [nfo] w20-business-theme: [1.3.1](https://github.com/w20-framework/w20-business-theme/releases/tag/v1.3.1)
+* [nfo] w20-simple-theme: [3.3.1](https://github.com/w20-framework/w20-simple-theme/releases/v3.3.1)
+
+# Version 3.2.3 (2018-07-16)
 
 * [chg] Switch to `org.seedstack.seed.Nullable` to avoid dependency to jsr305 or similar libs.
 * [nfo] w20: [2.4.6](https://github.com/w20-framework/w20/releases/tag/v2.4.6)
