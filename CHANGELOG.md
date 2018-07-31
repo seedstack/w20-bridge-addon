@@ -1,3 +1,7 @@
+# Version 3.2.5 (2018-08-01)
+
+* [nfo] w20: [2.5.1](https://github.com/w20-framework/w20/releases/tag/v2.5.1)
+
 # Version 3.2.4 (2018-07-18)
 
 * [nfo] w20-business-theme: [1.3.1](https://github.com/w20-framework/w20-business-theme/releases/tag/v1.3.1)

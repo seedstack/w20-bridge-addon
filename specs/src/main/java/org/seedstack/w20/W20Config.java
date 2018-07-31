@@ -20,7 +20,7 @@ public class W20Config {
     private int loadingTimeout = 30;
     private boolean corsWithCredentials = false;
     private String componentsPath;
-    private String securityProvider = "BasicAuthentication";
+    private String securityProvider = "basicAuth";
     private ApplicationInfo applicationInfo = new ApplicationInfo();
     private Map<String, Map<String, String>> variables = new HashMap<>();
 

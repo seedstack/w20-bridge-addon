@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.seedstack.addons.w20</groupId>
         <artifactId>w20-bridge</artifactId>
-        <version>3.2.4-SNAPSHOT</version>
+        <version>3.2.5-SNAPSHOT</version>
     </parent>
 
     <artifactId>w20-bridge-web-bootstrap-2</artifactId>

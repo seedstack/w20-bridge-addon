@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@w20/w20@2.4.6":
-  version "2.4.6"
-  resolved "https://registry.yarnpkg.com/@w20/w20/-/w20-2.4.6.tgz#433ede4cf2de832e54e34a59fecac8eeef2b2236"
+"@w20/w20@2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@w20/w20/-/w20-2.5.1.tgz#ac408046a4bb5b3cb74a4fea57c43c6b38fd88c7"
   dependencies:
     angular "^1.7.1"
     angular-animate "^1.7.1"
