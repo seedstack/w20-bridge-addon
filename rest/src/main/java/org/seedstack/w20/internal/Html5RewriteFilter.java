@@ -5,10 +5,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.w20.internal;
 
 import com.google.common.base.Strings;
-
+import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -16,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 public class Html5RewriteFilter implements Filter {
     private static final String HTML5_REWRITE_FILTER = "html5-rewrite-filter";
@@ -35,12 +35,21 @@ public class Html5RewriteFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (isAlreadyRedirected(request) || isWebSocketUpgrade(request) || isRestRequest(request)) {
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
+        if (isAlreadyRedirected(request) || isWebSocketUpgrade(request)) {
+            // Ignore already redirected or WebSocket upgrade requests
             filterChain.doFilter(request, response);
         } else {
-            markRequestAsRedirected(request);
-            request.getRequestDispatcher("/").forward(request, response);
+            String path = ((HttpServletRequest) request).getRequestURI()
+                    .substring(((HttpServletRequest) request).getContextPath().length());
+            // Ignore REST requests and requests having a file extension
+            if (isRestRequest(path) || hasFileExtension(path)) {
+                filterChain.doFilter(request, response);
+            } else {
+                markRequestAsRedirected(request);
+                request.getRequestDispatcher("/").forward(request, response);
+            }
         }
     }
 
@@ -63,11 +72,11 @@ public class Html5RewriteFilter implements Filter {
         request.setAttribute(HTML5_REWRITE_FILTER, true);
     }
 
-    private boolean isRestRequest(ServletRequest request) {
-        if (request instanceof HttpServletRequest) {
-            String path = ((HttpServletRequest) request).getRequestURI().substring(((HttpServletRequest) request).getContextPath().length());
-            return !Strings.isNullOrEmpty(path) && !Strings.isNullOrEmpty(restPath) && path.startsWith(restPath);
-        }
-        return false;
+    private boolean hasFileExtension(String path) {
+        return path.lastIndexOf('.') > path.lastIndexOf('/');
+    }
+
+    private boolean isRestRequest(String path) {
+        return !Strings.isNullOrEmpty(path) && !Strings.isNullOrEmpty(restPath) && path.startsWith(restPath);
     }
 }

@@ -1,6 +1,7 @@
-# Version 3.2.5 (2018-08-01)
+# Version 3.2.5 (2018-08-06)
 
 * [nfo] w20: [2.5.1](https://github.com/w20-framework/w20/releases/tag/v2.5.1)
+* [chg] In HTML5 mode, avoid redirecting requests with an extension (avoid redirecting static file requests). 
 
 # Version 3.2.4 (2018-07-18)
 
