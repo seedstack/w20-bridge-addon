@@ -72,44 +72,14 @@
         </dependency>
         <dependency>
             <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-testing-arquillian</artifactId>
-            <version>${seed.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.seedstack.seed</groupId>
             <artifactId>seed-testing-junit4</artifactId>
             <version>${seed.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <version>${arquillian.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-tomcat-embedded-8</artifactId>
-            <version>1.0.1.Final</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.arquillian.container</groupId>
-                    <artifactId>arquillian-container-spi</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <version>${tomcat.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-            <version>${tomcat.version}</version>
+            <groupId>org.seedstack.seed</groupId>
+            <artifactId>seed-web-undertow</artifactId>
+            <version>${seed.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

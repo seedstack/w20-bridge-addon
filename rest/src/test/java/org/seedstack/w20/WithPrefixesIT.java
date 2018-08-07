@@ -5,36 +5,38 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.w20;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.net.URL;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import org.hamcrest.Matchers;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seedstack.seed.Configuration;
+import org.seedstack.seed.testing.ConfigurationProperty;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
+import org.seedstack.seed.undertow.LaunchWithUndertow;
 
-@RunWith(Arquillian.class)
+@RunWith(SeedITRunner.class)
+@LaunchWithUndertow
+@ConfigurationProperty(name = "rest.path", value = "/rest")
 public class WithPrefixesIT {
-    @Deployment
-    public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addAsResource("with-prefixes.yaml", "META-INF/configuration/with-prefixes.yaml");
-    }
+    @Configuration("web.runtime.baseUrl")
+    private String baseUrl;
+    @Configuration("web.runtime.protocol")
+    private String protocol;
+    @Configuration("web.runtime.host")
+    private String host;
+    @Configuration("web.runtime.port")
+    private int port;
 
     @Test
-    @RunAsClient
-    public void masterpage_is_served_without_trailing_slash(@ArquillianResource URL baseUrl) {
-        String url = baseUrl.toString();
+    public void masterpage_is_served_without_trailing_slash() {
+        String url = baseUrl;
         url = url.substring(0, url.length() - 1);
         given()
                 .auth().basic("ThePoltergeist", "bouh")
@@ -47,8 +49,7 @@ public class WithPrefixesIT {
     }
 
     @Test
-    @RunAsClient
-    public void masterpage_is_served_with_trailing_slash(@ArquillianResource URL baseUrl) {
+    public void masterpage_is_served_with_trailing_slash() {
         given()
                 .auth().basic("ThePoltergeist", "bouh")
                 .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
@@ -56,12 +57,11 @@ public class WithPrefixesIT {
                 .statusCode(200)
                 .header(HttpHeaders.CONTENT_TYPE, Matchers.startsWith(MediaType.TEXT_HTML))
                 .when()
-                .get(baseUrl.toString());
+                .get(baseUrl);
     }
 
     @Test
-    @RunAsClient
-    public void json_home_is_served_on_rest_root(@ArquillianResource URL baseUrl) {
+    public void json_home_is_served_on_rest_root() {
         given()
                 .auth().basic("ThePoltergeist", "bouh")
                 .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
@@ -69,34 +69,30 @@ public class WithPrefixesIT {
                 .statusCode(200)
                 .header(HttpHeaders.CONTENT_TYPE, Matchers.startsWith(MediaType.APPLICATION_JSON))
                 .when()
-                .get(baseUrl.toString() + "rest/");
+                .get(baseUrl + "rest/");
     }
 
     @Test
-    @RunAsClient
-    public void wrong_rest_url_is_not_redirected(@ArquillianResource URL baseUrl) {
+    public void wrong_rest_url_is_not_redirected() {
         given()
                 .auth().basic("ThePoltergeist", "bouh")
                 .expect()
                 .statusCode(404)
                 .when()
-                .get(baseUrl.toString() + "rest/wrong");
+                .get(baseUrl + "rest/wrong");
     }
 
     @Test
-    @RunAsClient
-    public void paths_are_correctly_built(@ArquillianResource URL baseUrl) {
+    public void paths_are_correctly_built() {
         String response = given().auth()
                 .basic("ThePoltergeist", "bouh")
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl.toString() + "rest/seed-w20/application/configuration")
+                .get(baseUrl + "rest/seed-w20/application/configuration")
                 .getBody()
                 .asString();
-        String prefix = baseUrl.toString()
-                .substring((baseUrl.getProtocol() + "://" + baseUrl.getHost() + ":" + baseUrl.getPort()).length(),
-                        baseUrl.toString().length() - 1);
+        String prefix = baseUrl.substring((protocol + "://" + host + ":" + port).length(), baseUrl.length() - 1);
         assertThat(response).contains("\"components-path\":\"" + prefix + "/node_modules\"");
         assertThat(response).contains("\"components-path-slash\":\"" + prefix + "/node_modules/\"");
         assertThat(response).contains("\"seed-base-path\":\"" + prefix + "\"");

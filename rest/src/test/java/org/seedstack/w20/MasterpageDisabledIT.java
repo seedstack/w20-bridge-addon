@@ -5,43 +5,35 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.w20;
 
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
 
-import java.net.URL;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seedstack.seed.Configuration;
+import org.seedstack.seed.testing.ConfigurationProperty;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
+import org.seedstack.seed.undertow.LaunchWithUndertow;
 
-@RunWith(Arquillian.class)
+@RunWith(SeedITRunner.class)
+@LaunchWithUndertow
+@ConfigurationProperty(name = "w20.disableMasterpage", value = "true")
 public class MasterpageDisabledIT {
-    @Deployment
-    public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class)
-                .addAsResource("masterpage-disabled.yaml", "META-INF/configuration/masterpage-disabled.yaml")
-                .addAsWebResource("index.html", "index.html");
-    }
+    @Configuration("web.runtime.baseUrl")
+    private String baseUrl;
 
     @Test
-    @RunAsClient
-    public void masterpage_is_disabled(@ArquillianResource URL baseUrl) {
-        String result = given()
+    public void masterpage_is_disabled() {
+        given()
                 .auth().basic("ThePoltergeist", "bouh")
                 .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
                 .expect()
-                .statusCode(200)
+                .statusCode(404)
                 .when()
-                .get(baseUrl.toString())
-                .asString();
-        assertThat(result).contains("<h1>Custom index</h1>");
+                .get(baseUrl);
     }
 }

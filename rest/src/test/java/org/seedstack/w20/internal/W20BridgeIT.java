@@ -5,6 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.w20.internal;
 
 import static io.restassured.RestAssured.given;
@@ -13,30 +14,32 @@ import static org.assertj.core.api.Assertions.entry;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.net.URL;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import org.hamcrest.Matchers;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seedstack.seed.Configuration;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
+import org.seedstack.seed.undertow.LaunchWithUndertow;
 import org.seedstack.w20.ConfiguredFragmentDeclaration;
 
-@RunWith(Arquillian.class)
+@RunWith(SeedITRunner.class)
+@LaunchWithUndertow
 public class W20BridgeIT {
-    @Deployment
-    public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class);
-    }
+    @Configuration("web.runtime.baseUrl")
+    private String baseUrl;
+    @Configuration("web.runtime.protocol")
+    private String protocol;
+    @Configuration("web.runtime.host")
+    private String host;
+    @Configuration("web.runtime.port")
+    private int port;
+    @Configuration("web.runtime.contextPath")
+    private String contextPath;
 
     @Test
-    @RunAsClient
-    public void masterpage_is_correctly_served(@ArquillianResource URL baseUrl) {
+    public void masterpage_is_correctly_served() {
         given()
                 .auth().basic("ThePoltergeist", "bouh")
                 .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
@@ -44,12 +47,11 @@ public class W20BridgeIT {
                 .statusCode(200)
                 .header(HttpHeaders.CONTENT_TYPE, Matchers.startsWith(MediaType.TEXT_HTML))
                 .when()
-                .get(baseUrl.toString());
+                .get(baseUrl);
     }
 
     @Test
-    @RunAsClient
-    public void redirection_to_masterpage_is_working(@ArquillianResource URL baseUrl) {
+    public void redirection_to_masterpage_is_working() {
         given()
                 .auth().basic("ThePoltergeist", "bouh")
                 .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
@@ -57,32 +59,30 @@ public class W20BridgeIT {
                 .statusCode(200)
                 .header(HttpHeaders.CONTENT_TYPE, Matchers.startsWith(MediaType.TEXT_HTML))
                 .when()
-                .get(baseUrl.toString() + "subpage");
+                .get(baseUrl + "subpage");
     }
 
     @Test
-    @RunAsClient
-    public void detected_fragments_are_resolved(@ArquillianResource URL baseUrl) {
+    public void detected_fragments_are_resolved() {
         String response = given().auth()
                 .basic("ThePoltergeist", "bouh")
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl.toString() + "seed-w20/application/configuration")
+                .get(baseUrl + "seed-w20/application/configuration")
                 .getBody()
                 .asString();
-        assertThat(response).contains("\"" + baseUrl.getPath() + "seed-w20/seed-w20.w20.json\"");
+        assertThat(response).contains("\"/" + contextPath + "seed-w20/seed-w20.w20.json\"");
     }
 
     @Test
-    @RunAsClient
-    public void routes_are_preserved(@ArquillianResource URL baseUrl) {
+    public void routes_are_preserved() {
         String response = given().auth()
                 .basic("ThePoltergeist", "bouh")
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl.toString() + "seed-w20/application/configuration")
+                .get(baseUrl + "seed-w20/application/configuration")
                 .getBody()
                 .asString();
         assertThat(response).contains("\"routes\":{\"route1\":{\"hidden\":true,\"category\":\"a.b.c\"}}");
@@ -90,33 +90,29 @@ public class W20BridgeIT {
     }
 
     @Test
-    @RunAsClient
-    public void anonymous_fragment_is_preserved(@ArquillianResource URL baseUrl) {
+    public void anonymous_fragment_is_preserved() {
         String response = given().auth()
                 .basic("ThePoltergeist", "bouh")
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl.toString() + "seed-w20/application/configuration")
+                .get(baseUrl + "seed-w20/application/configuration")
                 .getBody()
                 .asString();
         assertThat(response).contains("\"\":{\"routes\":{\"/\":{\"templateUrl\":\"non-existent-template.html\"}}}");
     }
 
     @Test
-    @RunAsClient
-    public void paths_are_correctly_built(@ArquillianResource URL baseUrl) {
+    public void paths_are_correctly_built() {
         String response = given().auth()
                 .basic("ThePoltergeist", "bouh")
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl.toString() + "seed-w20/application/configuration")
+                .get(baseUrl + "seed-w20/application/configuration")
                 .getBody()
                 .asString();
-        String prefix = baseUrl.toString()
-                .substring((baseUrl.getProtocol() + "://" + baseUrl.getHost() + ":" + baseUrl.getPort()).length(),
-                        baseUrl.toString().length() - 1);
+        String prefix = baseUrl.substring((protocol + "://" + host + ":" + port).length(), baseUrl.length() - 1);
         assertThat(response).contains("\"components-path\":\"" + prefix + "/node_modules\"");
         assertThat(response).contains("\"components-path-slash\":\"" + prefix + "/node_modules/\"");
         assertThat(response).contains("\"seed-base-path\":\"" + prefix + "\"");
@@ -127,55 +123,52 @@ public class W20BridgeIT {
     }
 
     @Test
-    @RunAsClient
-    public void fragment_ignore(@ArquillianResource URL baseUrl) throws IOException {
+    public void fragment_ignore() throws IOException {
         String response = given().auth()
                 .basic("ThePoltergeist", "bouh")
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl.toString() + "seed-w20/application/configuration")
+                .get(baseUrl + "seed-w20/application/configuration")
                 .getBody()
                 .asString();
-        assertThat(getFragment(response, baseUrl.getPath() + "seed-w20/seed-w20.w20.json").isIgnore()).isFalse();
-        assertThat(getFragment(response, baseUrl.getPath() + "ignored-fragment.w20.json")).isNull();
+        assertThat(getFragment(response, "/" + contextPath + "seed-w20/seed-w20.w20.json").isIgnore()).isFalse();
+        assertThat(getFragment(response, "/" + contextPath + "ignored-fragment.w20.json")).isNull();
         assertThat(getFragment(response, "ignored-external-fragment.w20.json").isIgnore()).isTrue();
     }
 
     @Test
-    @RunAsClient
-    public void fragment_optional(@ArquillianResource URL baseUrl) throws IOException {
+    public void fragment_optional() throws IOException {
         String response = given().auth()
                 .basic("ThePoltergeist", "bouh")
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl.toString() + "seed-w20/application/configuration")
+                .get(baseUrl + "seed-w20/application/configuration")
                 .getBody()
                 .asString();
-        assertThat(getFragment(response, baseUrl.getPath() + "seed-w20/seed-w20.w20.json").isOptional()).isFalse();
-        assertThat(getFragment(response, baseUrl.getPath() + "optional-fragment.w20.json").isOptional()).isTrue();
+        assertThat(getFragment(response, "/" + contextPath + "seed-w20/seed-w20.w20.json").isOptional()).isFalse();
+        assertThat(getFragment(response, "/" + contextPath + "optional-fragment.w20.json").isOptional()).isTrue();
         assertThat(getFragment(response, "optional-external-fragment.w20.json").isOptional()).isTrue();
     }
 
     @Test
-    @RunAsClient
-    public void variables(@ArquillianResource URL baseUrl) throws IOException {
+    public void variables() throws IOException {
         String response = given().auth()
                 .basic("ThePoltergeist", "bouh")
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl.toString() + "seed-w20/application/configuration")
+                .get(baseUrl + "seed-w20/application/configuration")
                 .getBody()
                 .asString();
-        assertThat(getFragment(response, baseUrl.getPath() + "seed-w20/seed-w20.w20.json").getVars()).contains(
+        assertThat(getFragment(response, "/" + contextPath + "seed-w20/seed-w20.w20.json").getVars()).contains(
                 entry("var1", "value1")
         );
-        assertThat(getFragment(response, baseUrl.getPath() + "seed-w20/seed-w20.w20.json").getVars()).doesNotContain(
+        assertThat(getFragment(response, "/" + contextPath + "seed-w20/seed-w20.w20.json").getVars()).doesNotContain(
                 entry("var2", "value2")
         );
-        assertThat(getFragment(response, baseUrl.getPath() + "fragment-with-routes.w20.json").getVars()).contains(
+        assertThat(getFragment(response, "/" + contextPath + "fragment-with-routes.w20.json").getVars()).contains(
                 entry("var1", "value1"),
                 entry("var2", "value2")
         );
