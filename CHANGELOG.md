@@ -1,3 +1,7 @@
+# Version 3.2.6 (2018-09-04)
+
+* [fix] Make fragment variables from explicit `w20.app.json` configuration take precedence over default ones.
+
 # Version 3.2.5 (2018-08-06)
 
 * [nfo] w20: [2.5.1](https://github.com/w20-framework/w20/releases/tag/v2.5.1)
