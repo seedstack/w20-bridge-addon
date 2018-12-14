@@ -14,17 +14,17 @@
     <parent>
         <groupId>org.seedstack.poms</groupId>
         <artifactId>parent-internal</artifactId>
-        <version>3.4.2</version>
+        <version>3.4.3</version>
     </parent>
 
     <groupId>org.seedstack.addons.w20</groupId>
     <artifactId>w20-bridge</artifactId>
-    <version>3.2.6-SNAPSHOT</version>
+    <version>3.2.7-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <seed.version>3.7.0</seed.version>
-        <web-bridge.version>1.0.2</web-bridge.version>
+        <seed.version>3.8.0</seed.version>
+        <web-bridge.version>1.0.3-SNAPSHOT</web-bridge.version>
         <grunt-maven-plugin.version>1.5.0</grunt-maven-plugin.version>
 
         <compatibility.version>3.0.0</compatibility.version>

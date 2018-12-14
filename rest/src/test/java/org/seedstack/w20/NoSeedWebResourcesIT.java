@@ -21,7 +21,7 @@ import org.seedstack.seed.undertow.LaunchWithUndertow;
 @LaunchWithUndertow
 @ConfigurationProperty(name = "web.static", value = "false")
 public class NoSeedWebResourcesIT {
-    @Configuration("web.runtime.baseUrl")
+    @Configuration("runtime.web.baseUrl")
     private String baseUrl;
 
     @Test
@@ -31,7 +31,7 @@ public class NoSeedWebResourcesIT {
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl + "seed-w20/application/configuration")
+                .get(baseUrl + "/seed-w20/application/configuration")
                 .getBody()
                 .asString();
         assertThat(response).doesNotContain("\"" + baseUrl + "seed-w20/seed-w20.w20.json\"");

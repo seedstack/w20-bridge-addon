@@ -1,3 +1,8 @@
+# Version 3.2.7 (2018-12-14)
+
+* [fix] Fix missing binding of `SeedRestPath` occurring with seed 3.8.0+ (SeedStack 18.11+).
+* [chg] Built and tested with OpenJDK 11 (minimum Java version still being 8).
+
 # Version 3.2.6 (2018-10-18)
 
 * [fix] Make fragment variables from explicit `w20.app.json` configuration take precedence over default ones.

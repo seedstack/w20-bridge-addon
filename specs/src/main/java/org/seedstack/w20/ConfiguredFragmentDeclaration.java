@@ -16,6 +16,7 @@ import java.util.Map;
  * @author adrien.lauer@mpsa.com
  */
 public class ConfiguredFragmentDeclaration implements FragmentDeclaration {
+    private static final long serialVersionUID = 1L;
     private Boolean optional;
     private Boolean ignore;
     private Boolean preload;

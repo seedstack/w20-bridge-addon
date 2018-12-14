@@ -20,6 +20,7 @@ import java.util.Map;
  * @author adrien.lauer@mpsa.com
  */
 public class ConfiguredModule implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String name;
     private boolean enabled;
     private Map<String, Object> configuration = new HashMap<>();

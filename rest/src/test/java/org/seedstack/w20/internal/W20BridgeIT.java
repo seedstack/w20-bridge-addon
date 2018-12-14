@@ -27,15 +27,15 @@ import org.seedstack.w20.ConfiguredFragmentDeclaration;
 @RunWith(SeedITRunner.class)
 @LaunchWithUndertow
 public class W20BridgeIT {
-    @Configuration("web.runtime.baseUrl")
+    @Configuration("runtime.web.baseUrl")
     private String baseUrl;
-    @Configuration("web.runtime.protocol")
+    @Configuration("runtime.web.server.protocol")
     private String protocol;
-    @Configuration("web.runtime.host")
+    @Configuration("runtime.web.server.host")
     private String host;
-    @Configuration("web.runtime.port")
+    @Configuration("runtime.web.server.port")
     private int port;
-    @Configuration("web.runtime.contextPath")
+    @Configuration("runtime.web.servlet.contextPath")
     private String contextPath;
 
     @Test
@@ -59,7 +59,7 @@ public class W20BridgeIT {
                 .statusCode(200)
                 .header(HttpHeaders.CONTENT_TYPE, Matchers.startsWith(MediaType.TEXT_HTML))
                 .when()
-                .get(baseUrl + "subpage");
+                .get(baseUrl + "/subpage");
     }
 
     @Test
@@ -69,7 +69,7 @@ public class W20BridgeIT {
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl + "seed-w20/application/configuration")
+                .get(baseUrl + "/seed-w20/application/configuration")
                 .getBody()
                 .asString();
         assertThat(response).contains("\"/" + contextPath + "seed-w20/seed-w20.w20.json\"");
@@ -82,7 +82,7 @@ public class W20BridgeIT {
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl + "seed-w20/application/configuration")
+                .get(baseUrl + "/seed-w20/application/configuration")
                 .getBody()
                 .asString();
         assertThat(response).contains("\"routes\":{\"route1\":{\"hidden\":true,\"category\":\"a.b.c\"}}");
@@ -96,7 +96,7 @@ public class W20BridgeIT {
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl + "seed-w20/application/configuration")
+                .get(baseUrl + "/seed-w20/application/configuration")
                 .getBody()
                 .asString();
         assertThat(response).contains("\"\":{\"routes\":{\"/\":{\"templateUrl\":\"non-existent-template.html\"}}}");
@@ -109,10 +109,10 @@ public class W20BridgeIT {
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl + "seed-w20/application/configuration")
+                .get(baseUrl + "/seed-w20/application/configuration")
                 .getBody()
                 .asString();
-        String prefix = baseUrl.substring((protocol + "://" + host + ":" + port).length(), baseUrl.length() - 1);
+        String prefix = baseUrl.substring((protocol + "://" + host + ":" + port).length());
         assertThat(response).contains("\"components-path\":\"" + prefix + "/node_modules\"");
         assertThat(response).contains("\"components-path-slash\":\"" + prefix + "/node_modules/\"");
         assertThat(response).contains("\"seed-base-path\":\"" + prefix + "\"");
@@ -129,7 +129,7 @@ public class W20BridgeIT {
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl + "seed-w20/application/configuration")
+                .get(baseUrl + "/seed-w20/application/configuration")
                 .getBody()
                 .asString();
         assertThat(getFragment(response, "/" + contextPath + "seed-w20/seed-w20.w20.json").isIgnore()).isFalse();
@@ -144,7 +144,7 @@ public class W20BridgeIT {
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl + "seed-w20/application/configuration")
+                .get(baseUrl + "/seed-w20/application/configuration")
                 .getBody()
                 .asString();
         assertThat(getFragment(response, "/" + contextPath + "seed-w20/seed-w20.w20.json").isOptional()).isFalse();
@@ -159,7 +159,7 @@ public class W20BridgeIT {
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl + "seed-w20/application/configuration")
+                .get(baseUrl + "/seed-w20/application/configuration")
                 .getBody()
                 .asString();
         assertThat(getFragment(response, "/" + contextPath + "seed-w20/seed-w20.w20.json").getVars()).contains(

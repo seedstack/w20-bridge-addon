@@ -23,7 +23,7 @@ import org.seedstack.seed.undertow.LaunchWithUndertow;
 @LaunchWithUndertow
 @ConfigurationProperty(name = "w20.disableMasterpage", value = "true")
 public class MasterpageDisabledIT {
-    @Configuration("web.runtime.baseUrl")
+    @Configuration("runtime.web.baseUrl")
     private String baseUrl;
 
     @Test

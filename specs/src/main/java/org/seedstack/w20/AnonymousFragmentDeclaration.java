@@ -15,6 +15,7 @@ import java.util.Map;
  * @author adrien.lauer@mpsa.com
  */
 public class AnonymousFragmentDeclaration implements FragmentDeclaration {
+    private static final long serialVersionUID = 1L;
     private final Map<String, Object> contents;
 
     public AnonymousFragmentDeclaration(Map<String, Object> contents) {

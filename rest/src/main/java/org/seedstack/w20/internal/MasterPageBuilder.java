@@ -5,22 +5,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.w20.internal;
 
 import com.google.inject.Inject;
-import org.apache.commons.lang.StringUtils;
-import org.seedstack.seed.Application;
-import org.seedstack.seed.Configuration;
-import org.seedstack.seed.SeedException;
-import org.seedstack.shed.ClassLoaders;
-import org.seedstack.w20.W20Config;
-
-import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,14 +19,21 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang.StringUtils;
+import org.seedstack.seed.Application;
+import org.seedstack.seed.Configuration;
+import org.seedstack.seed.SeedException;
+import org.seedstack.seed.rest.RestConfig;
+import org.seedstack.shed.ClassLoaders;
+import org.seedstack.w20.W20Config;
 
 public class MasterPageBuilder {
     private static final String MASTER_PAGE_FALLBACK_TEMPLATE = "org/seedstack/w20/masterpage-fallback.html";
-    @Inject
-    @Named("SeedRestPath")
-    private String restPath;
     @Configuration
-    private W20Config w20Config = new W20Config();
+    private RestConfig restConfig;
+    @Configuration
+    private W20Config w20Config;
     @Inject
     private Application application;
 
@@ -51,7 +49,8 @@ public class MasterPageBuilder {
 
         Scanner scanner;
         try {
-            scanner = new Scanner(new InputStreamReader(masterpageURL.openStream(), StandardCharsets.UTF_8)).useDelimiter("\\A");
+            scanner = new Scanner(new InputStreamReader(masterpageURL.openStream(),
+                    StandardCharsets.UTF_8)).useDelimiter("\\A");
         } catch (IOException e) {
             throw SeedException.wrap(e, W20ErrorCode.UNABLE_TO_GENERATE_MASTERPAGE);
         }
@@ -61,9 +60,12 @@ public class MasterPageBuilder {
         Map<String, Object> variables = new HashMap<>();
         String contextPath = httpServletRequest.getContextPath();
         W20Config.ApplicationInfo applicationInfo = w20Config.getApplicationInfo();
-        variables.put("applicationTitle", StringUtils.isBlank(applicationInfo.getTitle()) ? application.getName() : applicationInfo.getTitle());
+        variables.put("applicationTitle",
+                StringUtils.isBlank(applicationInfo.getTitle()) ? application.getName() : applicationInfo.getTitle());
         variables.put("applicationSubtitle", applicationInfo.getSubTitle());
-        variables.put("applicationVersion", StringUtils.isBlank(applicationInfo.getVersion()) ? application.getVersion() : applicationInfo.getVersion());
+        variables.put("applicationVersion",
+                StringUtils.isBlank(applicationInfo.getVersion()) ? application.getVersion() :
+                        applicationInfo.getVersion());
         variables.put("timeout", w20Config.getLoadingTimeout());
         variables.put("corsWithCredentials", w20Config.isCorsWithCredentials());
         variables.put("basePath", PathUtils.removeTrailingSlash(getBasePath(contextPath)));
@@ -83,11 +85,12 @@ public class MasterPageBuilder {
     }
 
     public String getRestPath(String contextPath) {
-        return PathUtils.buildPath("/", contextPath, restPath);
+        return PathUtils.buildPath("/", contextPath, restConfig.getPath());
     }
 
     public String getComponentsPath(String contextPath) {
-        return Optional.ofNullable(w20Config.getComponentsPath()).orElse(PathUtils.buildPath("/", contextPath, "node_modules"));
+        return Optional.ofNullable(w20Config.getComponentsPath())
+                .orElse(PathUtils.buildPath("/", contextPath, "node_modules"));
     }
 
     /**

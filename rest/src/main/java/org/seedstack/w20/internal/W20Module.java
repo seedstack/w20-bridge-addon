@@ -5,6 +5,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.w20.internal;
 
 import com.google.inject.PrivateModule;
@@ -12,11 +13,10 @@ import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.util.Providers;
-import org.seedstack.w20.FragmentManager;
-import org.seedstack.w20.spi.FragmentConfigurationHandler;
-
 import java.util.Map;
 import java.util.Set;
+import org.seedstack.w20.FragmentManager;
+import org.seedstack.w20.spi.FragmentConfigurationHandler;
 
 class W20Module extends PrivateModule {
     private final Map<String, AvailableFragment> w20Fragments;
@@ -26,7 +26,10 @@ class W20Module extends PrivateModule {
     private final boolean prettyUrls;
     private final String restPath;
 
-    W20Module(Map<String, AvailableFragment> w20Fragments, Set<Class<? extends FragmentConfigurationHandler>> moduleConfigurationHandlerClasses, ConfiguredApplication configuredApplication, boolean masterPageServlet, boolean prettyUrls, String restPath) {
+    W20Module(Map<String, AvailableFragment> w20Fragments,
+            Set<Class<? extends FragmentConfigurationHandler>> moduleConfigurationHandlerClasses,
+            ConfiguredApplication configuredApplication, boolean masterPageServlet, boolean prettyUrls,
+            String restPath) {
         this.w20Fragments = w20Fragments;
         this.moduleConfigurationHandlerClasses = moduleConfigurationHandlerClasses;
         this.configuredApplication = configuredApplication;
@@ -37,13 +40,14 @@ class W20Module extends PrivateModule {
 
     @Override
     protected void configure() {
-        Multibinder<FragmentConfigurationHandler> multiBinder = Multibinder.newSetBinder(binder(), FragmentConfigurationHandler.class);
-        for (Class<? extends FragmentConfigurationHandler> moduleConfigurationHandlerClass : moduleConfigurationHandlerClasses) {
+        Multibinder<FragmentConfigurationHandler> multiBinder = Multibinder.newSetBinder(binder(),
+                FragmentConfigurationHandler.class);
+        for (Class<? extends FragmentConfigurationHandler> moduleConfigurationHandlerClass :
+                moduleConfigurationHandlerClasses) {
             multiBinder.addBinding().to(moduleConfigurationHandlerClass);
         }
 
-        bind(new TypeLiteral<Map<String, AvailableFragment>>() {
-        }).toInstance(W20Module.this.w20Fragments);
+        bind(new AvailableFragmentsTypeLiteral()).toInstance(W20Module.this.w20Fragments);
 
         if (W20Module.this.configuredApplication != null) {
             bind(ConfiguredApplication.class).toInstance(W20Module.this.configuredApplication);
@@ -67,4 +71,6 @@ class W20Module extends PrivateModule {
             expose(Html5RewriteFilter.class);
         }
     }
+
+    private static class AvailableFragmentsTypeLiteral extends TypeLiteral<Map<String, AvailableFragment>> {}
 }

@@ -25,31 +25,19 @@ import org.seedstack.seed.undertow.LaunchWithUndertow;
 @LaunchWithUndertow
 @ConfigurationProperty(name = "rest.path", value = "/rest")
 public class WithPrefixesIT {
-    @Configuration("web.runtime.baseUrl")
+    @Configuration("runtime.web.baseUrl")
     private String baseUrl;
-    @Configuration("web.runtime.protocol")
+    @Configuration("runtime.web.baseUrlSlash")
+    private String baseUrlSlash;
+    @Configuration("runtime.web.server.protocol")
     private String protocol;
-    @Configuration("web.runtime.host")
+    @Configuration("runtime.web.server.host")
     private String host;
-    @Configuration("web.runtime.port")
+    @Configuration("runtime.web.server.port")
     private int port;
 
     @Test
     public void masterpage_is_served_without_trailing_slash() {
-        String url = baseUrl;
-        url = url.substring(0, url.length() - 1);
-        given()
-                .auth().basic("ThePoltergeist", "bouh")
-                .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
-                .expect()
-                .statusCode(200)
-                .header(HttpHeaders.CONTENT_TYPE, Matchers.startsWith(MediaType.TEXT_HTML))
-                .when()
-                .get(url);
-    }
-
-    @Test
-    public void masterpage_is_served_with_trailing_slash() {
         given()
                 .auth().basic("ThePoltergeist", "bouh")
                 .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
@@ -61,6 +49,18 @@ public class WithPrefixesIT {
     }
 
     @Test
+    public void masterpage_is_served_with_trailing_slash() {
+        given()
+                .auth().basic("ThePoltergeist", "bouh")
+                .header(HttpHeaders.ACCEPT, MediaType.TEXT_HTML)
+                .expect()
+                .statusCode(200)
+                .header(HttpHeaders.CONTENT_TYPE, Matchers.startsWith(MediaType.TEXT_HTML))
+                .when()
+                .get(baseUrlSlash);
+    }
+
+    @Test
     public void json_home_is_served_on_rest_root() {
         given()
                 .auth().basic("ThePoltergeist", "bouh")
@@ -69,7 +69,7 @@ public class WithPrefixesIT {
                 .statusCode(200)
                 .header(HttpHeaders.CONTENT_TYPE, Matchers.startsWith(MediaType.APPLICATION_JSON))
                 .when()
-                .get(baseUrl + "rest/");
+                .get(baseUrl + "/rest/");
     }
 
     @Test
@@ -79,7 +79,7 @@ public class WithPrefixesIT {
                 .expect()
                 .statusCode(404)
                 .when()
-                .get(baseUrl + "rest/wrong");
+                .get(baseUrl + "/rest/wrong");
     }
 
     @Test
@@ -89,10 +89,10 @@ public class WithPrefixesIT {
                 .expect()
                 .statusCode(200)
                 .when()
-                .get(baseUrl + "rest/seed-w20/application/configuration")
+                .get(baseUrl + "/rest/seed-w20/application/configuration")
                 .getBody()
                 .asString();
-        String prefix = baseUrl.substring((protocol + "://" + host + ":" + port).length(), baseUrl.length() - 1);
+        String prefix = baseUrl.substring((protocol + "://" + host + ":" + port).length());
         assertThat(response).contains("\"components-path\":\"" + prefix + "/node_modules\"");
         assertThat(response).contains("\"components-path-slash\":\"" + prefix + "/node_modules/\"");
         assertThat(response).contains("\"seed-base-path\":\"" + prefix + "\"");

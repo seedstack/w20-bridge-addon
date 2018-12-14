@@ -13,6 +13,19 @@ import io.nuun.kernel.api.plugin.InitState;
 import io.nuun.kernel.api.plugin.PluginException;
 import io.nuun.kernel.api.plugin.context.InitContext;
 import io.nuun.kernel.api.plugin.request.ClasspathScanRequest;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import javax.servlet.ServletContext;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Variant;
 import org.seedstack.seed.core.SeedRuntime;
 import org.seedstack.seed.core.internal.AbstractSeedPlugin;
 import org.seedstack.seed.rest.internal.RestPlugin;
@@ -26,20 +39,6 @@ import org.seedstack.w20.internal.rest.MasterpageRootResource;
 import org.seedstack.w20.spi.FragmentConfigurationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.servlet.ServletContext;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Variant;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * This plugin handles W20 fragment scanning.
@@ -117,7 +116,7 @@ public class W20Plugin extends AbstractSeedPlugin implements WebProvider {
                 AvailableFragment availableFragment = new AvailableFragment(manifestPath, objectMapper.readValue(classLoader.getResource(manifestPath), Fragment.class));
                 w20Fragments.put(availableFragment.getFragmentDefinition().getId(), availableFragment);
                 logger.trace("Detected W20 fragment {} at {}", availableFragment.getFragmentDefinition().getId(), manifestPath);
-            } catch (Exception e) {
+            } catch (IOException | RuntimeException e) {
                 logger.warn("Unable to parse W20 fragment manifest at " + manifestPath, e);
             }
         }
