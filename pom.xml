@@ -24,7 +24,7 @@
 
     <properties>
         <seed.version>3.8.0</seed.version>
-        <web-bridge.version>1.0.3-SNAPSHOT</web-bridge.version>
+        <web-bridge.version>1.0.3</web-bridge.version>
         <grunt-maven-plugin.version>1.5.0</grunt-maven-plugin.version>
 
         <compatibility.version>3.0.0</compatibility.version>
