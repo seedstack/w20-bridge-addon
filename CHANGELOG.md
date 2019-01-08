@@ -1,3 +1,7 @@
+# Version 3.2.8 (2018-12-14)
+
+* [nfo] w20-business-theme: [1.3.3](https://github.com/w20-framework/w20-business-theme/releases/tag/v1.3.3)
+
 # Version 3.2.7 (2018-12-14)
 
 * [fix] Fix missing binding of `SeedRestPath` occurring with seed 3.8.0+ (SeedStack 18.11+).

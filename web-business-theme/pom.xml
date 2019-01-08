@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.seedstack.addons.w20</groupId>
         <artifactId>w20-bridge</artifactId>
-        <version>3.2.7-SNAPSHOT</version>
+        <version>3.2.8-SNAPSHOT</version>
     </parent>
 
     <artifactId>w20-bridge-web-business-theme</artifactId>
@@ -81,6 +81,7 @@
                                     <fileset dir="${project.basedir}/node_modules">
                                         <exclude name="@w20/*/specs/**" />
                                         <include name="@w20/w20-business-theme/**" />
+                                        <include name="@groupe-psa/psa-business-theme/**" />
                                     </fileset>
                                 </copy>
                             </target>
