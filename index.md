@@ -3,7 +3,7 @@ title: "W20 bridge"
 addon: "W20 bridge"
 repo: "https://github.com/seedstack/w20-bridge-addon"
 author: Adrien LAUER
-description: "Acts as an extensible integration bridge between SeedStack Java and Web frameworks."
+description: "Integration bridge between SeedStack and the W20 Web framework."
 tags:
     - interfaces
     - security
