@@ -122,6 +122,20 @@ its own base path (like `/api`). See the [REST manual page]({{< ref "docs/web/re
 to do so.
 {{% /callout %}}
 
+## Security
+
+The W20 bridge will automatically connect the W20 security module to SeedStack backend security. 
+
+W20 support multiple backend simultaneously, so security checks must be qualified by a realm name (not to be confused with SeedStack realms). **The bridge W20 security realm is named `seed-w20`**.  
+
+For instance, using the `w20Security` directive is done like the following:
+
+```html
+<div data-w20-security="hasRole('seed-w20', 'someRole')">
+    ...
+</div>
+```
+
 ## Custom masterpage
 
 Each theme provides its own general-purpose masterpage template, located in the classpath at `org/seedstack/w20/masterpage.html`. 
