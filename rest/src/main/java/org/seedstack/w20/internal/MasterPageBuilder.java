@@ -1,14 +1,22 @@
 /*
- * Copyright © 2013-2018, The SeedStack authors <http://seedstack.org>
+ * Copyright © 2013-2020, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
 package org.seedstack.w20.internal;
 
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
+import org.seedstack.seed.Application;
+import org.seedstack.seed.Configuration;
+import org.seedstack.seed.SeedException;
+import org.seedstack.seed.rest.RestConfig;
+import org.seedstack.shed.ClassLoaders;
+import org.seedstack.w20.W20Config;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -19,14 +27,6 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.lang.StringUtils;
-import org.seedstack.seed.Application;
-import org.seedstack.seed.Configuration;
-import org.seedstack.seed.SeedException;
-import org.seedstack.seed.rest.RestConfig;
-import org.seedstack.shed.ClassLoaders;
-import org.seedstack.w20.W20Config;
 
 public class MasterPageBuilder {
     private static final String MASTER_PAGE_FALLBACK_TEMPLATE = "org/seedstack/w20/masterpage-fallback.html";
@@ -61,10 +61,10 @@ public class MasterPageBuilder {
         String contextPath = httpServletRequest.getContextPath();
         W20Config.ApplicationInfo applicationInfo = w20Config.getApplicationInfo();
         variables.put("applicationTitle",
-                StringUtils.isBlank(applicationInfo.getTitle()) ? application.getName() : applicationInfo.getTitle());
+                Strings.isNullOrEmpty(applicationInfo.getTitle()) ? application.getName() : applicationInfo.getTitle());
         variables.put("applicationSubtitle", applicationInfo.getSubTitle());
         variables.put("applicationVersion",
-                StringUtils.isBlank(applicationInfo.getVersion()) ? application.getVersion() :
+                Strings.isNullOrEmpty(applicationInfo.getVersion()) ? application.getVersion() :
                         applicationInfo.getVersion());
         variables.put("timeout", w20Config.getLoadingTimeout());
         variables.put("corsWithCredentials", w20Config.isCorsWithCredentials());
