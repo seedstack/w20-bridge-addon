@@ -1,6 +1,7 @@
-# Version 3.2.8 (2018-12-14)
+# Version 3.2.8 (2020-08-12)
 
-* [nfo] w20-business-theme: [1.3.5](https://github.com/w20-framework/w20-business-theme/releases/tag/v1.3.5)
+* [chg] w20-business-theme: [1.3.5](https://github.com/w20-framework/w20-business-theme/releases/tag/v1.3.5)
+* [chg] Update for Seed 3.10+
 
 # Version 3.2.7 (2018-12-14)
 
