@@ -77,8 +77,8 @@ angular-ui-bootstrap@^0.13.4:
   resolved "https://registry.yarnpkg.com/angular-ui-bootstrap/-/angular-ui-bootstrap-0.13.4.tgz#d9981523b12ecb5f911cb0b4829fa3e5f20ed9ec"
 
 angular@^1.7.1:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/angular/-/angular-1.7.2.tgz#687b955dbe5c533f8d73460461707af00360251f"
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/angular/-/angular-1.8.3.tgz#851ad75d5163c105a7e329555ef70c90aa706894"
 
 bootstrap-2.3.2@^1.0.0:
   version "1.0.0"
